@@ -35,6 +35,7 @@
     "tools",
     "wTools",
     "wBase",
+    "wRegexpObject",
     "generic",
     "underscore"
   ]
