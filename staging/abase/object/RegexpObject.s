@@ -113,7 +113,7 @@ var init = function( src,defaultMode )
   if( _.arrayIs( src ) )
   {
 
-    _.assert( arguments.length === 2 );
+    _.assert( arguments.length === 2,'expects second argument as default mode, for example "includeAny"' );
     _.assert( self.Names[ defaultMode ],'unknown mode :',defaultMode );
 
     if( !defaultMode )

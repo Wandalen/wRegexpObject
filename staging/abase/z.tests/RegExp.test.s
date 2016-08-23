@@ -15,7 +15,7 @@
   if( typeof module !== 'undefined' )
   {
 
-    require( '../wTools.s' );
+    require( 'wTools' );
 
     if( require( 'fs' ).existsSync( __dirname + '/../object/Testing.debug.s' ) )
     require( '../object/Testing.debug.s' );
