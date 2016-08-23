@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "staging/abase/wTools.s",
   "files": [
-    "staging/abase/object",
+    "staging/abase/object/RegexpObject",
     "production"
   ],
   "scripts": {
@@ -15,10 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Wandalen/wTools.git"
+    "url": "https://github.com/Wandalen/wRegexpObject.git"
   },
   "bugs": {
-    "url": "https://github.com/Wandalen/wTools/issues"
+    "url": "https://github.com/Wandalen/wRegexpObject/issues"
   },
   "dependencies": {
     "underscore": "",
