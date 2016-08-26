@@ -857,66 +857,6 @@
 
   //
 
-  var regexpArrayIndex = function( test )
-  {
-    var str1 = 'some text 012',
-      str2 = '056',
-      notArray = null,
-      notStr = 12,
-      notRegexp = [1, 2],
-      expected1 = 0,
-      expected2 = 0,
-      expected3 = 2,
-      expected4 = -1;
-
-
-    test.description = 'all regexps match in string';
-    var got = _.regexpArrayIndex( ArrOfRegx1, str1 );
-    test.identical( got, expected1 );
-
-    test.description = 'first regexps matches in string';
-    var got = _.regexpArrayIndex( ArrOfRegx1, str2 );
-    test.identical( got, expected2 );
-
-    test.description = 'third regexps matches in string';
-    var got = _.regexpArrayIndex( ArrOfRegx2, str2 );
-    test.identical( got, expected3 );
-
-    test.description = 'no one of the regexps do not match in string';
-    var got = _.regexpArrayIndex( ArrOfRegx3, str1 );
-    test.identical( got, expected4 );
-
-    if( Config.debug )
-    {
-      test.description = 'missing arguments';
-      test.shouldThrowError( function()
-      {
-        _.regexpArrayIndex();
-      });
-
-      test.description = 'first parameter is not array';
-      test.shouldThrowError( function()
-      {
-        _.regexpArrayIndex(notArray, str1);
-      });
-
-      test.description = 'second parameter is not string';
-      test.shouldThrowError( function()
-      {
-        _.regexpArrayIndex(ArrOfRegx1, notStr);
-      });
-
-      test.description = 'element of array is not RegExp';
-      test.shouldThrowError( function()
-      {
-        _.regexpArrayIndex(notRegexp, str1);
-      });
-    }
-
-  };
-
-  //
-
   var _regexpObjectOrderingExclusion = function( test )
   {
     var arrOfStr1 = [ '0', '1', '2' ],
