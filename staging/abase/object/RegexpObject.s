@@ -476,7 +476,7 @@ var broaden_class = function( dst )
   });
 
   debugger;
-  throw _.err( 'not tested' );
+  // throw _.err( 'not tested' );
 
   return result;
 }
