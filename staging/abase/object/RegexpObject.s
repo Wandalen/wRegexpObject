@@ -90,7 +90,12 @@ var init = function( src,defaultMode )
   var self = this;
 
   _.mapComplement( self,self.Composes );
+  _.mapComplement( self,self.Aggregates );
   _.mapComplement( self,self.Associates );
+  _.mapComplement( self,self.Restricts );
+
+  if( self.Self === Self )
+  Object.preventExtensions( self );
 
   /**/
 
@@ -151,6 +156,13 @@ var init = function( src,defaultMode )
 
     _.eachOwn( src,function _onEach( e,k,i )
     {
+      if( e === null )
+      {
+        debugger;
+        throw _.err( 'not tested' );
+        delete self[ k ];
+        return;
+      }
       self[ k ] = _.regexpArrayMake( e );
     });
 
@@ -510,7 +522,7 @@ var broaden_class = function( dst )
 var _regexpObjectExtend = function( o )
 {
 
-  _.assertMapOnly( _regexpObjectExtend.defaults,o );
+  _.assertMapHasOnly( _regexpObjectExtend.defaults,o );
   _.mapComplement( o,_regexpObjectExtend.defaults );
 
   _.assert( _.objectIs( o.dst ) );
@@ -840,6 +852,10 @@ var Composes =
   excludeAll : [],
 }
 
+var Aggregates =
+{
+}
+
 var Associates =
 {
 }
@@ -895,6 +911,7 @@ var Proto =
 
   constructor : Self,
   Composes : Composes,
+  Aggregates : Aggregates,
   Associates : Associates,
   Restricts : Restricts,
 

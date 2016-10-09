@@ -21,7 +21,6 @@
     "url": "https://github.com/Wandalen/wRegexpObject/issues"
   },
   "dependencies": {
-    "underscore": "",
     "wTools": ""
   },
   "devDependencies": {
