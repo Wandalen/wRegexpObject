@@ -907,7 +907,7 @@ var Proto =
   regexpModeNamesToReplace : regexpModeNamesToReplace,
 
 
-  // ident
+  // relationships
 
   constructor : Self,
   Composes : Composes,

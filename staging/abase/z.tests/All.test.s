@@ -18,6 +18,6 @@ if( typeof module !== 'undefined' )
 }
 
 if( typeof module !== 'undefined' && !module.parent )
-wTools.testing.testAll();
+wTools.Testing.testAll();
 
 } )( );
