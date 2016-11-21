@@ -17,6 +17,8 @@ if( typeof module !== 'undefined' )
 
 }
 
+//
+
 /**
  * The complete RegexpObject object.
  * @typedef {Object} wRegexpObject
@@ -89,10 +91,7 @@ var init = function( src,defaultMode )
 {
   var self = this;
 
-  _.mapComplement( self,self.Composes );
-  _.mapComplement( self,self.Aggregates );
-  _.mapComplement( self,self.Associates );
-  _.mapComplement( self,self.Restricts );
+  _.protoComplementInstance( self );
 
   if( self.Self === Self )
   Object.preventExtensions( self );
@@ -118,12 +117,6 @@ var init = function( src,defaultMode )
   if( _.arrayIs( src ) )
   {
 
-    _.assert( arguments.length === 2,'expects second argument as default mode, for example "includeAny"' );
-    _.assert( self.Names[ defaultMode ],'unknown mode :',defaultMode );
-
-    if( !defaultMode )
-    throw _.err( 'wRegexpObject :','defaultMode is needed for array' );
-
     src = _.arrayFlatten( src );
 
     var ar = [];
@@ -132,19 +125,28 @@ var init = function( src,defaultMode )
       if( _.regexpIs( src[ s ] ) || _.strIs( src[ s ] ) )
       ar.push( _.regexpMakeExpression( src[ s ] ) );
       else if( _.objectIs( src[ s ] ) )
-      _.RegexpObject.shrink( self,Self( src[ s ] ) );
+      //_.RegexpObject.shrink( self,Self( src[ s ] ) );
+      _.RegexpObject.broaden( self,Self( src[ s ] ) );
       else throw _.err( 'unexpected' );
     }
 
-    if( self[ defaultMode ] && self[ defaultMode ].length )
+    if( ar.length )
     {
-      var r = {};
-      r[ defaultMode ] = ar;
-      _.RegexpObject.shrink( self,r );
-    }
-    else
-    {
-      self[ defaultMode ] = ar;
+
+      _.assert( arguments.length === 2,'expects second argument as default mode, for example "includeAny"' );
+      _.assert( self.Names[ defaultMode ],'unknown mode :',defaultMode );
+
+      if( self[ defaultMode ] && self[ defaultMode ].length )
+      {
+        var r = {};
+        r[ defaultMode ] = ar;
+        //_.RegexpObject.shrink( self,r );
+        _.RegexpObject.broaden( self,r );
+      }
+      else
+      {
+        self[ defaultMode ] = ar;
+      }
     }
 
   }
@@ -170,6 +172,8 @@ var init = function( src,defaultMode )
   else throw _.err( 'wRegexpObject :','unknown src',src );
 
   _.assertMapOwnOnly( self,self.Names,'Unknown regexp filters.' );
+
+  // logger.log( 'RegExpObject\n' + self.toStr() );
 
   return self;
 }
@@ -487,7 +491,7 @@ var broaden_class = function( dst )
     shrinking : 0,
   });
 
-  debugger;
+  //debugger;
   // throw _.err( 'not tested' );
 
   return result;
@@ -754,19 +758,19 @@ var order = function( ordering )
 
 //
 
-  /**
-   * Wrap strings passed in `ordering` array into RegexpObjects.
-      Any non empty string in input array turns into RegExp which is wraped into array and assign to includeAll,
-   property of appropriate object. An empty string in array are replaced by merged subtractions for all created
-   RegexpObjects objects.
+/**
+ * Wrap strings passed in `ordering` array into RegexpObjects.
+    Any non empty string in input array turns into RegExp which is wraped into array and assign to includeAll,
+ property of appropriate object. An empty string in array are replaced by merged subtractions for all created
+ RegexpObjects objects.
 
-   * @param {String[]} ordering - array of strings.
-   * @returns {RegexpObject[]} Returns array of RegexpObject
-   * @private
-   * @throws {Error} If no arguments, or arguments more than 1.
-   * @method _regexpObjectOrderingExclusion
-   * @memberof wRegexpObject
-   */
+ * @param {String[]} ordering - array of strings.
+ * @returns {RegexpObject[]} Returns array of RegexpObject
+ * @private
+ * @throws {Error} If no arguments, or arguments more than 1.
+ * @method _regexpObjectOrderingExclusion
+ * @memberof wRegexpObject
+ */
 
 var _regexpObjectOrderingExclusion = function( ordering )
 {
@@ -812,6 +816,21 @@ var _regexpObjectOrderingExclusion = function( ordering )
     after,
   ];
 */
+
+  return result;
+}
+
+//
+
+var toStr = function( o )
+{
+  var self = this;
+  var o = o || {};
+
+  if( o.levels === undefined )
+  o.levels = 3;
+
+  var result = self.toStr_functor({ fields : [ self.Composes,self.Aggregates ] }).call( self,o );
 
   return result;
 }
@@ -899,6 +918,8 @@ var Proto =
   shrink : shrink,
   broaden : broaden,
 
+  toStr : toStr,
+
 
   // class var
 
@@ -924,6 +945,8 @@ _.protoMake
   extend : Proto,
   static : Static,
 });
+
+wCopyable.mixin( Self );
 
 wTools.RegexpObject = Self;
 _global_[ Self.name ] = Self;
