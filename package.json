@@ -1,6 +1,6 @@
 {
   "name": "wRegexpObject",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "license": "MIT",
   "description": "Object-container of regular expressions and complex logic. Allow to check does string satisfy the logic.",
   "author": "Kostiantyn Wandalen <wtory.net@domainsbyproxy.com>",
