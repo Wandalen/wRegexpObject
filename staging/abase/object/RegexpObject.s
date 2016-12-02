@@ -335,7 +335,7 @@ var test = function( ins )
    * @memberof wRegexpObject
    */
 
-var test_class = function( self,ins )
+var test_static = function test_static( self,ins )
 {
 
   _.assert( arguments.length === 2 );
@@ -887,10 +887,10 @@ var Restricts =
 // proto
 // --
 
-var Static =
+var Statics =
 {
 
-  test : test_class,
+  test : test_static,
 
   shrink : shrink_class,
   broaden : broaden_class,
@@ -907,7 +907,7 @@ var Static =
 
 //
 
-var Proto =
+var Extend =
 {
 
   init : init,
@@ -938,13 +938,24 @@ var Proto =
 
 }
 
+//
+
+var Supplement =
+{
+  Statics : Statics,
+}
+
+//
+
 _.protoMake
 ({
   constructor : Self,
   parent : Parent,
-  extend : Proto,
-  static : Static,
+  extend : Extend,
+  supplement : Supplement,
 });
+
+//
 
 wCopyable.mixin( Self );
 
