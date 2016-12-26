@@ -91,7 +91,7 @@ var init = function( src,defaultMode )
 {
   var self = this;
 
-  _.protoComplementInstance( self );
+  _.instanceInit( self );
 
   if( self.Self === Self )
   Object.preventExtensions( self );
