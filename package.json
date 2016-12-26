@@ -2,7 +2,7 @@
   "name": "wRegexpObject",
   "version": "0.4.11",
   "license": "MIT",
-  "description": "Object-container of regular expressions and complex logic. Allow to check does string satisfy the logic.",
+  "description": "Object-container of regular expressions and complex logic. Make possible to check does string satisfy the logic.",
   "author": "Kostiantyn Wandalen <wtory.net@domainsbyproxy.com>",
   "contributors": [
     {
