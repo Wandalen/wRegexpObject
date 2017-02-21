@@ -97,7 +97,7 @@ var Self = function wRegexpObject( o )
    * @memberof wRegexpObject
    */
 
-var init = function( src,defaultMode )
+function init( src,defaultMode )
 {
   var self = this;
 
@@ -212,8 +212,8 @@ var init = function( src,defaultMode )
    * @memberof wRegexpObject
   */
 
-//var _test = function( src,ins )
-var _test = function( ins )
+//function _test( src,ins )
+function _test( ins )
 {
   var src = this;
 
@@ -290,8 +290,8 @@ var _test = function( ins )
    * @memberof wRegexpObject
      */
 
-//var test = function( src,ins )
-var test = function( ins )
+//function test( src,ins )
+function test( ins )
 {
   var self = this;
 
@@ -358,7 +358,7 @@ var test_static = function test_static( self,ins )
 
 //
 
-var shrink = function()
+function shrink()
 {
   var self = this;
 
@@ -374,7 +374,7 @@ var shrink = function()
 
 //
 
-var broaden = function()
+function broaden()
 {
   var self = this;
 
@@ -435,7 +435,7 @@ var broaden = function()
    * @memberof wRegexpObject
    */
 
-var shrink_class = function( dst )
+function shrink_class( dst )
 {
 
   var result = _regexpObjectExtend
@@ -491,7 +491,7 @@ var shrink_class = function( dst )
    * @memberof wRegexpObject
    */
 
-var broaden_class = function( dst )
+function broaden_class( dst )
 {
 
   var result = _regexpObjectExtend
@@ -533,7 +533,7 @@ var broaden_class = function( dst )
    * @memberof wRegexpObject
    */
 
-var _regexpObjectExtend = function( o )
+function _regexpObjectExtend( o )
 {
 
   _.assertMapHasOnly( _regexpObjectExtend.defaults,o );
@@ -625,7 +625,7 @@ _regexpObjectExtend.defaults =
    * @memberof wRegexpObject
    */
 
-var but = function()
+function but()
 {
   var result = Self( [],Self.Names.includeAny );
 
@@ -728,7 +728,7 @@ var but = function()
    * @memberof wRegexpObject
    */
 
-var order = function( ordering )
+function order( ordering )
 {
   var res = [];
 
@@ -782,7 +782,7 @@ var order = function( ordering )
  * @memberof wRegexpObject
  */
 
-var _regexpObjectOrderingExclusion = function( ordering )
+function _regexpObjectOrderingExclusion( ordering )
 {
 
   _.assert( arguments.length === 1 );
@@ -832,7 +832,7 @@ var _regexpObjectOrderingExclusion = function( ordering )
 
 //
 
-var toStr = function( o )
+function toStr( o )
 {
   var self = this;
   var o = o || {};
