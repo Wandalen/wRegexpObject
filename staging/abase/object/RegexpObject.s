@@ -15,15 +15,29 @@ if( typeof module !== 'undefined' )
     require( 'wTools' );
   }
 
-  if( typeof wCopyable === 'undefined' )
-  try
-  {
-    require( '../mixin/Copyable.s' );
-  }
-  catch( err )
-  {
-    require( 'wCopyable' );
-  }
+  var _ = wTools;
+
+  _.include( 'wCopyable' );
+
+  // if( typeof wBase === 'undefined' )
+  // try
+  // {
+  //   require( '../wTools.s' );
+  // }
+  // catch( err )
+  // {
+  //   require( 'wTools' );
+  // }
+  //
+  // if( typeof wCopyable === 'undefined' )
+  // try
+  // {
+  //   require( '../mixin/Copyable.s' );
+  // }
+  // catch( err )
+  // {
+  //   require( 'wCopyable' );
+  // }
 
 }
 
@@ -50,6 +64,8 @@ var Self = function wRegexpObject( o )
   return new( _.routineJoin( Self, Self, arguments ) );
   return Self.prototype.init.apply( this,arguments );
 }
+
+Self.nameShort = 'RegexpObject'; 
 
 //
 
@@ -345,7 +361,7 @@ function test( ins )
    * @memberof wRegexpObject
    */
 
-var test_static = function test_static( self,ins )
+function test_static( self,ins )
 {
 
   _.assert( arguments.length === 2 );
@@ -969,8 +985,7 @@ _.protoMake
 
 wCopyable.mixin( Self );
 
-wTools.RegexpObject = Self;
-_global_[ Self.name ] = Self;
+_global_[ Self.name ] = wTools[ Self.nameShort ] = Self;
 
 return Self;
 
