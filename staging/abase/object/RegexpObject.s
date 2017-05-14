@@ -65,7 +65,7 @@ var Self = function wRegexpObject( o )
   return Self.prototype.init.apply( this,arguments );
 }
 
-Self.nameShort = 'RegexpObject'; 
+Self.nameShort = 'RegexpObject';
 
 //
 
@@ -582,7 +582,7 @@ function _regexpObjectExtend( o )
     for( var n in toExtend )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
-    result[ n ] = _.arrayAppendMerging( result[ n ], src[ n ] );
+    result[ n ] = _.arrayAppendArray( result[ n ], src[ n ] );
 
     if( o.shrinking )
     for( var n in regexpModeNamesToReplace )
@@ -636,7 +636,7 @@ _regexpObjectExtend.defaults =
    with more than one elements, method will throw error.
    * @returns {RegexpObject} Result RegexpObject map.
    * @throws {Error} If objects more than one and every has includeAll/excludeAll arrays with more than one elements
-   * throws 'cant combine such regexp objects with "but" combiner'
+   * throws 'cant combineMethodUniform such regexp objects with "but" combiner'
    * @method but
    * @memberof wRegexpObject
    */
@@ -650,33 +650,33 @@ function but()
     var argument = arguments[ a ];
     var src = Self( argument,Self.Names.includeAny );
 
-    if( src.includeAny ) result.excludeAny = _.arrayAppendMerging( result.excludeAny || [], src.includeAny );
-    if( src.excludeAny ) result.includeAny = _.arrayAppendMerging( result.includeAny || [], src.excludeAny );
+    if( src.includeAny ) result.excludeAny = _.arrayAppendArray( result.excludeAny || [], src.includeAny );
+    if( src.excludeAny ) result.includeAny = _.arrayAppendArray( result.includeAny || [], src.excludeAny );
 
     if( src.includeAll && src.includeAll.length )
     {
       if( src.includeAll.length === 1 )
       {
-        result.excludeAny = _.arrayAppendMerging( result.excludeAny || [], src.includeAll );
+        result.excludeAny = _.arrayAppendArray( result.excludeAny || [], src.includeAll );
       }
       else if( !result.excludeAll || result.excludeAll.length === 0 )
       {
-        result.excludeAll = _.arrayAppendMerging( result.excludeAll || [], src.includeAll );
+        result.excludeAll = _.arrayAppendArray( result.excludeAll || [], src.includeAll );
       }
-      else throw _.err( 'but :','cant combine such regexp objects with "but" combiner' );
+      else throw _.err( 'but :','cant combineMethodUniform such regexp objects with "but" combiner' );
     }
 
     if( src.excludeAll && src.excludeAll.length )
     {
       if( src.excludeAll.length === 1 )
       {
-        result.includeAny = _.arrayAppendMerging( result.includeAny || [], src.excludeAll );
+        result.includeAny = _.arrayAppendArray( result.includeAny || [], src.excludeAll );
       }
       else if( !result.includeAll || result.includeAll.length === 0 )
       {
-        result.includeAll = _.arrayAppendMerging( result.includeAll || [], src.excludeAll );
+        result.includeAll = _.arrayAppendArray( result.includeAll || [], src.excludeAll );
       }
-      else throw _.err( 'but :','cant combine such regexp objects with "but" combiner' );
+      else throw _.err( 'but :','cant combineMethodUniform such regexp objects with "but" combiner' );
     }
 
     /*
@@ -956,7 +956,7 @@ var Extend =
 
   // relationships
 
-  constructor : Self,
+  // constructor : Self,
   Composes : Composes,
   Aggregates : Aggregates,
   Associates : Associates,
@@ -975,7 +975,7 @@ var Supplement =
 
 _.protoMake
 ({
-  constructor : Self,
+  cls : Self,
   parent : Parent,
   extend : Extend,
   supplement : Supplement,
