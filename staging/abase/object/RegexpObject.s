@@ -19,26 +19,6 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wCopyable' );
 
-  // if( typeof wBase === 'undefined' )
-  // try
-  // {
-  //   require( '../wTools.s' );
-  // }
-  // catch( err )
-  // {
-  //   require( 'wTools' );
-  // }
-  //
-  // if( typeof wCopyable === 'undefined' )
-  // try
-  // {
-  //   require( '../mixin/Copyable.s' );
-  // }
-  // catch( err )
-  // {
-  //   require( 'wCopyable' );
-  // }
-
 }
 
 //
@@ -201,32 +181,52 @@ function init( src,defaultMode )
 
   // logger.log( 'RegExpObject\n' + self.toStr() );
 
+  if( Config.debug )
+  self.validate();
+
   return self;
 }
 
-/*regexpMakeObject.names = regexpModeNames;*/
+//
+
+function validate()
+{
+  var self = this;
+
+  _.assert( arguments.length === 0 );
+
+  for( var f in Composes )
+  {
+    _.assert( _.arrayIs( self[ f ] ) );
+    for( var i = 0 ; i < self[ f ].length ; i++ )
+    {
+      _.assert( _.regexpIs( self[ f ][ i ] ),'Regexp object expects regexps, but got',_.strTypeOf( self[ f ][ i ] ) );
+    }
+  }
+
+}
 
 //
 
-  /**
-   * Test the `ins` string by condition specified in `src`. If all condition are met, return true
-   * _test( options, str ); // true
-   * @param {Object} src Object with options for test
-   * @param {Regexp[]} [src.excludeAll] Array with regexps for testing. If all of the regexps match at `ins` method
-   * return the "excludeAll" string, otherwise checks next property in the `src` object
-   * @param {Regexp[]} [src.excludeAny] Array with regexps for testing. If any of them match `ins` string` method return
-   * it source string, otherwise checks next property in the `src` object
-   * @param {Regexp[]} [src.includeAll] Array with regexps for testing. If all of them match `ins` string method check
-   * next property in `src` object, otherwise return source of regexp that don't match.
-   * @param {Regexp[]} [src.includeAny] Array with regexps for testing. If no one regexp don't match method return
-   * "inlcude none from includeAny" string. Else method return true;
-   * @param {String} ins String for testing
-   * @returns {String|boolean} If all reason match, return true, otherwise return string with fail reason
-   * @throws {Error} Throw an 'expects string' error if `ins` is not string
-   * @throws {Error} Throw an 'expects object' error if `src` is not object
-   * @method _test
-   * @memberof wRegexpObject
-  */
+/**
+ * Test the `ins` string by condition specified in `src`. If all condition are met, return true
+ * _test( options, str ); // true
+ * @param {Object} src Object with options for test
+ * @param {Regexp[]} [src.excludeAll] Array with regexps for testing. If all of the regexps match at `ins` method
+ * return the "excludeAll" string, otherwise checks next property in the `src` object
+ * @param {Regexp[]} [src.excludeAny] Array with regexps for testing. If any of them match `ins` string` method return
+ * it source string, otherwise checks next property in the `src` object
+ * @param {Regexp[]} [src.includeAll] Array with regexps for testing. If all of them match `ins` string method check
+ * next property in `src` object, otherwise return source of regexp that don't match.
+ * @param {Regexp[]} [src.includeAny] Array with regexps for testing. If no one regexp don't match method return
+ * "inlcude none from includeAny" string. Else method return true;
+ * @param {String} ins String for testing
+ * @returns {String|boolean} If all reason match, return true, otherwise return string with fail reason
+ * @throws {Error} Throw an 'expects string' error if `ins` is not string
+ * @throws {Error} Throw an 'expects object' error if `src` is not object
+ * @method _test
+ * @memberof wRegexpObject
+*/
 
 //function _test( src,ins )
 function _test( ins )
@@ -552,11 +552,19 @@ function broaden_class( dst )
 function _regexpObjectExtend( o )
 {
 
-  _.assertMapHasOnly( _regexpObjectExtend.defaults,o );
-  _.mapComplement( o,_regexpObjectExtend.defaults );
+  if( o.dst === null )
+  o.dst = new Self( [] );
+  // if( !( o.dst instanceof Self ) )
+  // o.dst = Self( o.dst );
 
+  _.routineOptions( _regexpObjectExtend,o );
   _.assert( _.objectIs( o.dst ) );
   _.assert( _.arrayLike( o.srcs ) );
+  // _.assert( o.dst instanceof Self );
+
+  // debugger;
+  o.srcs = _.__arrayFlatten( [],o.srcs );
+  // debugger;
 
   var result = o.dst;
   for( var n in Names )
@@ -566,7 +574,6 @@ function _regexpObjectExtend( o )
 
   for( var s = 0 ; s < o.srcs.length ; s++ )
   {
-
     var src = o.srcs[ s ];
 
     if( !_.objectIs( src ) )
@@ -583,7 +590,8 @@ function _regexpObjectExtend( o )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
     {
-      result[ n ] = _.__arrayAppendArrays( result[ n ], [ src[ n ] ] );
+      result[ n ] = _.__arrayFlatten( result[ n ], [ src[ n ] ] );
+      // result[ n ] = _.__arrayAppendArrays( result[ n ], [ src[ n ] ] );
     }
 
     if( o.shrinking )
@@ -596,7 +604,22 @@ function _regexpObjectExtend( o )
 
   }
 
+  /* normalize */
+
+  // debugger;
+  for( var r in result )
+  for( var i = 0; i < result[ r ].length ; i++ )
+  {
+    var element = result[ r ][ i ];
+    if( _.strIs( element ) )
+    result[ r ][ i ] = new RegExp( _.regexpEscape( element ) );
+  }
+
+  /* */
+
   _.assert( result instanceof Self );
+  if( Config.debug )
+  result.validate();
 
   return result;
 }
@@ -939,6 +962,7 @@ var Extend =
 {
 
   init : init,
+  validate : validate,
 
   _test : _test,
   test : test,
@@ -986,9 +1010,6 @@ _.protoMake
 //
 
 wCopyable.mixin( Self );
-
 _global_[ Self.name ] = wTools[ Self.nameShort ] = Self;
-
-return Self;
 
 })();
