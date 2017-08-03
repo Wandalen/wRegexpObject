@@ -5,7 +5,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  if( typeof wBase === 'undefined' )
+  // if( typeof wBase === 'undefined' )
   try
   {
     require( '../wTools.s' );
@@ -999,7 +999,7 @@ var Supplement =
 
 //
 
-_.protoMake
+_.prototypeMake
 ({
   cls : Self,
   parent : Parent,
