@@ -123,7 +123,7 @@ function init( src,defaultMode )
   if( _.arrayIs( src ) )
   {
 
-    src = _.__arrayFlatten( [],src );
+    src = _.arrayFlatten( [],src );
 
     var ar = [];
     for( var s = 0 ; s < src.length ; s += 1 )
@@ -563,7 +563,7 @@ function _regexpObjectExtend( o )
   // _.assert( o.dst instanceof Self );
 
   // debugger;
-  o.srcs = _.__arrayFlatten( [],o.srcs );
+  o.srcs = _.arrayFlatten( [],o.srcs );
   // debugger;
 
   var result = o.dst;
@@ -590,8 +590,8 @@ function _regexpObjectExtend( o )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
     {
-      result[ n ] = _.__arrayFlatten( result[ n ], [ src[ n ] ] );
-      // result[ n ] = _.__arrayAppendArrays( result[ n ], [ src[ n ] ] );
+      result[ n ] = _.arrayFlatten( result[ n ], [ src[ n ] ] );
+      // result[ n ] = _.arrayAppendArrays( result[ n ], [ src[ n ] ] );
     }
 
     if( o.shrinking )
@@ -675,18 +675,18 @@ function but()
     var argument = arguments[ a ];
     var src = Self( argument,Self.Names.includeAny );
 
-    if( src.includeAny ) result.excludeAny = _.__arrayAppendArray( result.excludeAny || [], src.includeAny );
-    if( src.excludeAny ) result.includeAny = _.__arrayAppendArray( result.includeAny || [], src.excludeAny );
+    if( src.includeAny ) result.excludeAny = _.arrayAppendArray( result.excludeAny || [], src.includeAny );
+    if( src.excludeAny ) result.includeAny = _.arrayAppendArray( result.includeAny || [], src.excludeAny );
 
     if( src.includeAll && src.includeAll.length )
     {
       if( src.includeAll.length === 1 )
       {
-        result.excludeAny = _.__arrayAppendArray( result.excludeAny || [], src.includeAll );
+        result.excludeAny = _.arrayAppendArray( result.excludeAny || [], src.includeAll );
       }
       else if( !result.excludeAll || result.excludeAll.length === 0 )
       {
-        result.excludeAll = _.__arrayAppendArray( result.excludeAll || [], src.includeAll );
+        result.excludeAll = _.arrayAppendArray( result.excludeAll || [], src.includeAll );
       }
       else throw _.err( 'but :','cant combineMethodUniform such regexp objects with "but" combiner' );
     }
@@ -695,11 +695,11 @@ function but()
     {
       if( src.excludeAll.length === 1 )
       {
-        result.includeAny = _.__arrayAppendArray( result.includeAny || [], src.excludeAll );
+        result.includeAny = _.arrayAppendArray( result.includeAny || [], src.excludeAll );
       }
       else if( !result.includeAll || result.includeAll.length === 0 )
       {
-        result.includeAll = _.__arrayAppendArray( result.includeAll || [], src.excludeAll );
+        result.includeAll = _.arrayAppendArray( result.includeAll || [], src.excludeAll );
       }
       else throw _.err( 'but :','cant combineMethodUniform such regexp objects with "but" combiner' );
     }
