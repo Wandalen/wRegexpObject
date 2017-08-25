@@ -752,6 +752,7 @@ var Self =
 {
 
   name : 'regexp',
+  silencing : 1,
 
   tests :
   {
