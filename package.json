@@ -11,13 +11,17 @@
       "email": "wtory.net@domainsbyproxy.com>"
     },
     {
+      "name": "Volodymyr M.",
+      "email": "volodymyr.migdal@gmail.com"
+    },
+    {
       "name": "Ihor O.",
       "email": "iostashvxi@gmail.com"
     }
   ],
-  "main": "staging/dwtools/abase/object/RegexpObject.s",
+  "main": "staging/dwtools/abase/oclass/RegexpObject.s",
   "files": [
-    "staging/dwtools/abase/object",
+    "staging/dwtools/abase/oclass",
     "production"
   ],
   "scripts": {
