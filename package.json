@@ -15,9 +15,9 @@
       "email": "iostashvxi@gmail.com"
     }
   ],
-  "main": "staging/abase/object/RegexpObject.s",
+  "main": "staging/dwtools/abase/object/RegexpObject.s",
   "files": [
-    "staging/abase/object",
+    "staging/dwtools/abase/object",
     "production"
   ],
   "scripts": {
@@ -35,7 +35,8 @@
     "wTools": ""
   },
   "devDependencies": {
-    "wTesting": ""
+    "wTesting": "",
+    "wRegexpObject": "."
   },
   "keywords": [
     "base",

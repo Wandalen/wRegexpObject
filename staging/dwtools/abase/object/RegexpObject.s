@@ -8,7 +8,7 @@ if( typeof module !== 'undefined' )
   // if( typeof wBase === 'undefined' )
   try
   {
-    require( '../wTools.s' );
+    require( '../../Base.s' );
   }
   catch( err )
   {
@@ -793,8 +793,8 @@ function order( ordering )
   var result = [];
   _.eachSample
   ({
-    direct : 0,
-    elementArrays : res,
+    leftToRight : 0,
+    sets : res,
     onEach : function( sample,index )
     {
       var mask = _.RegexpObject.shrink( {},sample[ 0 ] );
