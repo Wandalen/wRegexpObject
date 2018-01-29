@@ -19,9 +19,9 @@
       "email": "iostashvxi@gmail.com"
     }
   ],
-  "main": "staging/dwtools/abase/oclass/RegexpObject.s",
+  "main": "staging/dwtools/amid/bclass/RegexpObject.s",
   "files": [
-    "staging/dwtools/abase/oclass",
+    "staging/dwtools/amid/bclass",
     "production"
   ],
   "scripts": {

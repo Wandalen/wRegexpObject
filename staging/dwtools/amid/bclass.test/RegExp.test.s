@@ -1,26 +1,36 @@
-( function( ) {
+( function _RegExp_test_s_( ) {
 
 'use strict';
 
 if( typeof module !== 'undefined' )
 {
 
-  try
+  if( typeof _global_ === 'undefined' || !_global_.wBase )
   {
-    require( '../../Base.s' );
-  }
-  catch( err )
-  {
-    require( 'wTools' );
+    let toolsPath = '../../../dwtools/Base.s';
+    let toolsExternal = 0;
+    try
+    {
+      require.resolve( toolsPath )/*hhh*/;
+    }
+    catch( err )
+    {
+      toolsExternal = 1;
+      require( 'wTools' );
+    }
+    if( !toolsExternal )
+    require( toolsPath )/*hhh*/;
   }
 
-  var _ = wTools;
+  var _ = _global_.wTools;
 
   _.include( 'wTesting' );
 
+  require( '../bclass/RegexpObject.s' );
+
 }
 
-var _ = wTools;
+var _ = _global_.wTools;
 
 // shared variables
 var ArrOfRegx1 = [ /0/, /1/, /2/ ],

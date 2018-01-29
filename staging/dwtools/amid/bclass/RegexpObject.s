@@ -5,17 +5,24 @@
 if( typeof module !== 'undefined' )
 {
 
-  // if( typeof wBase === 'undefined' )
-  try
+  if( typeof _global_ === 'undefined' || !_global_.wBase )
   {
-    require( '../../Base.s' );
-  }
-  catch( err )
-  {
-    require( 'wTools' );
+    let toolsPath = '../../../dwtools/Base.s';
+    let toolsExternal = 0;
+    try
+    {
+      require.resolve( toolsPath )/*hhh*/;
+    }
+    catch( err )
+    {
+      toolsExternal = 1;
+      require( 'wTools' );
+    }
+    if( !toolsExternal )
+    require( toolsPath )/*hhh*/;
   }
 
-  var _ = wTools;
+  var _ = _global_.wTools;
 
   _.include( 'wCopyable' );
 
@@ -33,7 +40,7 @@ if( typeof module !== 'undefined' )
  * @memberof wRegexpObject
  */
 
-var _ = wTools;
+var _ = _global_.wTools;
 var Parent = null;
 var Self = function wRegexpObject( o )
 {
@@ -934,10 +941,6 @@ var Restricts =
 {
 }
 
-// --
-// proto
-// --
-
 var Statics =
 {
 
@@ -956,7 +959,9 @@ var Statics =
 
 }
 
-//
+// --
+// proto
+// --
 
 var Extend =
 {
@@ -1007,9 +1012,19 @@ _.classMake
   supplement : Supplement,
 });
 
-//
+_.Copyable.mixin( Self );
 
-wCopyable.mixin( Self );
-_global_[ Self.name ] = wTools[ Self.nameShort ] = Self;
+_global_[ Self.name ] = _[ Self.nameShort ] = Self;
+
+// --
+// export
+// --
+
+if( typeof module !== 'undefined' )
+if( _global_._UsingWtoolsPrivately_ )
+delete require.cache[ module.id ];
+
+if( typeof module !== 'undefined' && module !== null )
+module[ 'exports' ] = Self;
 
 })();
