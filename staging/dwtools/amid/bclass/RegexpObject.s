@@ -880,18 +880,18 @@ function _regexpObjectOrderingExclusion( ordering )
 
 //
 
-function toStr( o )
-{
-  var self = this;
-  var o = o || {};
-
-  if( o.levels === undefined )
-  o.levels = 3;
-
-  var result = self.toStr_functor({ fields : [ self.Composes,self.Aggregates ] }).call( self,o );
-
-  return result;
-}
+// function toStr( o )
+// {
+//   var self = this;
+//   var o = o || {};
+//
+//   if( o.levels === undefined )
+//   o.levels = 3;
+//
+//   var result = self.toStr_functor({ fields : [ self.Composes,self.Aggregates ] }).call( self,o );
+//
+//   return result;
+// }
 
 // --
 // class var
@@ -975,7 +975,7 @@ var Extend =
   shrink : shrink,
   broaden : broaden,
 
-  toStr : toStr,
+  // toStr : toStr,
 
 
   // class var
