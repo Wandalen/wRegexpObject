@@ -182,7 +182,7 @@ function init( src,defaultMode )
     });
 
   }
-  else throw _.err( 'wRegexpObject :','unknown src',src );
+  else _.assert( 0,'wRegexpObject :','unknown src',src );
 
   _.assertMapOwnOnly( self,self.Names,'Unknown regexp filters.' );
 
@@ -416,6 +416,24 @@ function broaden()
 
 //
 
+function isEmpty()
+{
+  var self = this;
+
+  if( self.includeAny.length > 0 )
+  return false;
+  if( self.includeAll.length > 0 )
+  return false;
+  if( self.excludeAny.length > 0 )
+  return false;
+  if( self.excludeAll.length > 0 )
+  return false;
+
+  return true;
+}
+
+//
+
   /**
    * Extends `result` of RegexpObjects by merging other RegexpObjects.
    * The properties such as includeAll, excludeAny are complemented from appropriate properties in source  objects
@@ -591,7 +609,7 @@ function _regexpObjectExtend( o )
 
     _.assertMapOwnOnly( src,Names );
 
-    var toExtend = o.shrinking ? regexpModeNamesToExtend : Names;
+    var toExtend = o.shrinking ? RegexpModeNamesToExtendMap : Names;
 
     for( var n in toExtend )
     if( src[ n ] )
@@ -602,7 +620,7 @@ function _regexpObjectExtend( o )
     }
 
     if( o.shrinking )
-    for( var n in regexpModeNamesToReplace )
+    for( var n in RegexpModeNamesToReplaceMap )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
     {
@@ -905,13 +923,13 @@ var Names = _.namesCoded
   excludeAll : 'excludeAll',
 });
 
-var regexpModeNamesToExtend = _.namesCoded
+var RegexpModeNamesToExtendMap = _.namesCoded
 ({
   includeAll : 'includeAll',
   excludeAny : 'excludeAny',
 });
 
-var regexpModeNamesToReplace = _.namesCoded
+var RegexpModeNamesToReplaceMap = _.namesCoded
 ({
   includeAny : 'includeAny',
   excludeAll : 'excludeAll',
@@ -956,6 +974,8 @@ var Statics =
   _regexpObjectOrderingExclusion : _regexpObjectOrderingExclusion,
 
   Names : Names,
+  RegexpModeNamesToExtendMap : RegexpModeNamesToExtendMap,
+  RegexpModeNamesToReplaceMap : RegexpModeNamesToReplaceMap,
 
 }
 
@@ -975,19 +995,10 @@ var Extend =
   shrink : shrink,
   broaden : broaden,
 
-  // toStr : toStr,
-
-
-  // class var
-
-  Names : Names,
-  regexpModeNamesToExtend : regexpModeNamesToExtend,
-  regexpModeNamesToReplace : regexpModeNamesToReplace,
-
+  isEmpty : isEmpty,
 
   // relationships
 
-  // constructor : Self,
   Composes : Composes,
   Aggregates : Aggregates,
   Associates : Associates,
