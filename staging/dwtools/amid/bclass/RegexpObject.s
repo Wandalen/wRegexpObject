@@ -579,17 +579,12 @@ function _regexpObjectExtend( o )
 
   if( o.dst === null )
   o.dst = new Self( [] );
-  // if( !( o.dst instanceof Self ) )
-  // o.dst = Self( o.dst );
 
   _.routineOptions( _regexpObjectExtend,o );
   _.assert( _.objectIs( o.dst ) );
   _.assert( _.arrayLike( o.srcs ) );
-  // _.assert( o.dst instanceof Self );
 
-  // debugger;
   o.srcs = _.arrayFlatten( [],o.srcs );
-  // debugger;
 
   var result = o.dst;
   for( var n in Names )
@@ -601,7 +596,11 @@ function _regexpObjectExtend( o )
   {
     var src = o.srcs[ s ];
 
-    if( !_.objectIs( src ) )
+    if( src === null )
+    {
+      continue;
+    }
+    else if( !_.objectIs( src ) )
     {
       debugger;
       throw _.err( 'regexpObjectExtend :','argument must be regexp object',src );
@@ -616,7 +615,6 @@ function _regexpObjectExtend( o )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
     {
       result[ n ] = _.arrayFlatten( result[ n ], [ src[ n ] ] );
-      // result[ n ] = _.arrayAppendArrays( result[ n ], [ src[ n ] ] );
     }
 
     if( o.shrinking )
@@ -631,7 +629,6 @@ function _regexpObjectExtend( o )
 
   /* normalize */
 
-  // debugger;
   for( var r in result )
   for( var i = 0; i < result[ r ].length ; i++ )
   {
