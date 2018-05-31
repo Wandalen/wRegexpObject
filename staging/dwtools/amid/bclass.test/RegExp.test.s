@@ -719,7 +719,6 @@ var Self =
   {
 
     regexpEscape        : regexpEscape,
-    regexpForGlob       : regexpForGlob,
     regexpMakeArray     : regexpMakeArray,
     regexpMakeExpression : regexpMakeExpression,
     _regexpArrayAny          : _regexpArrayAny,
