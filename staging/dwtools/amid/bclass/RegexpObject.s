@@ -1022,11 +1022,11 @@ _.classMake
 
 _.Copyable.mixin( Self );
 
-_global_[ Self.name ] = _[ Self.nameShort ] = Self;
-
 // --
 // export
 // --
+
+_global_[ Self.name ] = _[ Self.nameShort ] = Self;
 
 if( typeof module !== 'undefined' )
 if( _global_._UsingWtoolsPrivately_ )
