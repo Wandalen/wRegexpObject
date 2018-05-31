@@ -99,61 +99,7 @@ function regexpEscape( test )
   test.description = 'escape empty string';
   var got = _.regexpEscape( empty );
   test.identical( got, empty );
-};
-
-//
-
-function regexpForGlob( test )
-{
-  var globSample1 = '*.txt',
-    globSample2 = '*.*',
-    globSample3 = '??',
-    globSample4 = '**',
-    globSample5 = 'subdir/img*/th_?';
-
-  var expected1 = /^.\/[^\/]*\.txt$/m,
-    expected2 = /^.\/[^\/]*\.[^\/]*$/m,
-    expected3 = /^.\/..$/m,
-    expected4 = /^.\/.*$/m,
-    expected5 = /^.\/subdir\/img[^\/]*\/th_.$/m;
-
-  test.description = 'pattern for all .txt files in directory';
-  var got = _.regexpForGlob( globSample1 );
-  test.identical( got.source, expected1.source );
-
-  test.description = 'pattern for all files in directory';
-  var got = _.regexpForGlob( globSample2 );
-  test.identical( got.source, expected2.source );
-
-  test.description = 'pattern for exactly two characters in length file names';
-  var got = _.regexpForGlob( globSample3 );
-  test.identical( got.source, expected3.source );
-
-  test.description = 'pattern for all files and directories';
-  var got = _.regexpForGlob( globSample4 );
-  test.identical( got.source, expected4.source );
-
-  test.description = 'complex pattern';
-  var got = _.regexpForGlob( globSample5 );
-  test.identical( got.source, expected5.source );
-
-
-  if( Config.debug )
-  {
-
-    test.description = 'missing arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _.regexpForGlob();
-    });
-
-    test.description = 'argument is not string';
-    test.shouldThrowErrorSync( function()
-    {
-      _.regexpForGlob( {} );
-    });
-  }
-};
+}
 
 //
 
@@ -193,26 +139,27 @@ function regexpMakeArray( test )
   var got = _.regexpMakeArray( [] );
   test.identical( got, [] );
 
-  if( Config.debug )
+  if( !Config.debug )
+  return;
+
+  test.description = 'call without arguments';
+  test.shouldThrowErrorSync( function()
   {
-    test.description = 'call without arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _.regexpMakeArray();
-    });
+    _.regexpMakeArray();
+  });
 
-    test.description = 'call with wrong type argument';
-    test.shouldThrowErrorSync( function()
-    {
-      _.regexpMakeArray( wrongParam1 );
-    });
+  test.description = 'call with wrong type argument';
+  test.shouldThrowErrorSync( function()
+  {
+    _.regexpMakeArray( wrongParam1 );
+  });
 
-    test.description = 'call with wrong type argument';
-    test.shouldThrowErrorSync( function()
-    {
-      _.regexpMakeArray( wrongParam2 );
-    });
-  }
+  test.description = 'call with wrong type argument';
+  test.shouldThrowErrorSync( function()
+  {
+    _.regexpMakeArray( wrongParam2 );
+  });
+
 };
 
 //
@@ -239,20 +186,21 @@ function regexpMakeExpression( test )
   var got = _.regexpMakeExpression( strWithSpChar );
   test.identical( got.source, expected2.source );
 
-  if( Config.debug )
-  {
-    test.description = 'call without arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _.regexpMakeExpression();
-    });
+  if( !Config.debug )
+  return;
 
-    test.description = 'call with wrong type argument';
-    test.shouldThrowErrorSync( function()
-    {
-      _.regexpMakeExpression( wrongParam1 );
-    });
-  }
+  test.description = 'call without arguments';
+  test.shouldThrowErrorSync( function()
+  {
+    _.regexpMakeExpression();
+  });
+
+  test.description = 'call with wrong type argument';
+  test.shouldThrowErrorSync( function()
+  {
+    _.regexpMakeExpression( wrongParam1 );
+  });
+
 };
 
 //
@@ -276,33 +224,34 @@ function _regexpArrayAny( test )
   var got = _._regexpArrayAny( [], strForTest1, defaultParam );
   test.identical( got, defaultParam );
 
-  if( Config.debug )
+  if( !Config.debug )
+  return;
+
+  test.description = 'missed all arguments';
+  test.shouldThrowErrorSync( function()
   {
-    test.description = 'missed all arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _._regexpArrayAny()
-    });
+    _._regexpArrayAny()
+  });
 
-    test.description = 'missed one of arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _._regexpArrayAny( ArrOfRegx2, strForTest1 )
-    });
+  test.description = 'missed one of arguments';
+  test.shouldThrowErrorSync( function()
+  {
+    _._regexpArrayAny( ArrOfRegx2, strForTest1 )
+  });
 
-    test.description = 'first argument is not array';
-    test.shouldThrowErrorSync( function()
-    {
-      _._regexpArrayAny( 'hello', strForTest1, false );
-    });
+  test.description = 'first argument is not array';
+  test.shouldThrowErrorSync( function()
+  {
+    _._regexpArrayAny( 'hello', strForTest1, false );
+  });
 
-    test.description = 'element of array is not regexp';
-    test.shouldThrowErrorSync( function()
-    {
-      _._regexpArrayAny( wrongTypeArr, strForTest1, false );
-    });
-  }
-};
+  test.description = 'element of array is not regexp';
+  test.shouldThrowErrorSync( function()
+  {
+    _._regexpArrayAny( wrongTypeArr, strForTest1, false );
+  });
+
+}
 
 //
 
@@ -325,33 +274,34 @@ function _regexpArrayAll( test )
   var got = _._regexpArrayAll( [], strForTest1, defaultParam );
   test.identical( got, defaultParam );
 
-  if( Config.debug )
+  if( !Config.debug )
+  return;
+
+  test.description = 'missed all arguments';
+  test.shouldThrowErrorSync( function()
   {
-    test.description = 'missed all arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _._regexpArrayAll()
-    });
+    _._regexpArrayAll()
+  });
 
-    test.description = 'missed one of arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _._regexpArrayAll( ArrOfRegx2, strForTest1 )
-    });
+  test.description = 'missed one of arguments';
+  test.shouldThrowErrorSync( function()
+  {
+    _._regexpArrayAll( ArrOfRegx2, strForTest1 )
+  });
 
-    test.description = 'first argument is not array';
-    test.shouldThrowErrorSync( function()
-    {
-      _._regexpArrayAll( 'hello', strForTest1, false );
-    });
+  test.description = 'first argument is not array';
+  test.shouldThrowErrorSync( function()
+  {
+    _._regexpArrayAll( 'hello', strForTest1, false );
+  });
 
-    test.description = 'element of array is not regexp';
-    test.shouldThrowErrorSync( function()
-    {
-      _._regexpArrayAll( wrongTypeArr, strForTest1, false );
-    });
-  }
-};
+  test.description = 'element of array is not regexp';
+  test.shouldThrowErrorSync( function()
+  {
+    _._regexpArrayAll( wrongTypeArr, strForTest1, false );
+  });
+
+}
 
 //
 
@@ -416,35 +366,34 @@ function test( test )
 
   /**/
 
-  if( Config.debug )
+  if( !Config.debug )
+  return;
+
+  test.description = 'missing arguments';
+  test.shouldThrowErrorSync( function()
   {
+    _.RegexpObject.test();
+  });
 
-    test.description = 'missing arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _.RegexpObject.test();
-    });
+  test.description = 'missing string for testing';
+  test.shouldThrowErrorSync( function()
+  {
+    _.RegexpObject.test( regexpObj1 );
+  });
 
-    test.description = 'missing string for testing';
-    test.shouldThrowErrorSync( function()
-    {
-      _.RegexpObject.test( regexpObj1 );
-    });
+  test.description = 'regexpObject is not a map object';
+  test.shouldThrowErrorSync( function()
+  {
+    _.RegexpObject.test( null, testStr );
+  });
 
-    test.description = 'regexpObject is not a map object';
-    test.shouldThrowErrorSync( function()
-    {
-      _.RegexpObject.test( null, testStr );
-    });
+  test.description = 'second argument is not a string';
+  test.shouldThrowErrorSync( function()
+  {
+    _.RegexpObject.test( regexpObj1, 44 );
+  });
 
-    test.description = 'second argument is not a string';
-    test.shouldThrowErrorSync( function()
-    {
-      _.RegexpObject.test( regexpObj1, 44 );
-    });
-
-  }
-};
+}
 
 //
 
@@ -593,40 +542,40 @@ function _regexpObjectExtend( test )
 
   /**/
 
-  if( Config.debug )
+  if( !Config.debug )
+  return;
+
+
+  // test.description = 'missing parameters in options argument';
+  // test.shouldThrowErrorSync( function()
+  // {
+  //   debugger;
+  //   wRegexpObject._regexpObjectExtend( wrongOpt1 );
+  // });
+
+  // test.description = 'options.dst is not object';
+  // test.shouldThrowErrorSync( function()
+  // {
+  //   wRegexpObject._regexpObjectExtend( wrongOpt2 );
+  // });
+
+  test.description = 'options.srcs not wrapped into array';
+  test.shouldThrowErrorSync( function()
   {
+    wRegexpObject._regexpObjectExtend( wrongOpt3 );
+  });
 
-    // test.description = 'missing parameters in options argument';
-    // test.shouldThrowErrorSync( function()
-    // {
-    //   debugger;
-    //   wRegexpObject._regexpObjectExtend( wrongOpt1 );
-    // });
+  test.description = 'element of options.srcs is not object';
+  test.shouldThrowErrorSync( function()
+  {
+    wRegexpObject._regexpObjectExtend( wrongOpt4 );
+  });
 
-    // test.description = 'options.dst is not object';
-    // test.shouldThrowErrorSync( function()
-    // {
-    //   wRegexpObject._regexpObjectExtend( wrongOpt2 );
-    // });
-
-    test.description = 'options.srcs not wrapped into array';
-    test.shouldThrowErrorSync( function()
-    {
-      wRegexpObject._regexpObjectExtend( wrongOpt3 );
-    });
-
-    test.description = 'element of options.srcs is not object';
-    test.shouldThrowErrorSync( function()
-    {
-      wRegexpObject._regexpObjectExtend( wrongOpt4 );
-    });
-
-    test.description = 'element of options.srcs has wrong format : (extra property)';
-    test.shouldThrowErrorSync( function()
-    {
-      wRegexpObject._regexpObjectExtend( wrongOpt5 );
-    });
-  }
+  test.description = 'element of options.srcs has wrong format : (extra property)';
+  test.shouldThrowErrorSync( function()
+  {
+    wRegexpObject._regexpObjectExtend( wrongOpt5 );
+  });
 
 }
 
@@ -672,27 +621,28 @@ function broaden( test )
   var got = wRegexpObject.broaden( dst2, src1, src2, src3 );
   test.contain( got, expected2 );
 
-  if( Config.debug )
+  if( !Config.debug )
+  return;
+
+  test.description = 'missed arguments';
+  test.shouldThrowErrorSync( function()
   {
-    test.description = 'missed arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      wRegexpObject.broaden();
-    });
+    wRegexpObject.broaden();
+  });
 
-    test.description = 'result (first passed) parameter in not object';
-    test.shouldThrowErrorSync( function()
-    {
-      wRegexpObject.broaden( 'hello', src1 );
-    });
+  test.description = 'result (first passed) parameter in not object';
+  test.shouldThrowErrorSync( function()
+  {
+    wRegexpObject.broaden( 'hello', src1 );
+  });
 
-    test.description = 'source for RegexpObject extend has extra parameter';
-    test.shouldThrowErrorSync( function()
-    {
-      wRegexpObject.broaden( {}, wrongSrc );
-    });
-  }
-};
+  test.description = 'source for RegexpObject extend has extra parameter';
+  test.shouldThrowErrorSync( function()
+  {
+    wRegexpObject.broaden( {}, wrongSrc );
+  });
+
+}
 
 //
 
@@ -734,26 +684,27 @@ function shrink( test )
   var got = _.RegexpObject.shrink( dst2, src1, src2, src3 );
   test.contain( got, expected2 );
 
-  if( Config.debug )
+  if( !Config.debug )
+  return;
+
+  test.description = 'missed arguments';
+  test.shouldThrowErrorSync( function()
   {
-    test.description = 'missed arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _.RegexpObject.shrink();
-    });
+    _.RegexpObject.shrink();
+  });
 
-    test.description = 'result (first passed) parameter in not object';
-    test.shouldThrowErrorSync( function()
-    {
-      _.RegexpObject.shrink( 'hello', src1 );
-    });
+  test.description = 'result (first passed) parameter in not object';
+  test.shouldThrowErrorSync( function()
+  {
+    _.RegexpObject.shrink( 'hello', src1 );
+  });
 
-    test.description = 'source for RegexpObject extend has extra parameter';
-    test.shouldThrowErrorSync( function()
-    {
-      _.RegexpObject.shrink( {}, wrongSrc );
-    });
-  }
+  test.description = 'source for RegexpObject extend has extra parameter';
+  test.shouldThrowErrorSync( function()
+  {
+    _.RegexpObject.shrink( {}, wrongSrc );
+  });
+
 };
 
 //
