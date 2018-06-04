@@ -169,7 +169,7 @@ function init( src,defaultMode )
     //debugger;
     //_.mapIs( src );
 
-    _.eachOwn( src,function _onEach( e,k,i )
+    _.eachOwn( src,function onEach( e,k )
     {
       if( e === null )
       {

@@ -712,7 +712,7 @@ function shrink( test )
 var Self =
 {
 
-  name : 'regexp',
+  name : 'RegexpObject',
   silencing : 1,
 
   tests :
