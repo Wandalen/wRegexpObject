@@ -977,7 +977,7 @@ var Statics =
 }
 
 // --
-// proto
+// define class
 // --
 
 var Extend =
