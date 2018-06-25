@@ -164,7 +164,7 @@ function regexpMakeArray( test )
 
 //
 
-function regexpMakeExpression( test )
+function regexpFrom( test )
 {
   var simpleStr = 'hello',
     simpleReg = /world/,
@@ -175,15 +175,15 @@ function regexpMakeExpression( test )
 
 
   test.description = 'argument is simple string';
-  var got = _.regexpMakeExpression( simpleStr );
+  var got = _.regexpFrom( simpleStr );
   test.identical( got.source, expected1.source );
 
   test.description = 'argument is regexp';
-  var got = _.regexpMakeExpression( simpleReg );
+  var got = _.regexpFrom( simpleReg );
   test.identical( got, simpleReg );
 
   test.description = 'argument is string with special characters';
-  var got = _.regexpMakeExpression( strWithSpChar );
+  var got = _.regexpFrom( strWithSpChar );
   test.identical( got.source, expected2.source );
 
   if( !Config.debug )
@@ -192,20 +192,20 @@ function regexpMakeExpression( test )
   test.description = 'call without arguments';
   test.shouldThrowErrorSync( function()
   {
-    _.regexpMakeExpression();
+    _.regexpFrom();
   });
 
   test.description = 'call with wrong type argument';
   test.shouldThrowErrorSync( function()
   {
-    _.regexpMakeExpression( wrongParam1 );
+    _.regexpFrom( wrongParam1 );
   });
 
 };
 
 //
 
-function _regexpArrayAny( test )
+function regexpArrayAny( test )
 {
   var strForTest1 = 'some text 5',
     wrongTypeArr = [ /a/, /b/, '5' ],
@@ -213,15 +213,15 @@ function _regexpArrayAny( test )
     defaultParam = true;
 
   test.description = 'regexp is found in str';
-  var got = _._regexpArrayAny( ArrOfRegx2, strForTest1, false );
+  var got = _.regexpArrayAny( ArrOfRegx2, strForTest1, false );
   test.identical( got, expectedIndex );
 
   test.description = 'regexp isn\'t found in str';
-  var got = _._regexpArrayAny( ArrOfRegx3, strForTest1, false );
+  var got = _.regexpArrayAny( ArrOfRegx3, strForTest1, false );
   test.identical( got, false );
 
   test.description = 'empty regexp array passed';
-  var got = _._regexpArrayAny( [], strForTest1, defaultParam );
+  var got = _.regexpArrayAny( [], strForTest1, defaultParam );
   test.identical( got, defaultParam );
 
   if( !Config.debug )
@@ -230,32 +230,32 @@ function _regexpArrayAny( test )
   test.description = 'missed all arguments';
   test.shouldThrowErrorSync( function()
   {
-    _._regexpArrayAny()
+    _.regexpArrayAny()
   });
 
   test.description = 'missed one of arguments';
   test.shouldThrowErrorSync( function()
   {
-    _._regexpArrayAny( ArrOfRegx2, strForTest1 )
+    _.regexpArrayAny( ArrOfRegx2, strForTest1 )
   });
 
   test.description = 'first argument is not array';
   test.shouldThrowErrorSync( function()
   {
-    _._regexpArrayAny( 'hello', strForTest1, false );
+    _.regexpArrayAny( 'hello', strForTest1, false );
   });
 
   test.description = 'element of array is not regexp';
   test.shouldThrowErrorSync( function()
   {
-    _._regexpArrayAny( wrongTypeArr, strForTest1, false );
+    _.regexpArrayAny( wrongTypeArr, strForTest1, false );
   });
 
 }
 
 //
 
-function _regexpArrayAll( test )
+function regexpArrayAll( test )
 {
   var strForTest1 = '012349',
     wrongTypeArr = [ /0/, /3/, '9' ],
@@ -263,15 +263,15 @@ function _regexpArrayAll( test )
     defaultParam = false;
 
   test.description = 'all regexp is found in str';
-  var got = _._regexpArrayAll( ArrOfRegx1, strForTest1, false );
+  var got = _.regexpArrayAll( ArrOfRegx1, strForTest1, false );
   test.identical( got, true );
 
   test.description = 'one of regexp isn\'t found in str';
-  var got = _._regexpArrayAll( ArrOfRegx2, strForTest1, false );
+  var got = _.regexpArrayAll( ArrOfRegx2, strForTest1, false );
   test.identical( got, expectedIndex );
 
   test.description = 'empty regexp array passed';
-  var got = _._regexpArrayAll( [], strForTest1, defaultParam );
+  var got = _.regexpArrayAll( [], strForTest1, defaultParam );
   test.identical( got, defaultParam );
 
   if( !Config.debug )
@@ -280,25 +280,25 @@ function _regexpArrayAll( test )
   test.description = 'missed all arguments';
   test.shouldThrowErrorSync( function()
   {
-    _._regexpArrayAll()
+    _.regexpArrayAll()
   });
 
   test.description = 'missed one of arguments';
   test.shouldThrowErrorSync( function()
   {
-    _._regexpArrayAll( ArrOfRegx2, strForTest1 )
+    _.regexpArrayAll( ArrOfRegx2, strForTest1 )
   });
 
   test.description = 'first argument is not array';
   test.shouldThrowErrorSync( function()
   {
-    _._regexpArrayAll( 'hello', strForTest1, false );
+    _.regexpArrayAll( 'hello', strForTest1, false );
   });
 
   test.description = 'element of array is not regexp';
   test.shouldThrowErrorSync( function()
   {
-    _._regexpArrayAll( wrongTypeArr, strForTest1, false );
+    _.regexpArrayAll( wrongTypeArr, strForTest1, false );
   });
 
 }
@@ -720,9 +720,9 @@ var Self =
 
     regexpEscape        : regexpEscape,
     regexpMakeArray     : regexpMakeArray,
-    regexpMakeExpression : regexpMakeExpression,
-    _regexpArrayAny          : _regexpArrayAny,
-    _regexpArrayAll          : _regexpArrayAll,
+    regexpFrom : regexpFrom,
+    regexpArrayAny          : regexpArrayAny,
+    regexpArrayAll          : regexpArrayAll,
     test          : test,
     _regexpObjectExtend : _regexpObjectExtend,
     broaden : broaden,

@@ -136,7 +136,7 @@ function init( src,defaultMode )
     for( var s = 0 ; s < src.length ; s += 1 )
     {
       if( _.regexpIs( src[ s ] ) || _.strIs( src[ s ] ) )
-      ar.push( _.regexpMakeExpression( src[ s ] ) );
+      ar.push( _.regexpFrom( src[ s ] ) );
       else if( _.objectIs( src[ s ] ) )
       //_.RegexpObject.shrink( self,Self( src[ s ] ) );
       _.RegexpObject.broaden( self,Self( src[ s ] ) );
@@ -247,28 +247,28 @@ function _test( ins )
 
   if( src.excludeAll )
   {
-    var r = _._regexpArrayAll( src.excludeAll,ins,false );
+    var r = _.regexpArrayAll( src.excludeAll,ins,false );
     if( r === true )
     return 'excludeAll';
   }
 
   if( src.excludeAny )
   {
-    var r = _._regexpArrayAny( src.excludeAny,ins,false );
+    var r = _.regexpArrayAny( src.excludeAny,ins,false );
     if( r !== false )
     return src.excludeAny[ r ].source;
   }
 
   if( src.includeAll )
   {
-    var r = _._regexpArrayAll( src.includeAll,ins,true );
+    var r = _.regexpArrayAll( src.includeAll,ins,true );
     if( r !== true )
     return src.includeAll[ r ].source;
   }
 
   if( src.includeAny )
   {
-    var r = _._regexpArrayAny( src.includeAny,ins,true );
+    var r = _.regexpArrayAny( src.includeAny,ins,true );
     if( r === false )
     return 'include none from includeAny';
   }
