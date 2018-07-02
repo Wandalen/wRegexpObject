@@ -240,7 +240,7 @@ function _test( ins )
 {
   var src = this;
 
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
 
   if( !_.strIs( ins ) )
   throw _.err( 'test :','expects string as second argument',ins );
@@ -318,7 +318,7 @@ function test( ins )
 {
   var self = this;
 
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
 
   var result = self._test( ins );
 
@@ -371,7 +371,7 @@ function test( ins )
 function test_static( self,ins )
 {
 
-  _.assert( arguments.length === 2 );
+  _.assert( arguments.length === 2, 'expects exactly two argument' );
 
   //if( _.strIs( self ) || _.regexpIs( self ) )
   self = Self( self,'includeAll' );
@@ -848,7 +848,7 @@ function order( ordering )
 function _regexpObjectOrderingExclusion( ordering )
 {
 
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( !ordering || _.arrayIs( ordering ) );
 
   if( !ordering )
