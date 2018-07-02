@@ -712,7 +712,7 @@ function shrink( test )
 var Self =
 {
 
-  name : 'Tools/amid/RegExp',
+  name : 'Tools/mid/RegExp',
   silencing : 1,
 
   tests :
