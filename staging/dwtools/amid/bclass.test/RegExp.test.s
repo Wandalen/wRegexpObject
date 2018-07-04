@@ -348,19 +348,19 @@ function test( test )
   var got = _.RegexpObject.test( regexpObj1, testStr );
   test.identical( got, true );
 
-  test.description = 'includeAny parameter do not contain any regexp that matches the string';
+  test.description = 'includeAny parameter do not contains any regexp that matches the string';
   var got = _.RegexpObject.test( regexpObj2, testStr );
   test.identical( got, false );
 
-  test.description = 'includeAll contain any regexp that do not matches the string';
+  test.description = 'includeAll contains any regexp that do not matches the string';
   var got = _.RegexpObject.test( regexpObj3, testStr );
   test.identical( got, false );
 
-  test.description = 'excludeAny contain any regexp that matches the test string';
+  test.description = 'excludeAny contains any regexp that matches the test string';
   var got = _.RegexpObject.test( regexpObj4, testStr );
   test.identical( got, false );
 
-  test.description = 'excludeAll contain regexps that all matches the test string';
+  test.description = 'excludeAll contains regexps that all matches the test string';
   var got = _.RegexpObject.test( regexpObj4, testStr );
   test.identical( got, false );
 
@@ -526,19 +526,22 @@ function _regexpObjectExtend( test )
 
   test.description = 'simple regexp objects extend with shrinking';
   var got = wRegexpObject._regexpObjectExtend( extendOpt1 );
-  test.contain( got, expected1 );
+  test.contains( got, expected1 );
 
   test.description = 'regexp objects extend with shrinking';
   var got = wRegexpObject._regexpObjectExtend( extendOpt2 );
-  test.contain( got, expected2 );
+  test.contains( got, expected2 );
 
   test.description = 'regexp objects extend without shrinking';
   var got = wRegexpObject._regexpObjectExtend( extendOpt3 );
-  test.contain( got, expected3 );
+  test.contains( got, expected3 );
 
   test.description = 'regexp objects extend without shrinking';
   var got = wRegexpObject._regexpObjectExtend( extendOpt3 );
-  test.identical( got, wRegexpObject( expected3 ) );
+  var expected = wRegexpObject( expected3 );
+  debugger;
+  test.identical( got, expected );
+  debugger;
 
   /**/
 
@@ -611,15 +614,15 @@ function broaden( test )
 
   test.description = 'empty RegexpObject object broaden nothing (missed source for RegexpObject extend)';
   var got = wRegexpObject.broaden( {} );
-  test.contain( got, expected0 );
+  test.contains( got, expected0 );
 
   test.description = 'empty RegexpObject object broaden by single object';
   var got = wRegexpObject.broaden( dst1, src1 );
-  test.contain( got, expected1 );
+  test.contains( got, expected1 );
 
   test.description = 'RegexpObjec with existing data broaden by other RegexpObject objects';
   var got = wRegexpObject.broaden( dst2, src1, src2, src3 );
-  test.contain( got, expected2 );
+  test.contains( got, expected2 );
 
   if( !Config.debug )
   return;
@@ -648,41 +651,41 @@ function broaden( test )
 
 function shrink( test )
 {
-  var dst1 = {},
-    dst2 =
-    {
-      includeAny : [ /a0/, /a1/, /a2/ ],
-      includeAll : [ /b0/, /c1/, /c2/ ],
-      excludeAny : [ /c0/, /c1/, /c2/ ],
-      excludeAll : [ /d0/, /d1/, /d2/ ]
-    },
-    expected0 =
-    {
-      includeAny : [],
-      includeAll : [],
-      excludeAny : [],
-      excludeAll : []
-    },
-    expected1 = src1,
-    expected2 =
-    {
-      includeAny : src3.includeAny,
-      includeAll : dst2.includeAll.concat( src1.includeAll, src2.includeAll, src3.includeAll ),
-      excludeAny : dst2.excludeAny.concat( src1.excludeAny, src2.excludeAny, src3.excludeAny ),
-      excludeAll : src3.excludeAll
-    };
+  var dst1 = {}
+  var dst2 =
+  {
+    includeAny : [ /a0/, /a1/, /a2/ ],
+    includeAll : [ /b0/, /c1/, /c2/ ],
+    excludeAny : [ /c0/, /c1/, /c2/ ],
+    excludeAll : [ /d0/, /d1/, /d2/ ]
+  }
+  var expected0 =
+  {
+    includeAny : [],
+    includeAll : [],
+    excludeAny : [],
+    excludeAll : []
+  }
+  var expected1 = src1;
+  var expected2 =
+  {
+    includeAny : src3.includeAny,
+    includeAll : dst2.includeAll.concat( src1.includeAll, src2.includeAll, src3.includeAll ),
+    excludeAny : dst2.excludeAny.concat( src1.excludeAny, src2.excludeAny, src3.excludeAny ),
+    excludeAll : src3.excludeAll
+  }
 
   test.description = 'empty RegexpObject object broaden nothing (missed source for RegexpObject extend)';
   var got = _.RegexpObject.shrink( {} );
-  test.contain( got, expected0 );
+  test.contains( got, expected0 );
 
   test.description = 'empty RegexpObject object broaden by single object';
   var got = _.RegexpObject.shrink( dst1, src1 );
-  test.contain( got, expected1 );
+  test.contains( got, expected1 );
 
   test.description = 'RegexpObjec with existing data broaden by other RegexpObject objects';
   var got = _.RegexpObject.shrink( dst2, src1, src2, src3 );
-  test.contain( got, expected2 );
+  test.contains( got, expected2 );
 
   if( !Config.debug )
   return;
