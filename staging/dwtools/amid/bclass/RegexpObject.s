@@ -184,7 +184,7 @@ function init( src,defaultMode )
   }
   else _.assert( 0,'wRegexpObject :','unknown src',src );
 
-  _.assertMapOwnOnly( self,self.Names,'Unknown regexp filters.' );
+  _.assertMapOwnOnly( self, self.Names, 'Unknown regexp fields' );
 
   // logger.log( 'RegExpObject\n' + self.toStr() );
 
