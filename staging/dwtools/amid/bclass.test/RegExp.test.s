@@ -84,19 +84,19 @@ function regexpEscape( test )
   var expected1 = '\\.\\*\\+\\?\\^\\=\\!\\:\\$\\{\\}\\(\\)\\|\\[\\]\\/\\\\',
     expected2 = "Hello\\. How are you\\?"
 
-  test.description = 'escape simple str without spec. characters';
+  test.case = 'escape simple str without spec. characters';
   var got = _.regexpEscape( simpleStr );
   test.identical( got, simpleStr );
 
-  test.description = 'escape special characters';
+  test.case = 'escape special characters';
   var got = _.regexpEscape( specialCharacters );
   test.identical( got, expected1 );
 
-  test.description = 'escape simple sentences';
+  test.case = 'escape simple sentences';
   var got = _.regexpEscape( simpleSent );
   test.identical( got, expected2 );
 
-  test.description = 'escape empty string';
+  test.case = 'escape empty string';
   var got = _.regexpEscape( empty );
   test.identical( got, empty );
 }
@@ -119,42 +119,42 @@ function regexpMakeArray( test )
     return v.source;
   }
 
-  test.description = 'argument is array of string';
+  test.case = 'argument is array of string';
   var got = _.regexpMakeArray( arrOfStr );
   test.identical( got.map( getSource ), expectedArr1.map( getSource ) );
 
-  test.description = 'argument is array of regexp';
+  test.case = 'argument is array of regexp';
   var got = _.regexpMakeArray( ArrOfRegx1 );
   test.identical( got, ArrOfRegx1 );
 
-  test.description = 'argument is single string';
+  test.case = 'argument is single string';
   var got = _.regexpMakeArray( singleStr );
   test.identical( got.map( getSource ), expectedArr2.map( getSource ) );
 
-  test.description = 'argument is single regexp';
+  test.case = 'argument is single regexp';
   var got = _.regexpMakeArray( singleReg );
   test.identical( got, expectedArr3 );
 
-  test.description = 'argument is empty arr';
+  test.case = 'argument is empty arr';
   var got = _.regexpMakeArray( [] );
   test.identical( got, [] );
 
   if( !Config.debug )
   return;
 
-  test.description = 'call without arguments';
+  test.case = 'call without arguments';
   test.shouldThrowErrorSync( function()
   {
     _.regexpMakeArray();
   });
 
-  test.description = 'call with wrong type argument';
+  test.case = 'call with wrong type argument';
   test.shouldThrowErrorSync( function()
   {
     _.regexpMakeArray( wrongParam1 );
   });
 
-  test.description = 'call with wrong type argument';
+  test.case = 'call with wrong type argument';
   test.shouldThrowErrorSync( function()
   {
     _.regexpMakeArray( wrongParam2 );
@@ -174,28 +174,28 @@ function regexpFrom( test )
     expected2 = /Hello\. How are you\?/;
 
 
-  test.description = 'argument is simple string';
+  test.case = 'argument is simple string';
   var got = _.regexpFrom( simpleStr );
   test.identical( got.source, expected1.source );
 
-  test.description = 'argument is regexp';
+  test.case = 'argument is regexp';
   var got = _.regexpFrom( simpleReg );
   test.identical( got, simpleReg );
 
-  test.description = 'argument is string with special characters';
+  test.case = 'argument is string with special characters';
   var got = _.regexpFrom( strWithSpChar );
   test.identical( got.source, expected2.source );
 
   if( !Config.debug )
   return;
 
-  test.description = 'call without arguments';
+  test.case = 'call without arguments';
   test.shouldThrowErrorSync( function()
   {
     _.regexpFrom();
   });
 
-  test.description = 'call with wrong type argument';
+  test.case = 'call with wrong type argument';
   test.shouldThrowErrorSync( function()
   {
     _.regexpFrom( wrongParam1 );
@@ -212,40 +212,40 @@ function regexpArrayAny( test )
     expectedIndex = 2,
     defaultParam = true;
 
-  test.description = 'regexp is found in str';
+  test.case = 'regexp is found in str';
   var got = _.regexpArrayAny( ArrOfRegx2, strForTest1, false );
   test.identical( got, expectedIndex );
 
-  test.description = 'regexp isn\'t found in str';
+  test.case = 'regexp isn\'t found in str';
   var got = _.regexpArrayAny( ArrOfRegx3, strForTest1, false );
   test.identical( got, false );
 
-  test.description = 'empty regexp array passed';
+  test.case = 'empty regexp array passed';
   var got = _.regexpArrayAny( [], strForTest1, defaultParam );
   test.identical( got, defaultParam );
 
   if( !Config.debug )
   return;
 
-  test.description = 'missed all arguments';
+  test.case = 'missed all arguments';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAny()
   });
 
-  test.description = 'missed one of arguments';
+  test.case = 'missed one of arguments';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAny( ArrOfRegx2, strForTest1 )
   });
 
-  test.description = 'first argument is not array';
+  test.case = 'first argument is not array';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAny( 'hello', strForTest1, false );
   });
 
-  test.description = 'element of array is not regexp';
+  test.case = 'element of array is not regexp';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAny( wrongTypeArr, strForTest1, false );
@@ -262,40 +262,40 @@ function regexpArrayAll( test )
     expectedIndex = 2,
     defaultParam = false;
 
-  test.description = 'all regexp is found in str';
+  test.case = 'all regexp is found in str';
   var got = _.regexpArrayAll( ArrOfRegx1, strForTest1, false );
   test.identical( got, true );
 
-  test.description = 'one of regexp isn\'t found in str';
+  test.case = 'one of regexp isn\'t found in str';
   var got = _.regexpArrayAll( ArrOfRegx2, strForTest1, false );
   test.identical( got, expectedIndex );
 
-  test.description = 'empty regexp array passed';
+  test.case = 'empty regexp array passed';
   var got = _.regexpArrayAll( [], strForTest1, defaultParam );
   test.identical( got, defaultParam );
 
   if( !Config.debug )
   return;
 
-  test.description = 'missed all arguments';
+  test.case = 'missed all arguments';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAll()
   });
 
-  test.description = 'missed one of arguments';
+  test.case = 'missed one of arguments';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAll( ArrOfRegx2, strForTest1 )
   });
 
-  test.description = 'first argument is not array';
+  test.case = 'first argument is not array';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAll( 'hello', strForTest1, false );
   });
 
-  test.description = 'element of array is not regexp';
+  test.case = 'element of array is not regexp';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAll( wrongTypeArr, strForTest1, false );
@@ -344,23 +344,23 @@ function test( test )
     },
     testStr = '012345';
 
-  test.description = 'all regeps array are matched';
+  test.case = 'all regeps array are matched';
   var got = _.RegexpObject.test( regexpObj1, testStr );
   test.identical( got, true );
 
-  test.description = 'includeAny parameter do not contains any regexp that matches the string';
+  test.case = 'includeAny parameter do not contains any regexp that matches the string';
   var got = _.RegexpObject.test( regexpObj2, testStr );
   test.identical( got, false );
 
-  test.description = 'includeAll contains any regexp that do not matches the string';
+  test.case = 'includeAll contains any regexp that do not matches the string';
   var got = _.RegexpObject.test( regexpObj3, testStr );
   test.identical( got, false );
 
-  test.description = 'excludeAny contains any regexp that matches the test string';
+  test.case = 'excludeAny contains any regexp that matches the test string';
   var got = _.RegexpObject.test( regexpObj4, testStr );
   test.identical( got, false );
 
-  test.description = 'excludeAll contains regexps that all matches the test string';
+  test.case = 'excludeAll contains regexps that all matches the test string';
   var got = _.RegexpObject.test( regexpObj4, testStr );
   test.identical( got, false );
 
@@ -369,25 +369,25 @@ function test( test )
   if( !Config.debug )
   return;
 
-  test.description = 'missing arguments';
+  test.case = 'missing arguments';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.test();
   });
 
-  test.description = 'missing string for testing';
+  test.case = 'missing string for testing';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.test( regexpObj1 );
   });
 
-  test.description = 'regexpObject is not a map object';
+  test.case = 'regexpObject is not a map object';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.test( null, testStr );
   });
 
-  test.description = 'second argument is not a string';
+  test.case = 'second argument is not a string';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.test( regexpObj1, 44 );
@@ -524,19 +524,19 @@ function _regexpObjectExtend( test )
       shrinking : false
     };
 
-  test.description = 'simple regexp objects extend with shrinking';
+  test.case = 'simple regexp objects extend with shrinking';
   var got = wRegexpObject._regexpObjectExtend( extendOpt1 );
   test.contains( got, expected1 );
 
-  test.description = 'regexp objects extend with shrinking';
+  test.case = 'regexp objects extend with shrinking';
   var got = wRegexpObject._regexpObjectExtend( extendOpt2 );
   test.contains( got, expected2 );
 
-  test.description = 'regexp objects extend without shrinking';
+  test.case = 'regexp objects extend without shrinking';
   var got = wRegexpObject._regexpObjectExtend( extendOpt3 );
   test.contains( got, expected3 );
 
-  test.description = 'regexp objects extend without shrinking';
+  test.case = 'regexp objects extend without shrinking';
   var got = wRegexpObject._regexpObjectExtend( extendOpt3 );
   var expected = wRegexpObject( expected3 );
   debugger;
@@ -549,32 +549,32 @@ function _regexpObjectExtend( test )
   return;
 
 
-  // test.description = 'missing parameters in options argument';
+  // test.case = 'missing parameters in options argument';
   // test.shouldThrowErrorSync( function()
   // {
   //   debugger;
   //   wRegexpObject._regexpObjectExtend( wrongOpt1 );
   // });
 
-  // test.description = 'options.dst is not object';
+  // test.case = 'options.dst is not object';
   // test.shouldThrowErrorSync( function()
   // {
   //   wRegexpObject._regexpObjectExtend( wrongOpt2 );
   // });
 
-  test.description = 'options.srcs not wrapped into array';
+  test.case = 'options.srcs not wrapped into array';
   test.shouldThrowErrorSync( function()
   {
     wRegexpObject._regexpObjectExtend( wrongOpt3 );
   });
 
-  test.description = 'element of options.srcs is not object';
+  test.case = 'element of options.srcs is not object';
   test.shouldThrowErrorSync( function()
   {
     wRegexpObject._regexpObjectExtend( wrongOpt4 );
   });
 
-  test.description = 'element of options.srcs has wrong format : (extra property)';
+  test.case = 'element of options.srcs has wrong format : (extra property)';
   test.shouldThrowErrorSync( function()
   {
     wRegexpObject._regexpObjectExtend( wrongOpt5 );
@@ -612,34 +612,34 @@ function broaden( test )
       excludeAll : dst2.excludeAll.concat( src1.excludeAll, src2.excludeAll, src3.excludeAll )
     };
 
-  test.description = 'empty RegexpObject object broaden nothing (missed source for RegexpObject extend)';
+  test.case = 'empty RegexpObject object broaden nothing (missed source for RegexpObject extend)';
   var got = wRegexpObject.broaden( {} );
   test.contains( got, expected0 );
 
-  test.description = 'empty RegexpObject object broaden by single object';
+  test.case = 'empty RegexpObject object broaden by single object';
   var got = wRegexpObject.broaden( dst1, src1 );
   test.contains( got, expected1 );
 
-  test.description = 'RegexpObjec with existing data broaden by other RegexpObject objects';
+  test.case = 'RegexpObjec with existing data broaden by other RegexpObject objects';
   var got = wRegexpObject.broaden( dst2, src1, src2, src3 );
   test.contains( got, expected2 );
 
   if( !Config.debug )
   return;
 
-  test.description = 'missed arguments';
+  test.case = 'missed arguments';
   test.shouldThrowErrorSync( function()
   {
     wRegexpObject.broaden();
   });
 
-  test.description = 'result (first passed) parameter in not object';
+  test.case = 'result (first passed) parameter in not object';
   test.shouldThrowErrorSync( function()
   {
     wRegexpObject.broaden( 'hello', src1 );
   });
 
-  test.description = 'source for RegexpObject extend has extra parameter';
+  test.case = 'source for RegexpObject extend has extra parameter';
   test.shouldThrowErrorSync( function()
   {
     wRegexpObject.broaden( {}, wrongSrc );
@@ -675,34 +675,34 @@ function shrink( test )
     excludeAll : src3.excludeAll
   }
 
-  test.description = 'empty RegexpObject object broaden nothing (missed source for RegexpObject extend)';
+  test.case = 'empty RegexpObject object broaden nothing (missed source for RegexpObject extend)';
   var got = _.RegexpObject.shrink( {} );
   test.contains( got, expected0 );
 
-  test.description = 'empty RegexpObject object broaden by single object';
+  test.case = 'empty RegexpObject object broaden by single object';
   var got = _.RegexpObject.shrink( dst1, src1 );
   test.contains( got, expected1 );
 
-  test.description = 'RegexpObjec with existing data broaden by other RegexpObject objects';
+  test.case = 'RegexpObjec with existing data broaden by other RegexpObject objects';
   var got = _.RegexpObject.shrink( dst2, src1, src2, src3 );
   test.contains( got, expected2 );
 
   if( !Config.debug )
   return;
 
-  test.description = 'missed arguments';
+  test.case = 'missed arguments';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.shrink();
   });
 
-  test.description = 'result (first passed) parameter in not object';
+  test.case = 'result (first passed) parameter in not object';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.shrink( 'hello', src1 );
   });
 
-  test.description = 'source for RegexpObject extend has extra parameter';
+  test.case = 'source for RegexpObject extend has extra parameter';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.shrink( {}, wrongSrc );
