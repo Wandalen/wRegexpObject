@@ -1,6 +1,6 @@
 {
   "name": "wRegexpObject",
-  "version": "0.4.41",
+  "version": "0.4.42",
   "engine": "node >= 6.0.0",
   "license": "MIT",
   "description": "Object-container of regular expressions and complex logic. Make possible to check does string satisfy the logic.",
