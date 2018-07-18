@@ -1,6 +1,6 @@
 ( function _RegExp_test_s_( ) {
 
-'use strict'; /**/
+'use strict';
 
 if( typeof module !== 'undefined' )
 {
