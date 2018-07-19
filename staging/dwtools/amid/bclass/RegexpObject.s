@@ -482,7 +482,7 @@ function shrink_class( dst )
   var result = _regexpObjectExtend
   ({
     dst : dst,
-    srcs : _.arraySlice( arguments,1 ),
+    srcs : _.longSlice( arguments,1 ),
     shrinking : 1,
   });
 
@@ -538,7 +538,7 @@ function broaden_class( dst )
   var result = _regexpObjectExtend
   ({
     dst : dst,
-    srcs : _.arraySlice( arguments,1 ),
+    srcs : _.longSlice( arguments,1 ),
     shrinking : 0,
   });
 
@@ -568,7 +568,7 @@ function broaden_class( dst )
       merged RegexpObject.
    * @throws {Error} If in options missed any of 'dst', 'srcs' or 'shrinking' properties
    * @throws {Error} If options.dst is not object
-   * @throws {Error} If options.srcs is not arrayLike object
+   * @throws {Error} If options.srcs is not longIs object
    * @throws {Error} If options.srcs element is not RegexpObject object
    * @method _regexpObjectExtend
    * @memberof wRegexpObject
@@ -582,7 +582,7 @@ function _regexpObjectExtend( o )
 
   _.routineOptions( _regexpObjectExtend,o );
   _.assert( _.objectIs( o.dst ) );
-  _.assert( _.arrayLike( o.srcs ) );
+  _.assert( _.longIs( o.srcs ) );
 
   o.srcs = _.arrayFlatten( [],o.srcs );
 
