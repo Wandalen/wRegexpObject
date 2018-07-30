@@ -52,7 +52,7 @@ var Self = function wRegexpObject( o )
   return Self.prototype.init.apply( this,arguments );
 }
 
-Self.nameShort = 'RegexpObject';
+Self.shortName = 'RegexpObject';
 
 //
 
@@ -933,7 +933,7 @@ var RegexpModeNamesToReplaceMap = _.namesCoded
 });
 
 // --
-// relationships
+// relations
 // --
 
 var Composes =
@@ -994,7 +994,7 @@ var Extend =
 
   isEmpty : isEmpty,
 
-  // relationships
+  // relations
 
   Composes : Composes,
   Aggregates : Aggregates,
@@ -1026,7 +1026,7 @@ _.Copyable.mixin( Self );
 // export
 // --
 
-_global_[ Self.name ] = _[ Self.nameShort ] = Self;
+_global_[ Self.name ] = _[ Self.shortName ] = Self;
 
 if( typeof module !== 'undefined' )
 if( _global_.WTOOLS_PRIVATE )
