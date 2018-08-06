@@ -946,10 +946,10 @@ var RegexpModeNamesToReplaceMap = _.namesCoded
 
 var Composes =
 {
-  includeAny : [],
-  includeAll : [],
-  excludeAny : [],
-  excludeAll : [],
+  includeAny : _.define.own( [] ),
+  includeAll : _.define.own( [] ),
+  excludeAny : _.define.own( [] ),
+  excludeAll : _.define.own( [] ),
 }
 
 var Aggregates =
@@ -1020,7 +1020,7 @@ var Supplement =
 
 //
 
-_.classMake
+_.classDeclare
 ({
   cls : Self,
   parent : Parent,
