@@ -7,3 +7,4 @@ Class which encapsulates a trivial logical combination( expression ) and regular
 npm install
 node sample/Sample.s
 ```
+
