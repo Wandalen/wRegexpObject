@@ -630,6 +630,9 @@ function _regexpObjectExtend( o )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
     {
+      if( _.regexpIs( src[ n ] ) )
+      result[ n ] = [ src[ n ] ];
+      else
       result[ n ] = src[ n ];
     }
 
