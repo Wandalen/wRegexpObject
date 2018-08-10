@@ -988,7 +988,7 @@ var Statics =
 }
 
 // --
-// define class
+// declare
 // --
 
 var Extend =
