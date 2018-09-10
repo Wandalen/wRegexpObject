@@ -108,7 +108,7 @@ Self.shortName = 'RegexpObject';
    * @memberof wRegexpObject
    */
 
-function init( src,defaultMode )
+function init( src, defaultMode )
 {
   var self = this;
 
@@ -120,7 +120,7 @@ function init( src,defaultMode )
   /**/
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.objectIs( src ) || _.arrayIs( src ) || _.regexpIs( src ) || _.strIs( src ),_.strTypeOf( src ) );
+  _.assert( _.objectIs( src ) || _.arrayIs( src ) || _.regexpIs( src ) || _.strIs( src ) || src === null, () => 'Unknown type of arguments ' + _.strTypeOf( src ) );
 
   /**/
 
@@ -130,7 +130,7 @@ function init( src,defaultMode )
   if( _.strIs( src ) )
   src = [ new RegExp( _.regexpEscape( src ) ) ];
 
-  if( !src )
+  if( src === null )
   src = [];
 
   /**/
@@ -389,6 +389,59 @@ function test_static( self,ins )
 
 //
 
+function Shrink( dst )
+{
+
+  // if( dst === null )
+  // dst = new Self();
+  // else
+  if( !( dst instanceof Self ) && dst !== null )
+  dst = _.RegexpObject( dst, 'includeAny' )
+
+  for( var a = 1 ; a < arguments.length ; a++ )
+  {
+    let src = arguments[ a ];
+    if( dst === null )
+    {
+      if( src === null || src === undefined )
+      continue;
+      else if( src instanceof Self )
+      dst = src.clone();
+      else
+      dst = new Self( src );
+    }
+    else
+    {
+      if( src !== null && src !== undefined )
+      dst.shrink( src );
+    }
+  }
+
+  if( dst === null )
+  dst = new Self( null, 'includeAny' );
+
+  return dst;
+
+/*
+  if( self.maskAll )
+  self.maskAll = _.RegexpObject( self.maskAll,'includeAny' );
+
+  if( self.maskAll && src.maskAll !== undefined )
+  {
+    self.maskAll.shrink( src.maskAll );
+  }
+  else if( src.maskAll )
+  {
+    if( src.maskAll instanceof _.RegexpObject )
+    self.maskAll = src.maskAll.clone();
+    else
+    self.maskAll = _.RegexpObject( src.maskAll );
+  }
+*/
+}
+
+//
+
 function shrink()
 {
   var self = this;
@@ -499,46 +552,46 @@ function shrink_class( dst )
 
 //
 
-  /**
-   * Extends `result` of RegexpObjects by merging other RegexpObjects.
-   * Appropriate properties such as includeAny, includeAll, excludeAny and excludeAll are complemented from appropriate
-   * properties in source objects by merging;
-   *
-   * @example
-   * var dest = {
-   *     includeAny : [/yellow/, /blue/],
-   *     includeAll : [/red/],
-   *     excludeAny : [/yellow/],
-   *     excludeAll : [/red/]
-   * },
-   *
-   * src1 = {
-   *     includeAll : [/green/],
-   *     excludeAny : [/white/],
-   *     excludeAll : [/green/, /blue/]
-   * },
-   * src2 = {
-   *     includeAny : [/red/],
-   *     includeAll : [/brown/],
-   *     excludeAny : [/greey/],
-   * }
-   *
-   * wTools.broaden(dest, src1, src2);
-   *
-   * //{
-   * //    includeAny : [/yellow/, /blue/, /red/],
-   * //    includeAll : [/red/, /green/, /brown/],
-   * //    excludeAny : [/yellow/, /white/, /greey/],
-   * //    excludeAll : [/red/, /green/, /blue/]
-   * //};
-   * @param {RegexpObject} result RegexpObject to merge in.
-   * @param {...RegexpObject} [src] RegexpObjects to merge from.
-   * @returns {RegexpObject} Reference to `result` parameter;
-   * @throws {Error} If missed arguments
-   * @throws {Error} If arguments are not RegexpObject
-   * @method broaden
-   * @memberof wRegexpObject
-   */
+/**
+ * Extends `result` of RegexpObjects by merging other RegexpObjects.
+ * Appropriate properties such as includeAny, includeAll, excludeAny and excludeAll are complemented from appropriate
+ * properties in source objects by merging;
+ *
+ * @example
+ * var dest = {
+ *     includeAny : [/yellow/, /blue/],
+ *     includeAll : [/red/],
+ *     excludeAny : [/yellow/],
+ *     excludeAll : [/red/]
+ * },
+ *
+ * src1 = {
+ *     includeAll : [/green/],
+ *     excludeAny : [/white/],
+ *     excludeAll : [/green/, /blue/]
+ * },
+ * src2 = {
+ *     includeAny : [/red/],
+ *     includeAll : [/brown/],
+ *     excludeAny : [/greey/],
+ * }
+ *
+ * wTools.broaden(dest, src1, src2);
+ *
+ * //{
+ * //    includeAny : [/yellow/, /blue/, /red/],
+ * //    includeAll : [/red/, /green/, /brown/],
+ * //    excludeAny : [/yellow/, /white/, /greey/],
+ * //    excludeAll : [/red/, /green/, /blue/]
+ * //};
+ * @param {RegexpObject} result RegexpObject to merge in.
+ * @param {...RegexpObject} [src] RegexpObjects to merge from.
+ * @returns {RegexpObject} Reference to `result` parameter;
+ * @throws {Error} If missed arguments
+ * @throws {Error} If arguments are not RegexpObject
+ * @method broaden
+ * @memberof wRegexpObject
+ */
 
 function broaden_class( dst )
 {
@@ -558,29 +611,29 @@ function broaden_class( dst )
 
 //
 
-  /**
-   * Merge several RegexpObjects extending one by others.
-      Order of extending make difference because joining of some parameters without lose is not possible.
-      o.shrinking gives a hint in what direction the lost should be made.
+/**
+ * Merge several RegexpObjects extending one by others.
+    Order of extending make difference because joining of some parameters without lose is not possible.
+    o.shrinking gives a hint in what direction the lost should be made.
 
-   * @param {object} o - options of merging.
-   * @param {RegexpObject} options.dst
-      RegexpObject to merge in.
-   * @param {RegexpObject} options.srcs -
-      RegexpObjects to merge from.
-   * @param {Boolean} options.shrinking -
-      Shrinking or broadening mode.
-      Joining of some parameters without lose is not possible.
-      This parameter gives a hint in what direction the lost should be made.
-   * @returns {RegexpObject}
-      merged RegexpObject.
-   * @throws {Error} If in options missed any of 'dst', 'srcs' or 'shrinking' properties
-   * @throws {Error} If options.dst is not object
-   * @throws {Error} If options.srcs is not longIs object
-   * @throws {Error} If options.srcs element is not RegexpObject object
-   * @method _regexpObjectExtend
-   * @memberof wRegexpObject
-   */
+ * @param {object} o - options of merging.
+ * @param {RegexpObject} options.dst
+    RegexpObject to merge in.
+ * @param {RegexpObject} options.srcs -
+    RegexpObjects to merge from.
+ * @param {Boolean} options.shrinking -
+    Shrinking or broadening mode.
+    Joining of some parameters without lose is not possible.
+    This parameter gives a hint in what direction the lost should be made.
+ * @returns {RegexpObject}
+    merged RegexpObject.
+ * @throws {Error} If in options missed any of 'dst', 'srcs' or 'shrinking' properties
+ * @throws {Error} If options.dst is not object
+ * @throws {Error} If options.srcs is not longIs object
+ * @throws {Error} If options.srcs element is not RegexpObject object
+ * @method _regexpObjectExtend
+ * @memberof wRegexpObject
+ */
 
 function _regexpObjectExtend( o )
 {
@@ -666,38 +719,38 @@ _regexpObjectExtend.defaults =
 
 //
 
-  /**
-   * Create RegexpObject, that represents the subtraction for match`s/mismatched with the input RegexpObject object
-   e.g. if { includeAll: [ /red/, /green/, /blue/ ] } represents subset of all strings that contains each 'red', 'green'
-   and 'blue' words, then result of but() - { excludeAll: [ /red/, /green/, /blue/ ]} will represent the
-   subset of all strings that does not contains at least one of those worlds.
-   *
-   * @example
-     var options = {
-           includeAny : [/yellow/, /blue/, /red/],
-           includeAll : [/red/, /green/, /blue/],
-           excludeAny : [/yellow/, /white/, /grey/],
-           excludeAll : [/black/, /brown/, /pink/]
-       };
+/**
+ * Create RegexpObject, that represents the subtraction for match`s/mismatched with the input RegexpObject object
+ e.g. if { includeAll: [ /red/, /green/, /blue/ ] } represents subset of all strings that contains each 'red', 'green'
+ and 'blue' words, then result of but() - { excludeAll: [ /red/, /green/, /blue/ ]} will represent the
+ subset of all strings that does not contains at least one of those worlds.
+ *
+ * @example
+   var options = {
+         includeAny : [/yellow/, /blue/, /red/],
+         includeAll : [/red/, /green/, /blue/],
+         excludeAny : [/yellow/, /white/, /grey/],
+         excludeAll : [/black/, /brown/, /pink/]
+     };
 
-     wTools.but(options);
+   wTools.but(options);
 
-      // {
-      //   "includeAny":[/yellow/, /white/, /grey/],
-      //   "excludeAny":[/yellow/, /blue/, /red/],
-      //   "excludeAll":[/red/, /green/, /blue/],
-      //   "includeAll":[/black/, /brown/, /pink/]
-      // }
-   * @param {...RegexpObject|...String|...RegExp} [src] Input RegexpObject map/maps. If passed primitive values, they will
-   be interpreted as value for `includeAny` property of RegexpObject. If objects more than one, their includeAny and
-   excludeAny properties will be merged. Notice: if objects more than one and every has includeAll/excludeAll arrays
-   with more than one elements, method will throw error.
-   * @returns {RegexpObject} Result RegexpObject map.
-   * @throws {Error} If objects more than one and every has includeAll/excludeAll arrays with more than one elements
-   * throws 'cant combineMethodUniform such regexp objects with "but" combiner'
-   * @method but
-   * @memberof wRegexpObject
-   */
+    // {
+    //   "includeAny":[/yellow/, /white/, /grey/],
+    //   "excludeAny":[/yellow/, /blue/, /red/],
+    //   "excludeAll":[/red/, /green/, /blue/],
+    //   "includeAll":[/black/, /brown/, /pink/]
+    // }
+ * @param {...RegexpObject|...String|...RegExp} [src] Input RegexpObject map/maps. If passed primitive values, they will
+ be interpreted as value for `includeAny` property of RegexpObject. If objects more than one, their includeAny and
+ excludeAny properties will be merged. Notice: if objects more than one and every has includeAll/excludeAll arrays
+ with more than one elements, method will throw error.
+ * @returns {RegexpObject} Result RegexpObject map.
+ * @throws {Error} If objects more than one and every has includeAll/excludeAll arrays with more than one elements
+ * throws 'cant combineMethodUniform such regexp objects with "but" combiner'
+ * @method but
+ * @memberof wRegexpObject
+ */
 
 function but()
 {
@@ -756,51 +809,51 @@ function but()
 
 //
 
-  /**
-   * Creates array of RegexpObjects, that will be associated with some ordered set of subsets of strings.
-   Accepts array of strings. They will be used as base for RegexpObjects. The empty string in array will be
-   converted into RegexpObject that associates with subset what is the subtraction of all possible subsets of strings
-   and union of subsets which match other words in array.
-   If several arrays are passed in the method, the result will be cartesian product of appropriates arrays described
-   above.
-   * @example
-   *
-   var arr1 = ['red', 'blue'],
-   arr2 = ['', 'green'];
+/**
+ * Creates array of RegexpObjects, that will be associated with some ordered set of subsets of strings.
+ Accepts array of strings. They will be used as base for RegexpObjects. The empty string in array will be
+ converted into RegexpObject that associates with subset what is the subtraction of all possible subsets of strings
+ and union of subsets which match other words in array.
+ If several arrays are passed in the method, the result will be cartesian product of appropriates arrays described
+ above.
+ * @example
+ *
+ var arr1 = ['red', 'blue'],
+ arr2 = ['', 'green'];
 
-   wTools.order(arr1, arr2);
-   // [
-   //     {
-   //         includeAny:[],
-   //         includeAll:[/red/],
-   //         excludeAny:[/green/],
-   //         excludeAll:[]},
-   //
-   //     {
-   //         includeAny:[],
-   //         includeAll:[/red/,/green/],
-   //         excludeAny:[],
-   //         excludeAll:[]},
-   //
-   //     {
-   //         includeAny:[],
-   //         includeAll:[/blue/],
-   //         excludeAny:[/green/],
-   //         excludeAll:[]},
-   //
-   //     {
-   //         includeAny:[],
-   //         includeAll:[/blue/, /green/],
-   //         excludeAny:[],
-   //         excludeAll:[]
-   //     }
-   // ]
-   * @param {...String[]} ordering аrray/аrrays of strings
-   * @returns {RegexpObject[]} аrray of RegexpObject that represent resulting ordering
-   * @throws {Error} Unexpected type, if passed arguments is not arrays.
-   * @method order
-   * @memberof wRegexpObject
-   */
+ wTools.order(arr1, arr2);
+ // [
+ //     {
+ //         includeAny:[],
+ //         includeAll:[/red/],
+ //         excludeAny:[/green/],
+ //         excludeAll:[]},
+ //
+ //     {
+ //         includeAny:[],
+ //         includeAll:[/red/,/green/],
+ //         excludeAny:[],
+ //         excludeAll:[]},
+ //
+ //     {
+ //         includeAny:[],
+ //         includeAll:[/blue/],
+ //         excludeAny:[/green/],
+ //         excludeAll:[]},
+ //
+ //     {
+ //         includeAny:[],
+ //         includeAll:[/blue/, /green/],
+ //         excludeAny:[],
+ //         excludeAll:[]
+ //     }
+ // ]
+ * @param {...String[]} ordering аrray/аrrays of strings
+ * @returns {RegexpObject[]} аrray of RegexpObject that represent resulting ordering
+ * @throws {Error} Unexpected type, if passed arguments is not arrays.
+ * @method order
+ * @memberof wRegexpObject
+ */
 
 function order( ordering )
 {
@@ -949,10 +1002,10 @@ var RegexpModeNamesToReplaceMap = _.namesCoded
 
 var Composes =
 {
-  includeAny : _.define.own( [] ),
-  includeAll : _.define.own( [] ),
-  excludeAny : _.define.own( [] ),
-  excludeAll : _.define.own( [] ),
+  includeAny : _.define.own([]),
+  includeAll : _.define.own([]),
+  excludeAny : _.define.own([]),
+  excludeAll : _.define.own([]),
 }
 
 var Aggregates =
@@ -971,6 +1024,8 @@ var Statics =
 {
 
   test : test_static,
+
+  Shrink : Shrink,
 
   shrink : shrink_class,
   broaden : broaden_class,
@@ -999,6 +1054,8 @@ var Extend =
 
   _test : _test,
   test : test,
+
+  Shrink : Shrink,
 
   shrink : shrink,
   broaden : broaden,
