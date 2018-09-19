@@ -364,6 +364,10 @@ function test( test )
   var got = _.RegexpObject.test( regexpObj4, testStr );
   test.identical( got, false );
 
+  test.case = 'null';
+  var got = _.RegexpObject.test( null, testStr );
+  test.identical( got, true );
+
   /**/
 
   if( !Config.debug )
@@ -381,10 +385,10 @@ function test( test )
     _.RegexpObject.test( regexpObj1 );
   });
 
-  test.case = 'regexpObject is not a map object';
+  test.case = 'incorrect first argument';
   test.shouldThrowErrorSync( function()
   {
-    _.RegexpObject.test( null, testStr );
+    _.RegexpObject.test( 1, testStr );
   });
 
   test.case = 'second argument is not a string';
