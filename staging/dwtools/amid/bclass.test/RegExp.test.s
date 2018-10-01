@@ -401,7 +401,7 @@ function test( test )
 
 //
 
-function _regexpObjectExtend( test )
+function _extend( test )
 {
   var src1 =
       [
@@ -529,19 +529,19 @@ function _regexpObjectExtend( test )
     };
 
   test.case = 'simple regexp objects extend with shrinking';
-  var got = wRegexpObject._regexpObjectExtend( extendOpt1 );
+  var got = wRegexpObject._extend( extendOpt1 );
   test.contains( got, expected1 );
 
   test.case = 'regexp objects extend with shrinking';
-  var got = wRegexpObject._regexpObjectExtend( extendOpt2 );
+  var got = wRegexpObject._extend( extendOpt2 );
   test.contains( got, expected2 );
 
   test.case = 'regexp objects extend without shrinking';
-  var got = wRegexpObject._regexpObjectExtend( extendOpt3 );
+  var got = wRegexpObject._extend( extendOpt3 );
   test.contains( got, expected3 );
 
   test.case = 'regexp objects extend without shrinking';
-  var got = wRegexpObject._regexpObjectExtend( extendOpt3 );
+  var got = wRegexpObject._extend( extendOpt3 );
   var expected = wRegexpObject( expected3 );
   debugger;
   test.identical( got, expected );
@@ -557,38 +557,38 @@ function _regexpObjectExtend( test )
   // test.shouldThrowErrorSync( function()
   // {
   //   debugger;
-  //   wRegexpObject._regexpObjectExtend( wrongOpt1 );
+  //   wRegexpObject._extend( wrongOpt1 );
   // });
 
   // test.case = 'options.dst is not object';
   // test.shouldThrowErrorSync( function()
   // {
-  //   wRegexpObject._regexpObjectExtend( wrongOpt2 );
+  //   wRegexpObject._extend( wrongOpt2 );
   // });
 
   test.case = 'options.srcs not wrapped into array';
   test.shouldThrowErrorSync( function()
   {
-    wRegexpObject._regexpObjectExtend( wrongOpt3 );
+    wRegexpObject._extend( wrongOpt3 );
   });
 
   test.case = 'element of options.srcs is not object';
   test.shouldThrowErrorSync( function()
   {
-    wRegexpObject._regexpObjectExtend( wrongOpt4 );
+    wRegexpObject._extend( wrongOpt4 );
   });
 
   test.case = 'element of options.srcs has wrong format : (extra property)';
   test.shouldThrowErrorSync( function()
   {
-    wRegexpObject._regexpObjectExtend( wrongOpt5 );
+    wRegexpObject._extend( wrongOpt5 );
   });
 
 }
 
 //
 
-function broaden( test )
+function or( test )
 {
   var dst1 = {},
     dst2 =
@@ -616,16 +616,16 @@ function broaden( test )
       excludeAll : dst2.excludeAll.concat( src1.excludeAll, src2.excludeAll, src3.excludeAll )
     };
 
-  test.case = 'empty RegexpObject object broaden nothing (missed source for RegexpObject extend)';
-  var got = wRegexpObject.broaden( {} );
+  test.case = 'empty RegexpObject object or nothing (missed source for RegexpObject extend)';
+  var got = wRegexpObject.or( {} );
   test.contains( got, expected0 );
 
-  test.case = 'empty RegexpObject object broaden by single object';
-  var got = wRegexpObject.broaden( dst1, src1 );
+  test.case = 'empty RegexpObject object or by single object';
+  var got = wRegexpObject.or( dst1, src1 );
   test.contains( got, expected1 );
 
-  test.case = 'RegexpObjec with existing data broaden by other RegexpObject objects';
-  var got = wRegexpObject.broaden( dst2, src1, src2, src3 );
+  test.case = 'RegexpObjec with existing data or by other RegexpObject objects';
+  var got = wRegexpObject.or( dst2, src1, src2, src3 );
   test.contains( got, expected2 );
 
   if( !Config.debug )
@@ -634,26 +634,26 @@ function broaden( test )
   test.case = 'missed arguments';
   test.shouldThrowErrorSync( function()
   {
-    wRegexpObject.broaden();
+    wRegexpObject.or();
   });
 
   test.case = 'result (first passed) parameter in not object';
   test.shouldThrowErrorSync( function()
   {
-    wRegexpObject.broaden( 'hello', src1 );
+    wRegexpObject.or( 'hello', src1 );
   });
 
   test.case = 'source for RegexpObject extend has extra parameter';
   test.shouldThrowErrorSync( function()
   {
-    wRegexpObject.broaden( {}, wrongSrc );
+    wRegexpObject.or( {}, wrongSrc );
   });
 
 }
 
 //
 
-function shrink( test )
+function and( test )
 {
   var dst1 = {}
   var dst2 =
@@ -679,16 +679,16 @@ function shrink( test )
     excludeAll : src3.excludeAll
   }
 
-  test.case = 'empty RegexpObject object broaden nothing (missed source for RegexpObject extend)';
-  var got = _.RegexpObject.shrink( {} );
+  test.case = 'empty RegexpObject object or nothing (missed source for RegexpObject extend)';
+  var got = _.RegexpObject.And( {} );
   test.contains( got, expected0 );
 
-  test.case = 'empty RegexpObject object broaden by single object';
-  var got = _.RegexpObject.shrink( dst1, src1 );
+  test.case = 'empty RegexpObject object or by single object';
+  var got = _.RegexpObject.And( dst1, src1 );
   test.contains( got, expected1 );
 
-  test.case = 'RegexpObjec with existing data broaden by other RegexpObject objects';
-  var got = _.RegexpObject.shrink( dst2, src1, src2, src3 );
+  test.case = 'RegexpObjec with existing data or by other RegexpObject objects';
+  var got = _.RegexpObject.And( dst2, src1, src2, src3 );
   test.contains( got, expected2 );
 
   if( !Config.debug )
@@ -697,19 +697,19 @@ function shrink( test )
   test.case = 'missed arguments';
   test.shouldThrowErrorSync( function()
   {
-    _.RegexpObject.shrink();
+    _.RegexpObject.And();
   });
 
   test.case = 'result (first passed) parameter in not object';
   test.shouldThrowErrorSync( function()
   {
-    _.RegexpObject.shrink( 'hello', src1 );
+    _.RegexpObject.And( 'hello', src1 );
   });
 
   test.case = 'source for RegexpObject extend has extra parameter';
   test.shouldThrowErrorSync( function()
   {
-    _.RegexpObject.shrink( {}, wrongSrc );
+    _.RegexpObject.And( {}, wrongSrc );
   });
 
 };
@@ -731,9 +731,10 @@ var Self =
     regexpArrayAny          : regexpArrayAny,
     regexpArrayAll          : regexpArrayAll,
     test          : test,
-    _regexpObjectExtend : _regexpObjectExtend,
-    broaden : broaden,
-    shrink  : shrink
+
+    _extend : _extend,
+    or : or,
+    and  : and
 
   }
 

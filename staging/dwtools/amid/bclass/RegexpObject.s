@@ -30,13 +30,55 @@ if( typeof module !== 'undefined' )
     require( toolsPath );
   }
 
-  var _ = _global_.wTools;
+  let _ = _global_.wTools;
 
   _.include( 'wCopyable' );
 
 }
 
 //
+
+/**
+ * Make RegexpObject from different type sources.
+    If passed RegexpObject or map with properties similar to RegexpObject but with string in values, then the second
+ parameter is not required;
+    All strings in sources will be turned into RegExps.
+    If passed single RegExp/String or array of RegExps/Strings, then routine will return RegexpObject with
+ `defaultMode` as key, and array of RegExps created from first parameter as value.
+    If passed array of RegexpObject, mixed with ordinary RegExps/Strings, the result object will be created by merging
+ with shrinking (see [shrink]{@link wTools#shrink}) RegexpObjects and RegExps that associates
+ with `defaultMode` key.
+ *
+ * @example
+   let src = [
+       /hello/,
+       'world',
+       {
+          includeAny : ['yellow', 'blue', 'red'],
+          includeAll : [/red/, /green/, /brown/],
+          excludeAny : [/yellow/, /white/, /grey/],
+          excludeAll : [/red/, /green/, /blue/]
+       }
+   ];
+   wTools.regexpMakeObject(src, 'excludeAll');
+
+   // {
+   //    includeAny: [/yellow/, /blue/, /red/],
+   //    includeAll: [/red/, /green/, /brown/],
+   //    excludeAny: [/yellow/, /white/, /grey/],
+   //    excludeAll: [/hello/, /world/]
+   // }
+ * @param {RegexpObject|String|RegExp|RegexpObject[]|String[]|RegExp[]} src Source for making RegexpObject
+ * @param {String} [defaultMode] key for result RegexpObject map. Can be one of next strings: 'includeAny',
+ 'includeAll','excludeAny' or 'excludeAll'.
+ * @returns {RegexpObject} Result RegexpObject
+ * @throws {Error} Missing arguments if call without argument
+ * @throws {Error} Missing arguments if passed array without `defaultMode`
+ * @throws {Error} Unknown mode `defaultMode`
+ * @throws {Error} Unknown src if first argument is not array, map, string or regexp.
+ * @throws {Error} Unexpected if type of array element is not string regexp or RegexpObject.
+ * @throws {Error} Unknown regexp filters if passed map has unexpected properties (see RegexpObject).
+ */
 
 /**
  * The complete RegexpObject object.
@@ -48,9 +90,9 @@ if( typeof module !== 'undefined' )
  * @memberof wRegexpObject
  */
 
-var _ = _global_.wTools;
-var Parent = null;
-var Self = function wRegexpObject( o )
+let _ = _global_.wTools;
+let Parent = null;
+let Self = function wRegexpObject( o )
 {
   if( !( this instanceof Self ) )
   if( o instanceof Self )
@@ -72,11 +114,11 @@ Self.shortName = 'RegexpObject';
       If passed single RegExp/String or array of RegExps/Strings, then method will return RegexpObject with
    `defaultMode` as key, and array of RegExps created from first parameter as value.
       If passed array of RegexpObject, mixed with ordinary RegExps/Strings, the result object will be created by merging
-   with shrinking (see [shrink]{@link wTools#shrink}) RegexpObjects and RegExps that associates
+   with shrinking (see [and]{@link wTools#and}) RegexpObjects and RegExps that associates
    with `defaultMode` key.
    *
    * @example
-     var src = [
+     let src = [
          /hello/,
          'world',
          {
@@ -110,7 +152,7 @@ Self.shortName = 'RegexpObject';
 
 function init( src, defaultMode )
 {
-  var self = this;
+  let self = this;
 
   _.instanceInit( self );
 
@@ -140,14 +182,14 @@ function init( src, defaultMode )
 
     src = _.arrayFlatten( [],src );
 
-    var ar = [];
-    for( var s = 0 ; s < src.length ; s += 1 )
+    let ar = [];
+    for( let s = 0 ; s < src.length ; s += 1 )
     {
       if( _.regexpIs( src[ s ] ) || _.strIs( src[ s ] ) )
       ar.push( _.regexpFrom( src[ s ] ) );
       else if( _.objectIs( src[ s ] ) )
-      //_.RegexpObject.shrink( self,Self( src[ s ] ) );
-      _.RegexpObject.broaden( self,Self( src[ s ] ) );
+      //_.RegexpObject.And( self,Self( src[ s ] ) );
+      _.RegexpObject.Or( self,Self( src[ s ] ) );
       else throw _.err( 'unexpected' );
     }
 
@@ -159,10 +201,10 @@ function init( src, defaultMode )
 
       if( self[ defaultMode ] && self[ defaultMode ].length )
       {
-        var r = {};
+        let r = {};
         r[ defaultMode ] = ar;
-        //_.RegexpObject.shrink( self,r );
-        _.RegexpObject.broaden( self,r );
+        //_.RegexpObject.And( self,r );
+        _.RegexpObject.Or( self,r );
       }
       else
       {
@@ -206,14 +248,14 @@ function init( src, defaultMode )
 
 function validate()
 {
-  var self = this;
+  let self = this;
 
   _.assert( arguments.length === 0 );
 
-  for( var f in Composes )
+  for( let f in Composes )
   {
     _.assert( _.arrayIs( self[ f ] ) );
-    for( var i = 0 ; i < self[ f ].length ; i++ )
+    for( let i = 0 ; i < self[ f ].length ; i++ )
     {
       _.assert( _.regexpIs( self[ f ][ i ] ),'Regexp object expects regexps, but got',_.strTypeOf( self[ f ][ i ] ) );
     }
@@ -246,7 +288,7 @@ function validate()
 //function _test( src,ins )
 function _test( ins )
 {
-  var src = this;
+  let src = this;
 
   _.assert( arguments.length === 1, 'expects single argument' );
 
@@ -255,28 +297,28 @@ function _test( ins )
 
   if( src.excludeAll )
   {
-    var r = _.regexpArrayAll( src.excludeAll,ins,false );
+    let r = _.regexpArrayAll( src.excludeAll,ins,false );
     if( r === true )
     return 'excludeAll';
   }
 
   if( src.excludeAny )
   {
-    var r = _.regexpArrayAny( src.excludeAny,ins,false );
+    let r = _.regexpArrayAny( src.excludeAny,ins,false );
     if( r !== false )
     return src.excludeAny[ r ].source;
   }
 
   if( src.includeAll )
   {
-    var r = _.regexpArrayAll( src.includeAll,ins,true );
+    let r = _.regexpArrayAll( src.includeAll,ins,true );
     if( r !== true )
     return src.includeAll[ r ].source;
   }
 
   if( src.includeAny )
   {
-    var r = _.regexpArrayAny( src.includeAny,ins,true );
+    let r = _.regexpArrayAny( src.includeAny,ins,true );
     if( r === false )
     return 'include none from includeAny';
   }
@@ -291,7 +333,7 @@ function _test( ins )
    * met method return true
    *
    * @example
-   * var str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
+   * let str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
    *     regArr1 = [/red/, /green/, /blue/],
    *     regArr2 = [/yellow/, /blue/, /red/],
    *     regArr3 = [/yellow/, /white/, /greey/],
@@ -324,11 +366,11 @@ function _test( ins )
 //function test( src,ins )
 function test( ins )
 {
-  var self = this;
+  let self = this;
 
   _.assert( arguments.length === 1, 'expects single argument' );
 
-  var result = self._test( ins );
+  let result = self._test( ins );
 
   if( _.strIs( result ) )
   return false;
@@ -346,7 +388,7 @@ function test( ins )
    * met method return true
    *
    * @example
-   * var str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
+   * let str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
    *     regArr1 = [/red/, /green/, /blue/],
    *     regArr2 = [/yellow/, /blue/, /red/],
    *     regArr3 = [/yellow/, /white/, /greey/],
@@ -389,112 +431,6 @@ function test_static( self,ins )
 
 //
 
-function Shrink( dst )
-{
-
-  // if( dst === null )
-  // dst = new Self();
-  // else
-  if( !( dst instanceof Self ) && dst !== null )
-  dst = _.RegexpObject( dst, 'includeAny' )
-
-  for( var a = 1 ; a < arguments.length ; a++ )
-  {
-    let src = arguments[ a ];
-    if( dst === null )
-    {
-      if( src === null || src === undefined )
-      continue;
-      else if( src instanceof Self )
-      dst = src.clone();
-      else
-      dst = new Self( src );
-    }
-    else
-    {
-      if( src !== null && src !== undefined )
-      dst.shrink( src );
-    }
-  }
-
-  if( dst === null )
-  dst = new Self( null, 'includeAny' );
-
-  return dst;
-
-/*
-  if( self.maskAll )
-  self.maskAll = _.RegexpObject( self.maskAll,'includeAny' );
-
-  if( self.maskAll && src.maskAll !== undefined )
-  {
-    self.maskAll.shrink( src.maskAll );
-  }
-  else if( src.maskAll )
-  {
-    if( src.maskAll instanceof _.RegexpObject )
-    self.maskAll = src.maskAll.clone();
-    else
-    self.maskAll = _.RegexpObject( src.maskAll );
-  }
-*/
-}
-
-//
-
-function shrink()
-{
-  var self = this;
-
-  _regexpObjectExtend
-  ({
-    dst : this,
-    srcs : arguments,
-    shrinking : 1,
-  });
-
-  return self;
-}
-
-//
-
-function broaden()
-{
-  var self = this;
-
-  _regexpObjectExtend
-  ({
-    dst : this,
-    srcs : arguments,
-    shrinking : 0,
-  });
-
-  debugger;
-  throw _.err( 'not tested' );
-
-  return self;
-}
-
-//
-
-function isEmpty()
-{
-  var self = this;
-
-  if( self.includeAny.length > 0 )
-  return false;
-  if( self.includeAll.length > 0 )
-  return false;
-  if( self.excludeAny.length > 0 )
-  return false;
-  if( self.excludeAll.length > 0 )
-  return false;
-
-  return true;
-}
-
-//
-
   /**
    * Extends `result` of RegexpObjects by merging other RegexpObjects.
    * The properties such as includeAll, excludeAny are complemented from appropriate properties in source  objects
@@ -502,7 +438,7 @@ function isEmpty()
    * Properties includeAny and excludeAll are always replaced by appropriate properties from sources without merging,
    *
    * @example
-   * var dest = {
+   * let dest = {
    *     includeAny : [/yellow/, /blue/],
    *     includeAll : [/red/],
    *     excludeAny : [/yellow/],
@@ -520,7 +456,7 @@ function isEmpty()
    *     excludeAny : [/greey/],
    * }
    *
-   * wTools.shrink(dest, src1, src2);
+   * RegexpObject.And( dest, src1, src2 );
    *
    * //{
    * //    includeAny : [/red/],
@@ -533,17 +469,51 @@ function isEmpty()
    * @returns {RegexpObject} Reference to `result` parameter;
    * @throws {Error} If missed arguments
    * @throws {Error} If arguments are not RegexpObject
-   * @method shrink
+   * @method And
    * @memberof wRegexpObject
    */
 
-function shrink_class( dst )
+// function And( dst )
+// {
+//
+//   if( !( dst instanceof Self ) && dst !== null )
+//   dst = _.RegexpObject( dst, 'includeAny' )
+//
+//   for( let a = 1 ; a < arguments.length ; a++ )
+//   {
+//     let src = arguments[ a ];
+//     if( dst === null )
+//     {
+//       if( src === null || src === undefined )
+//       continue;
+//       else if( src instanceof Self )
+//       dst = src.clone();
+//       else
+//       dst = new Self( src );
+//     }
+//     else
+//     {
+//       if( src !== null && src !== undefined )
+//       dst.and( src );
+//     }
+//   }
+//
+//   if( dst === null )
+//   dst = new Self( null, 'includeAny' );
+//
+//   return dst;
+// }
+
+function And( dst )
 {
 
-  var result = _regexpObjectExtend
+  // dst = dst instanceof Self ? dst : null;
+  // let srcs = dst === null ? _.longSlice( arguments,0 ) : _.longSlice( arguments,1 );
+
+  let result = this._extend
   ({
-    dst : dst,
-    srcs : _.longSlice( arguments,1 ),
+    dst : null,
+    srcs : _.longSlice( arguments,0 ),
     shrinking : 1,
   });
 
@@ -558,7 +528,7 @@ function shrink_class( dst )
  * properties in source objects by merging;
  *
  * @example
- * var dest = {
+ * let dest = {
  *     includeAny : [/yellow/, /blue/],
  *     includeAll : [/red/],
  *     excludeAny : [/yellow/],
@@ -576,7 +546,7 @@ function shrink_class( dst )
  *     excludeAny : [/greey/],
  * }
  *
- * wTools.broaden(dest, src1, src2);
+ * wTools.Or( dest, src1, src2 );
  *
  * //{
  * //    includeAny : [/yellow/, /blue/, /red/],
@@ -589,24 +559,59 @@ function shrink_class( dst )
  * @returns {RegexpObject} Reference to `result` parameter;
  * @throws {Error} If missed arguments
  * @throws {Error} If arguments are not RegexpObject
- * @method broaden
+ * @method Or
  * @memberof wRegexpObject
  */
 
-function broaden_class( dst )
+function Or( dst )
 {
 
-  var result = _regexpObjectExtend
+  // dst = dst instanceof Self ? dst : null;
+  // let srcs = dst === null ? _.longSlice( arguments,0 ) : _.longSlice( arguments,1 );
+
+  let result = this._extend
   ({
-    dst : dst,
-    srcs : _.longSlice( arguments,1 ),
+    dst : null,
+    srcs : _.longSlice( arguments,0 ),
     shrinking : 0,
   });
 
-  //debugger;
-  // throw _.err( 'not tested' );
-
   return result;
+}
+
+//
+
+function and()
+{
+  let self = this;
+
+  self._extend
+  ({
+    dst : self,
+    srcs : arguments,
+    shrinking : 1,
+  });
+
+  return self;
+}
+
+//
+
+function or()
+{
+  let self = this;
+
+  self._extend
+  ({
+    dst : self,
+    srcs : arguments,
+    shrinking : 0,
+  });
+
+  debugger;
+  throw _.err( 'not tested' );
+
+  return self;
 }
 
 //
@@ -631,31 +636,31 @@ function broaden_class( dst )
  * @throws {Error} If options.dst is not object
  * @throws {Error} If options.srcs is not longIs object
  * @throws {Error} If options.srcs element is not RegexpObject object
- * @method _regexpObjectExtend
+ * @method _extend
  * @memberof wRegexpObject
  */
 
-function _regexpObjectExtend( o )
+function _extend( o )
 {
 
   if( o.dst === null )
   o.dst = new Self( [] );
 
-  _.routineOptions( _regexpObjectExtend,o );
+  _.routineOptions( _extend,o );
   _.assert( _.objectIs( o.dst ) );
   _.assert( _.longIs( o.srcs ) );
 
   o.srcs = _.arrayFlatten( [],o.srcs );
 
-  var result = o.dst;
-  for( var n in Names )
+  let result = o.dst;
+  for( let n in Names )
   if( !result[ n ] )
   result[ n ] = [];
   result = Self( result );
 
-  for( var s = 0 ; s < o.srcs.length ; s++ )
+  for( let s = 0 ; s < o.srcs.length ; s++ )
   {
-    var src = o.srcs[ s ];
+    let src = o.srcs[ s ];
 
     if( src === null )
     {
@@ -663,15 +668,16 @@ function _regexpObjectExtend( o )
     }
     else if( !_.objectIs( src ) )
     {
-      debugger;
-      throw _.err( 'regexpObjectExtend :','argument must be regexp object',src );
+      src = Self( src, o.shrinking ? 'includeAll' : 'includeAny' );
+      // debugger;
+      // throw _.err( 'regexpObjectExtend :','argument must be regexp object',src );
     }
 
-    _.assertMapOwnOnly( src,Names );
+    _.assertMapOwnOnly( src, Names );
 
-    var toExtend = o.shrinking ? RegexpModeNamesToExtendMap : Names;
+    let toExtend = o.shrinking ? RegexpModeNamesToExtendMap : Names;
 
-    for( var n in toExtend )
+    for( let n in toExtend )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
     {
@@ -679,7 +685,7 @@ function _regexpObjectExtend( o )
     }
 
     if( o.shrinking )
-    for( var n in RegexpModeNamesToReplaceMap )
+    for( let n in RegexpModeNamesToReplaceMap )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
     {
@@ -693,10 +699,10 @@ function _regexpObjectExtend( o )
 
   /* normalize */
 
-  for( var r in result )
-  for( var i = 0; i < result[ r ].length ; i++ )
+  for( let r in result )
+  for( let i = 0; i < result[ r ].length ; i++ )
   {
-    var element = result[ r ][ i ];
+    let element = result[ r ][ i ];
     if( _.strIs( element ) )
     result[ r ][ i ] = new RegExp( _.regexpEscape( element ) );
   }
@@ -710,7 +716,7 @@ function _regexpObjectExtend( o )
   return result;
 }
 
-_regexpObjectExtend.defaults =
+_extend.defaults =
 {
   dst : null,
   srcs : null,
@@ -726,7 +732,7 @@ _regexpObjectExtend.defaults =
  subset of all strings that does not contains at least one of those worlds.
  *
  * @example
-   var options = {
+   let options = {
          includeAny : [/yellow/, /blue/, /red/],
          includeAll : [/red/, /green/, /blue/],
          excludeAny : [/yellow/, /white/, /grey/],
@@ -754,12 +760,12 @@ _regexpObjectExtend.defaults =
 
 function but()
 {
-  var result = Self( [],Self.Names.includeAny );
+  let result = Self( [],Self.Names.includeAny );
 
-  for( var a = 0, al = arguments.length ; a < al ; a++ )
+  for( let a = 0, al = arguments.length ; a < al ; a++ )
   {
-    var argument = arguments[ a ];
-    var src = Self( argument,Self.Names.includeAny );
+    let argument = arguments[ a ];
+    let src = Self( argument,Self.Names.includeAny );
 
     if( src.includeAny ) result.excludeAny = _.arrayAppendArray( result.excludeAny || [], src.includeAny );
     if( src.excludeAny ) result.includeAny = _.arrayAppendArray( result.includeAny || [], src.excludeAny );
@@ -790,18 +796,6 @@ function but()
       else throw _.err( 'but :','cant combineMethodUniform such regexp objects with "but" combiner' );
     }
 
-    /*
-    var result = _.regexpMakeObject
-    ({
-
-      includeAny : src.excludeAny,
-      includeAll : src.excludeAll,
-      excludeAny : src.includeAny,
-      excludeAll : src.includeAll,
-
-    });
-    */
-
   }
 
   return result;
@@ -818,7 +812,7 @@ function but()
  above.
  * @example
  *
- var arr1 = ['red', 'blue'],
+ let arr1 = ['red', 'blue'],
  arr2 = ['', 'green'];
 
  wTools.order(arr1, arr2);
@@ -857,16 +851,16 @@ function but()
 
 function order( ordering )
 {
-  var res = [];
+  let res = [];
 
   if( arguments.length === 1 && arguments[ 0 ].length === 0 )
   return res;
 
-  for( var a = 0 ; a < arguments.length ; a++ )
+  for( let a = 0 ; a < arguments.length ; a++ )
   {
-    var argument = arguments[ a ];
+    let argument = arguments[ a ];
     if( _.arrayIs( argument[ 0 ] ) )
-    for( var i = 0 ; i < argument.length ; i++ )
+    for( let i = 0 ; i < argument.length ; i++ )
     res.push( _regexpObjectOrderingExclusion( argument[ i ] ) );
     else if( _.strIs( argument[ 0 ] ) )
     res.push( _regexpObjectOrderingExclusion( argument ) );
@@ -876,16 +870,16 @@ function order( ordering )
   if( res.length === 1 )
   return res[ 0 ];
 
-  var result = [];
+  let result = [];
   _.eachSample
   ({
     leftToRight : 0,
     sets : res,
     onEach : function( sample,index )
     {
-      var mask = _.RegexpObject.shrink( {},sample[ 0 ] );
-      for( var s = 1 ; s < sample.length ; s++ )
-      _.RegexpObject.shrink( mask,sample[ s ] );
+      let mask = _.RegexpObject.And( {},sample[ 0 ] );
+      for( let s = 1 ; s < sample.length ; s++ )
+      _.RegexpObject.And( mask,sample[ s ] );
       result.push( mask );
     }
   });
@@ -921,9 +915,9 @@ function _regexpObjectOrderingExclusion( ordering )
   if( !ordering.length )
   return ordering;
 
-  var result = [];
+  let result = [];
 
-  for( var o = 0 ; o < ordering.length ; o++ )
+  for( let o = 0 ; o < ordering.length ; o++ )
   {
     _.assert( _.strIs( ordering[ o ] ) );
     if( ordering[ o ] === '' )
@@ -931,52 +925,59 @@ function _regexpObjectOrderingExclusion( ordering )
     result.push( Self( ordering[ o ],Names.includeAll ) );
   }
 
-  var nomask = {};
-  for( var r = 0 ; r < result.length ; r++ )
+  let nomask = {};
+  for( let r = 0 ; r < result.length ; r++ )
   {
-    _.RegexpObject.shrink( nomask,Self.but( result[ r ] ) );
+    _.RegexpObject.And( nomask,Self.but( result[ r ] ) );
   }
 
-  for( var o = 0 ; o < ordering.length ; o++ )
+  for( let o = 0 ; o < ordering.length ; o++ )
   {
     if( ordering[ o ] === '' )
     result.splice( o,0,nomask );
   }
-
-/*
-  var before = _.regexpMakeObject( before,regexpMakeObject.names.includeAll );
-  var after = _.regexpMakeObject( after,regexpMakeObject.names.includeAll );
-
-  return [
-    before,
-    Self.but( before,after ),
-    after,
-  ];
-*/
 
   return result;
 }
 
 //
 
+function isEmpty()
+{
+  let self = this;
+
+  if( self.includeAny.length > 0 )
+  return false;
+  if( self.includeAll.length > 0 )
+  return false;
+  if( self.excludeAny.length > 0 )
+  return false;
+  if( self.excludeAll.length > 0 )
+  return false;
+
+  return true;
+}
+
+//
+
 // function toStr( o )
 // {
-//   var self = this;
-//   var o = o || {};
+//   let self = this;
+//   let o = o || {};
 //
 //   if( o.levels === undefined )
 //   o.levels = 3;
 //
-//   var result = self.toStr_functor({ fields : [ self.Composes,self.Aggregates ] }).call( self,o );
+//   let result = self.toStr_functor({ fields : [ self.Composes,self.Aggregates ] }).call( self,o );
 //
 //   return result;
 // }
 
 // --
-// class var
+// class let
 // --
 
-var Names = _.namesCoded
+let Names = _.namesCoded
 ({
   includeAny : 'includeAny',
   includeAll : 'includeAll',
@@ -984,13 +985,13 @@ var Names = _.namesCoded
   excludeAll : 'excludeAll',
 });
 
-var RegexpModeNamesToExtendMap = _.namesCoded
+let RegexpModeNamesToExtendMap = _.namesCoded
 ({
   includeAll : 'includeAll',
   excludeAny : 'excludeAny',
 });
 
-var RegexpModeNamesToReplaceMap = _.namesCoded
+let RegexpModeNamesToReplaceMap = _.namesCoded
 ({
   includeAny : 'includeAny',
   excludeAll : 'excludeAll',
@@ -1000,7 +1001,7 @@ var RegexpModeNamesToReplaceMap = _.namesCoded
 // relations
 // --
 
-var Composes =
+let Composes =
 {
   includeAny : _.define.own([]),
   includeAll : _.define.own([]),
@@ -1008,28 +1009,26 @@ var Composes =
   excludeAll : _.define.own([]),
 }
 
-var Aggregates =
+let Aggregates =
 {
 }
 
-var Associates =
+let Associates =
 {
 }
 
-var Restricts =
+let Restricts =
 {
 }
 
-var Statics =
+let Statics =
 {
 
   test : test_static,
 
-  Shrink : Shrink,
-
-  shrink : shrink_class,
-  broaden : broaden_class,
-  _regexpObjectExtend : _regexpObjectExtend,
+  And : And,
+  Or : Or,
+  _extend : _extend,
 
   but : but,
 
@@ -1046,7 +1045,7 @@ var Statics =
 // declare
 // --
 
-var Extend =
+let Extend =
 {
 
   init : init,
@@ -1055,10 +1054,13 @@ var Extend =
   _test : _test,
   test : test,
 
-  Shrink : Shrink,
+  And : And,
+  Or : Or,
+  and : and,
+  or : or,
 
-  shrink : shrink,
-  broaden : broaden,
+  order : order,
+  _regexpObjectOrderingExclusion : _regexpObjectOrderingExclusion,
 
   isEmpty : isEmpty,
 
@@ -1073,7 +1075,7 @@ var Extend =
 
 //
 
-var Supplement =
+let Supplement =
 {
   Statics : Statics,
 }
