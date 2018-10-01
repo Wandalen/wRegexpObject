@@ -435,7 +435,7 @@ function _extend( test )
       excludeAny : ArrOfRegx7,
       excludeAll : ArrOfRegx8
     },
-    wrongSrc2 = [ 'includeAny' ],
+    wrongSrc2 = { includeAny : ArrOfRegx5 },
     wrongSrc3 =
       [
         {
@@ -575,6 +575,7 @@ function _extend( test )
   test.case = 'element of options.srcs is not object';
   test.shouldThrowErrorSync( function()
   {
+    debugger
     wRegexpObject._extend( wrongOpt4 );
   });
 
@@ -614,39 +615,50 @@ function or( test )
       includeAll : dst2.includeAll.concat( src1.includeAll, src2.includeAll, src3.includeAll ),
       excludeAny : dst2.excludeAny.concat( src1.excludeAny, src2.excludeAny, src3.excludeAny ),
       excludeAll : dst2.excludeAll.concat( src1.excludeAll, src2.excludeAll, src3.excludeAll )
+    },
+    expected3 =
+    {
+      excludeAll : [ /9/, /10/, /11/ ],
+      excludeAny : [ /6/, /7/, /8/ ] ,
+      includeAll : [ /3/, /4/, /5/ ],
+      includeAny : [ /hello/, /0/, /1/, /2/ ]
     };
 
   test.case = 'empty RegexpObject object or nothing (missed source for RegexpObject extend)';
-  var got = wRegexpObject.or( {} );
+  var got = wRegexpObject.Or();
   test.contains( got, expected0 );
 
-  test.case = 'empty RegexpObject object or by single object';
-  var got = wRegexpObject.or( dst1, src1 );
-  test.contains( got, expected1 );
+  test.case = 'empty RegexpObject object or nothing (missed source for RegexpObject extend)';
+  var got = wRegexpObject.Or( {} );
+  test.contains( got, expected0 );
 
   test.case = 'RegexpObjec with existing data or by other RegexpObject objects';
-  var got = wRegexpObject.or( dst2, src1, src2, src3 );
+  var got = wRegexpObject.Or( dst2, src1, src2, src3 );
   test.contains( got, expected2 );
+
+  test.case = 'String or by single object';
+  var got = wRegexpObject.Or( 'hello', src1 );
+  test.contains( got, expected3 );
 
   if( !Config.debug )
   return;
 
-  test.case = 'missed arguments';
-  test.shouldThrowErrorSync( function()
-  {
-    wRegexpObject.or();
-  });
+  // test.case = 'missed arguments';
+  // test.shouldThrowErrorSync( function()
+  // {
+  //   wRegexpObject.Or();
+  // });
 
-  test.case = 'result (first passed) parameter in not object';
-  test.shouldThrowErrorSync( function()
-  {
-    wRegexpObject.or( 'hello', src1 );
-  });
+  // test.case = 'result (first passed) parameter in not object';
+  // test.shouldThrowErrorSync( function()
+  // {
+  //   wRegexpObject.Or( 'hello', src1 );
+  // });
 
   test.case = 'source for RegexpObject extend has extra parameter';
   test.shouldThrowErrorSync( function()
   {
-    wRegexpObject.or( {}, wrongSrc );
+    wRegexpObject.Or( {}, wrongSrc );
   });
 
 }
@@ -677,7 +689,18 @@ function and( test )
     includeAll : dst2.includeAll.concat( src1.includeAll, src2.includeAll, src3.includeAll ),
     excludeAny : dst2.excludeAny.concat( src1.excludeAny, src2.excludeAny, src3.excludeAny ),
     excludeAll : src3.excludeAll
-  }
+  },
+  expected3 =
+  {
+    excludeAll : [ /9/, /10/, /11/ ],
+    excludeAny : [ /6/, /7/, /8/ ] ,
+    includeAll : [ /hello/, /3/, /4/, /5/ ],
+    includeAny : [ /0/, /1/, /2/ ]
+  };
+
+  test.case = 'no arguments';
+  var got = _.RegexpObject.And();
+  test.contains( got, expected0 );
 
   test.case = 'empty RegexpObject object or nothing (missed source for RegexpObject extend)';
   var got = _.RegexpObject.And( {} );
@@ -691,20 +714,25 @@ function and( test )
   var got = _.RegexpObject.And( dst2, src1, src2, src3 );
   test.contains( got, expected2 );
 
+  test.case = 'String or by by single object';
+  var got = _.RegexpObject.And( 'hello', src1 );
+  debugger
+  test.contains( got, expected3 );
+
   if( !Config.debug )
   return;
 
-  test.case = 'missed arguments';
-  test.shouldThrowErrorSync( function()
-  {
-    _.RegexpObject.And();
-  });
+  // test.case = 'missed arguments';
+  // test.shouldThrowErrorSync( function()
+  // {
+  //   _.RegexpObject.And();
+  // });
 
-  test.case = 'result (first passed) parameter in not object';
-  test.shouldThrowErrorSync( function()
-  {
-    _.RegexpObject.And( 'hello', src1 );
-  });
+  // test.case = 'result (first passed) parameter in not object';
+  // test.shouldThrowErrorSync( function()
+  // {
+  //   _.RegexpObject.And( 'hello', src1 );
+  // });
 
   test.case = 'source for RegexpObject extend has extra parameter';
   test.shouldThrowErrorSync( function()
