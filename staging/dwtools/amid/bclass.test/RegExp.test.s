@@ -541,8 +541,8 @@ function _extend( test )
   test.contains( got, expected3 );
 
   test.case = 'regexp objects extend without shrinking';
-  var got = wRegexpObject._extend( extendOpt3 );
-  var expected = wRegexpObject( expected3 );
+  var got = _.RegexpObject._extend( extendOpt3 );
+  var expected = _.RegexpObject( expected3 );
   debugger;
   test.identical( got, expected );
   debugger;
