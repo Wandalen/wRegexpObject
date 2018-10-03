@@ -189,7 +189,7 @@ function init( src, defaultMode )
       ar.push( _.regexpFrom( src[ s ] ) );
       else if( _.objectIs( src[ s ] ) )
       //_.RegexpObject.And( self,Self( src[ s ] ) );
-      _.RegexpObject.Or( self,Self( src[ s ] ) );
+      self = _.RegexpObject.Or( self,Self( src[ s ] ) );
       else throw _.err( 'unexpected' );
     }
 
