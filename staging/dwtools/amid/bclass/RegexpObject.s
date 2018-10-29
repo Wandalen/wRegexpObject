@@ -196,7 +196,7 @@ function init( src, defaultMode )
     if( ar.length )
     {
 
-      _.assert( arguments.length === 2,'expects second argument as default mode, for example "includeAny"' );
+      _.assert( arguments.length === 2,'Expects second argument as default mode, for example "includeAny"' );
       _.assert( !!self.Names[ defaultMode ], 'unknown mode :',defaultMode );
 
       if( self[ defaultMode ] && self[ defaultMode ].length )
@@ -279,8 +279,8 @@ function validate()
  * "inlcude none from includeAny" string. Else method return true;
  * @param {String} ins String for testing
  * @returns {String|boolean} If all reason match, return true, otherwise return string with fail reason
- * @throws {Error} Throw an 'expects string' error if `ins` is not string
- * @throws {Error} Throw an 'expects object' error if `src` is not object
+ * @throws {Error} Throw an 'Expects string' error if `ins` is not string
+ * @throws {Error} Throw an 'Expects object' error if `src` is not object
  * @method _test
  * @memberof wRegexpObject
 */
@@ -290,10 +290,10 @@ function _test( ins )
 {
   let src = this;
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( !_.strIs( ins ) )
-  throw _.err( 'test :','expects string as second argument',ins );
+  throw _.err( 'test :','Expects string as second argument',ins );
 
   if( src.excludeAll )
   {
@@ -357,8 +357,8 @@ function _test( ins )
    * method return false
    * @param ins String for testing
    * @returns {boolean} If all test passed return true;
-   * @throws {Error} Throw an 'expects string' error if `ins` is not string
-   * @throws {Error} Throw an 'expects object' error if `src` is not object
+   * @throws {Error} Throw an 'Expects string' error if `ins` is not string
+   * @throws {Error} Throw an 'Expects object' error if `src` is not object
    * @method test
    * @memberof wRegexpObject
      */
@@ -368,7 +368,7 @@ function test( ins )
 {
   let self = this;
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
 
   let result = self._test( ins );
 
@@ -412,8 +412,8 @@ function test( ins )
    * method return false
    * @param ins String for testing
    * @returns {boolean} If all test passed return true;
-   * @throws {Error} Throw an 'expects string' error if `ins` is not string
-   * @throws {Error} Throw an 'expects object' error if `src` is not object
+   * @throws {Error} Throw an 'Expects string' error if `ins` is not string
+   * @throws {Error} Throw an 'Expects object' error if `src` is not object
    * @method test
    * @memberof wRegexpObject
    */
@@ -906,7 +906,7 @@ function order( ordering )
 function _regexpObjectOrderingExclusion( ordering )
 {
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( !ordering || _.arrayIs( ordering ) );
 
   if( !ordering )
