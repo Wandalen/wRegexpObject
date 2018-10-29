@@ -421,7 +421,7 @@ function test( ins )
 function test_static( self,ins )
 {
 
-  _.assert( arguments.length === 2, 'expects exactly two arguments' );
+  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
   //if( _.strIs( self ) || _.regexpIs( self ) )
   self = Self( self,'includeAll' );
