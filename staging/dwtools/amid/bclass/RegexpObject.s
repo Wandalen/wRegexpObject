@@ -960,6 +960,21 @@ function isEmpty()
 
 //
 
+function compactField( it )
+{
+  let self = this;
+
+  if( it.dst === null )
+  return;
+
+  if( _.arrayIs( it.dst ) && !it.dst.length )
+  return;
+
+  return it.dst;
+}
+
+//
+
 // function toStr( o )
 // {
 //   let self = this;
@@ -1063,6 +1078,7 @@ let Extend =
   _regexpObjectOrderingExclusion : _regexpObjectOrderingExclusion,
 
   isEmpty : isEmpty,
+  compactField : compactField,
 
   // relations
 
