@@ -3,7 +3,7 @@ about :
 
   name : wRegexpObject
   description : Class which encapsulates a trivial logical combination( expression ) and regular expressions which may be applied to a string to tell does that string satisfies regular expressions as well as the logic. RegexpObject provides functionality to compose, combine several instances of the class, extend it, apply to a string and other. Use it to treat multiple conditions as a single object. Refactoring required.
-  version : 0.4.61
+  version : 0.4.62
   enabled : 1
   interpreters :
   - nodejs >= 6.0.0
@@ -22,30 +22,30 @@ path :
 
   repository : git+https://github.com/Wandalen/wRegexpObject.git
   bugs : https://github.com/Wandalen/wRegexpObject/issues
-  entry.debug : {path::out.debug}/dwtools/abase/____
-  entry.release : {path::out.release}/dwtools/abase/____
+  entry.debug : '{path::out.debug}/dwtools/abase/____'
+  entry.release : '{path::out.release}/dwtools/abase/____'
 
 build :
 
   .debug.raw.export :
     default : 1
+    filesPath : path::out.debug
+    entryPath : path::entry.debug
     setting :
       debug : 1
       raw : 1
       export : 1
-      filesPath : path::out.debug
-      entryPath : path::entry.debug
     steps :
       - build::.debug
       - step::export
 
   .release.compiled.export :
+    filesPath : path::out.release
+    entryPath : path::entry.release
     setting :
       debug : 0
       raw : 0
       export : 1
-      filesPath : path::out.release
-      entryPath : path::entry.release
     steps :
       - build::.release.compiled
       - step::export
