@@ -98,7 +98,7 @@ let Self = function wRegexpObject( o )
   if( o instanceof Self )
   return o;
   else
-  return new( _.routineJoin( Self, Self, arguments ) );
+  return new( _.constructorJoin( Self, arguments ) );
   return Self.prototype.init.apply( this,arguments );
 }
 
