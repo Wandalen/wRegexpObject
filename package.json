@@ -19,14 +19,14 @@
       "email": "iostashvxi@gmail.com"
     }
   ],
-  "main": "staging/dwtools/amid/bclass/RegexpObject.s",
+  "main": "proto/dwtools/amid/bclass/RegexpObject.s",
   "files": [
-    "staging/dwtools/amid/bclass",
+    "proto/dwtools/amid/bclass",
     "production"
   ],
   "scripts": {
     "test": "wtest staging",
-    "make_doc": "./doc.sh"
+    "docgen": "wdocgen proto"
   },
   "repository": {
     "type": "git",
