@@ -162,7 +162,7 @@ function init( src, defaultMode )
   /**/
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.objectIs( src ) || _.arrayIs( src ) || _.regexpIs( src ) || _.strIs( src ) || src === null, () => 'Unknown type of arguments ' + _.strTypeOf( src ) );
+  _.assert( _.objectIs( src ) || _.arrayIs( src ) || _.regexpIs( src ) || _.strIs( src ) || src === null, () => 'Unknown type of arguments ' + _.strType( src ) );
 
   /**/
 
@@ -257,7 +257,7 @@ function validate()
     _.assert( _.arrayIs( self[ f ] ) );
     for( let i = 0 ; i < self[ f ].length ; i++ )
     {
-      _.assert( _.regexpIs( self[ f ][ i ] ),'Regexp object expects regexps, but got',_.strTypeOf( self[ f ][ i ] ) );
+      _.assert( _.regexpIs( self[ f ][ i ] ),'Regexp object expects regexps, but got',_.strType( self[ f ][ i ] ) );
     }
   }
 
