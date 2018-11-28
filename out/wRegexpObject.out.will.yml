@@ -172,8 +172,8 @@ reflector:
       ./dwtools/amid/bclass/RegexpObject.s: true
       ./dwtools/amid/bclass.test/RegExp.test.s: true
     srcFilter:
-      basePath: ./proto
-      prefixPath: .
+      basePath: .
+      prefixPath: proto
     dstFilter:
       basePath: .
       prefixPath: .
