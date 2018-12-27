@@ -40,8 +40,7 @@
     "wTools": ""
   },
   "devDependencies": {
-    "wTesting": "",
-    "wRegexpObject": "."
+    "wTesting": ""
   },
   "keywords": [
     "base",
