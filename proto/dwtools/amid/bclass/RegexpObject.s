@@ -13,24 +13,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  if( typeof _global_ === 'undefined' || !_global_.wBase )
-  {
-    let toolsPath = '../../../dwtools/Base.s';
-    let toolsExternal = 0;
-    try
-    {
-      toolsPath = require.resolve( toolsPath );
-    }
-    catch( err )
-    {
-      toolsExternal = 1;
-      require( 'wTools' );
-    }
-    if( !toolsExternal )
-    require( toolsPath );
-  }
-
-  let _ = _global_.wTools;
+  let _ = require( '../../Tools.s' );
 
   _.include( 'wCopyable' );
 
@@ -46,7 +29,7 @@ if( typeof module !== 'undefined' )
     If passed single RegExp/String or array of RegExps/Strings, then routine will return RegexpObject with
  `defaultMode` as key, and array of RegExps created from first parameter as value.
     If passed array of RegexpObject, mixed with ordinary RegExps/Strings, the result object will be created by merging
- with shrinking (see [shrink]{@link wTools#shrink}) RegexpObjects and RegExps that associates
+ with anding (see [shrink]{@link wTools#shrink}) RegexpObjects and RegExps that associates
  with `defaultMode` key.
  *
  * @example
@@ -114,7 +97,7 @@ Self.shortName = 'RegexpObject';
       If passed single RegExp/String or array of RegExps/Strings, then method will return RegexpObject with
    `defaultMode` as key, and array of RegExps created from first parameter as value.
       If passed array of RegexpObject, mixed with ordinary RegExps/Strings, the result object will be created by merging
-   with shrinking (see [and]{@link wTools#and}) RegexpObjects and RegExps that associates
+   with anding (see [and]{@link wTools#and}) RegexpObjects and RegExps that associates
    with `defaultMode` key.
    *
    * @example
@@ -188,16 +171,16 @@ function init( src, defaultMode )
       if( _.regexpIs( src[ s ] ) || _.strIs( src[ s ] ) )
       ar.push( _.regexpFrom( src[ s ] ) );
       else if( _.objectIs( src[ s ] ) )
-      //_.RegexpObject.And( self,Self( src[ s ] ) );
       self = _.RegexpObject.Or( self,Self( src[ s ] ) );
-      else throw _.err( 'unexpected' );
+      else _.assert( 0, 'Unexpected' );
     }
 
     if( ar.length )
     {
 
-      _.assert( arguments.length === 2,'Expects second argument as default mode, for example "includeAny"' );
-      _.assert( !!self.Names[ defaultMode ], 'unknown mode :',defaultMode );
+      defaultMode = defaultMode || 'includeAny';
+      _.assert( arguments.length <= 2, 'Expects second argument as default mode, for example "includeAny"' );
+      _.assert( !!self.Names[ defaultMode ], 'Unknown mode :', defaultMode );
 
       if( self[ defaultMode ] && self[ defaultMode ].length )
       {
@@ -514,7 +497,7 @@ function And( dst )
   ({
     dst : null,
     srcs : _.longSlice( arguments,0 ),
-    shrinking : 1,
+    anding : 1,
   });
 
   return result;
@@ -573,7 +556,7 @@ function Or( dst )
   ({
     dst : null,
     srcs : _.longSlice( arguments,0 ),
-    shrinking : 0,
+    anding : 0,
   });
 
   return result;
@@ -589,7 +572,7 @@ function and()
   ({
     dst : self,
     srcs : arguments,
-    shrinking : 1,
+    anding : 1,
   });
 
   return self;
@@ -605,7 +588,7 @@ function or()
   ({
     dst : self,
     srcs : arguments,
-    shrinking : 0,
+    anding : 0,
   });
 
   debugger;
@@ -619,20 +602,20 @@ function or()
 /**
  * Merge several RegexpObjects extending one by others.
     Order of extending make difference because joining of some parameters without lose is not possible.
-    o.shrinking gives a hint in what direction the lost should be made.
+    o.anding gives a hint in what direction the lost should be made.
 
  * @param {object} o - options of merging.
  * @param {RegexpObject} options.dst
     RegexpObject to merge in.
  * @param {RegexpObject} options.srcs -
     RegexpObjects to merge from.
- * @param {Boolean} options.shrinking -
+ * @param {Boolean} options.anding -
     Shrinking or broadening mode.
     Joining of some parameters without lose is not possible.
     This parameter gives a hint in what direction the lost should be made.
  * @returns {RegexpObject}
     merged RegexpObject.
- * @throws {Error} If in options missed any of 'dst', 'srcs' or 'shrinking' properties
+ * @throws {Error} If in options missed any of 'dst', 'srcs' or 'anding' properties
  * @throws {Error} If options.dst is not object
  * @throws {Error} If options.srcs is not longIs object
  * @throws {Error} If options.srcs element is not RegexpObject object
@@ -668,23 +651,21 @@ function _extend( o )
     }
     else if( !_.objectIs( src ) )
     {
-      src = Self( src, o.shrinking ? 'includeAll' : 'includeAny' );
-      // debugger;
-      // throw _.err( 'regexpObjectExtend :','argument must be regexp object',src );
+      src = Self( src, o.anding ? 'includeAll' : 'includeAny' );
     }
 
     _.assertMapOwnOnly( src, Names );
 
-    let toExtend = o.shrinking ? RegexpModeNamesToExtendMap : Names;
+    let toExtend = o.anding ? RegexpModeNamesToExtendMap : Names;
 
     for( let n in toExtend )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
     {
-      result[ n ] = _.arrayFlatten( result[ n ], [ src[ n ] ] );
+      result[ n ] = _.arrayFlattenOnce( result[ n ], [ src[ n ] ], _.regexpsAreIdentical );
     }
 
-    if( o.shrinking )
+    if( o.anding )
     for( let n in RegexpModeNamesToReplaceMap )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
@@ -720,7 +701,7 @@ _extend.defaults =
 {
   dst : null,
   srcs : null,
-  shrinking : true,
+  anding : true,
 }
 
 //
@@ -1114,9 +1095,9 @@ _.Copyable.mixin( Self );
 
 _global_[ Self.name ] = _[ Self.shortName ] = Self;
 
-if( typeof module !== 'undefined' )
-if( _global_.WTOOLS_PRIVATE )
-{ /* delete require.cache[ module.id ]; */ }
+// if( typeof module !== 'undefined' )
+// if( _global_.WTOOLS_PRIVATE )
+// { /* delete require.cache[ module.id ]; */ }
 
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;

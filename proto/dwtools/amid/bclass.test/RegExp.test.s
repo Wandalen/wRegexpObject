@@ -5,24 +5,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  if( typeof _global_ === 'undefined' || !_global_.wBase )
-  {
-    let toolsPath = '../../../dwtools/Base.s';
-    let toolsExternal = 0;
-    try
-    {
-      toolsPath = require.resolve( toolsPath );
-    }
-    catch( err )
-    {
-      toolsExternal = 1;
-      require( 'wTools' );
-    }
-    if( !toolsExternal )
-    require( toolsPath );
-  }
-
-  var _ = _global_.wTools;
+  let _ = require( '../../Tools.s' );
 
   _.include( 'wTesting' );
 
@@ -483,19 +466,19 @@ function _extend( test )
     {
       dst : dst1,
       srcs : src1,
-      shrinking : true
+      anding : true
     },
     extendOpt2 =
     {
       dst : dst2,
       srcs : src2,
-      shrinking : true
+      anding : true
     },
     extendOpt3 =
     {
       dst : dst3,
       srcs : src2,
-      shrinking : false
+      anding : false
     },
 
     wrongOpt1 =
@@ -507,40 +490,40 @@ function _extend( test )
     {
       dst : null,
       srcs : src1,
-      shrinking : false
+      anding : false
     },
     wrongOpt3 =
     {
       dst : dst3,
       srcs : wrongSrc1,
-      shrinking : false
+      anding : false
     },
     wrongOpt4 =
     {
       dst : {},
       srcs : wrongSrc2,
-      shrinking : false
+      anding : false
     },
     wrongOpt5 =
     {
       dst : {},
       srcs : wrongSrc3,
-      shrinking : false
+      anding : false
     };
 
-  test.case = 'simple regexp objects extend with shrinking';
+  test.case = 'simple regexp objects extend with anding';
   var got = wRegexpObject._extend( extendOpt1 );
   test.contains( got, expected1 );
 
-  test.case = 'regexp objects extend with shrinking';
+  test.case = 'regexp objects extend with anding';
   var got = wRegexpObject._extend( extendOpt2 );
   test.contains( got, expected2 );
 
-  test.case = 'regexp objects extend without shrinking';
+  test.case = 'regexp objects extend without anding';
   var got = wRegexpObject._extend( extendOpt3 );
   test.contains( got, expected3 );
 
-  test.case = 'regexp objects extend without shrinking';
+  test.case = 'regexp objects extend without anding';
   var got = _.RegexpObject._extend( extendOpt3 );
   var expected = _.RegexpObject( expected3 );
   debugger;
