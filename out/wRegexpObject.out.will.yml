@@ -58,9 +58,7 @@ path:
       - ./dwtools/Tools.s
       - ./dwtools/abase
       - ./dwtools/amid
-      - ./dwtools/amid/.DS_Store
       - ./dwtools/amid/bclass
-      - ./dwtools/amid/bclass/.DS_Store
       - ./dwtools/amid/bclass/RegexpObject.s
       - ./dwtools/amid/bclass.test
       - ./dwtools/amid/bclass.test/RegExp.test.s
@@ -76,8 +74,6 @@ path:
   exportedTerminals.0:
     path:
       - ./dwtools/Tools.s
-      - ./dwtools/amid/.DS_Store
-      - ./dwtools/amid/bclass/.DS_Store
       - ./dwtools/amid/bclass/RegexpObject.s
       - ./dwtools/amid/bclass.test/RegExp.test.s
     criterion:
@@ -163,8 +159,6 @@ reflector:
     recursive: 0
     filePath:
       ./dwtools/Tools.s: true
-      ./dwtools/amid/.DS_Store: true
-      ./dwtools/amid/bclass/.DS_Store: true
       ./dwtools/amid/bclass/RegexpObject.s: true
       ./dwtools/amid/bclass.test/RegExp.test.s: true
     srcFilter:
@@ -291,8 +285,6 @@ exported:
     exportedTerminalsPath:
       path:
         - ./dwtools/Tools.s
-        - ./dwtools/amid/.DS_Store
-        - ./dwtools/amid/bclass/.DS_Store
         - ./dwtools/amid/bclass/RegexpObject.s
         - ./dwtools/amid/bclass.test/RegExp.test.s
       criterion:
