@@ -56,11 +56,13 @@ path:
       - .
       - ./dwtools
       - ./dwtools/Tools.s
+      - ./dwtools/abase
       - ./dwtools/amid
       - ./dwtools/amid/bclass
       - ./dwtools/amid/bclass/RegexpObject.s
       - ./dwtools/amid/bclass.test
       - ./dwtools/amid/bclass.test/RegExp.test.s
+      - ./dwtools/atop
     criterion:
       default: 1
       debug: 1
