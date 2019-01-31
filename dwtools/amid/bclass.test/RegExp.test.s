@@ -86,7 +86,7 @@ function regexpEscape( test )
 
 //
 
-function regexpMakeArray( test )
+function regexpArrayMake( test )
 {
   var arrOfStr = [ 'hello', 'world' ],
     singleStr = 'hello',
@@ -103,23 +103,23 @@ function regexpMakeArray( test )
   }
 
   test.case = 'argument is array of string';
-  var got = _.regexpMakeArray( arrOfStr );
+  var got = _.regexpArrayMake( arrOfStr );
   test.identical( got.map( getSource ), expectedArr1.map( getSource ) );
 
   test.case = 'argument is array of regexp';
-  var got = _.regexpMakeArray( ArrOfRegx1 );
+  var got = _.regexpArrayMake( ArrOfRegx1 );
   test.identical( got, ArrOfRegx1 );
 
   test.case = 'argument is single string';
-  var got = _.regexpMakeArray( singleStr );
+  var got = _.regexpArrayMake( singleStr );
   test.identical( got.map( getSource ), expectedArr2.map( getSource ) );
 
   test.case = 'argument is single regexp';
-  var got = _.regexpMakeArray( singleReg );
+  var got = _.regexpArrayMake( singleReg );
   test.identical( got, expectedArr3 );
 
   test.case = 'argument is empty arr';
-  var got = _.regexpMakeArray( [] );
+  var got = _.regexpArrayMake( [] );
   test.identical( got, [] );
 
   if( !Config.debug )
@@ -128,19 +128,19 @@ function regexpMakeArray( test )
   test.case = 'call without arguments';
   test.shouldThrowErrorSync( function()
   {
-    _.regexpMakeArray();
+    _.regexpArrayMake();
   });
 
   test.case = 'call with wrong type argument';
   test.shouldThrowErrorSync( function()
   {
-    _.regexpMakeArray( wrongParam1 );
+    _.regexpArrayMake( wrongParam1 );
   });
 
   test.case = 'call with wrong type argument';
   test.shouldThrowErrorSync( function()
   {
-    _.regexpMakeArray( wrongParam2 );
+    _.regexpArrayMake( wrongParam2 );
   });
 
 };
@@ -594,10 +594,10 @@ function or( test )
     expected1 = src1,
     expected2 =
     {
-      includeAny : dst2.includeAny.concat( src1.includeAny, src2.includeAny, src3.includeAny ),
-      includeAll : dst2.includeAll.concat( src1.includeAll, src2.includeAll, src3.includeAll ),
-      excludeAny : dst2.excludeAny.concat( src1.excludeAny, src2.excludeAny, src3.excludeAny ),
-      excludeAll : dst2.excludeAll.concat( src1.excludeAll, src2.excludeAll, src3.excludeAll )
+      includeAny :  [ /a0/, /a1/, /a2/, /0/, /1/, /2/, /12/, /13/, /14/ ],
+      includeAll :  [ /b0/, /c1/, /c2/, /3/, /4/, /5/, /14/, /16/, /17/ ],
+      excludeAny :  [ /c0/, /c1/, /c2/, /6/, /7/, /8/, /18/, /19/, /20/ ],
+      excludeAll :  [ /d0/, /d1/, /d2/, /9/, /10/, /11/, /21/, /22/, /23/ ]
     },
     expected3 =
     {
@@ -669,8 +669,8 @@ function and( test )
   var expected2 =
   {
     includeAny : src3.includeAny,
-    includeAll : dst2.includeAll.concat( src1.includeAll, src2.includeAll, src3.includeAll ),
-    excludeAny : dst2.excludeAny.concat( src1.excludeAny, src2.excludeAny, src3.excludeAny ),
+    includeAll : [ /b0/, /c1/, /c2/, /3/, /4/, /5/, /14/, /16/, /17/ ],
+    excludeAny : [ /c0/, /c1/, /c2/, /6/, /7/, /8/, /18/, /19/, /20/ ],
     excludeAll : src3.excludeAll
   },
   expected3 =
@@ -737,7 +737,7 @@ var Self =
   {
 
     regexpEscape        : regexpEscape,
-    regexpMakeArray     : regexpMakeArray,
+    regexpArrayMake     : regexpArrayMake,
     regexpFrom : regexpFrom,
     regexpArrayAny          : regexpArrayAny,
     regexpArrayAll          : regexpArrayAll,
