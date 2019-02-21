@@ -8,7 +8,7 @@ about:
     provides functionality to compose, combine several instances of the class,
     extend it, apply to a string and other. Use it to treat multiple conditions
     as a single object. Refactoring required.
-  version: 0.4.91
+  version: 0.4.92
   enabled: 1
   interpreters:
     - nodejs >= 6.0.0
@@ -287,7 +287,7 @@ build:
       - 'step::export.proto'
 exported:
   proto.export:
-    version: 0.4.91
+    version: 0.4.92
     criterion:
       default: 1
       debug: 1
