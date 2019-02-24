@@ -663,7 +663,7 @@ function _extend( o )
     if( src[ n ] )
     if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
     {
-      result[ n ] = _.arrayFlattenOnce( result[ n ], [ src[ n ] ], _.regexpsAreIdentical );
+      result[ n ] = _.arrayFlattenOnce( result[ n ], [ src[ n ] ], _.regexpIdentical );
     }
 
     if( o.anding )
