@@ -457,42 +457,8 @@ function test_static( self,ins )
    * @memberof wRegexpObject
    */
 
-// function And( dst )
-// {
-//
-//   if( !( dst instanceof Self ) && dst !== null )
-//   dst = _.RegexpObject( dst, 'includeAny' )
-//
-//   for( let a = 1 ; a < arguments.length ; a++ )
-//   {
-//     let src = arguments[ a ];
-//     if( dst === null )
-//     {
-//       if( src === null || src === undefined )
-//       continue;
-//       else if( src instanceof Self )
-//       dst = src.clone();
-//       else
-//       dst = new Self( src );
-//     }
-//     else
-//     {
-//       if( src !== null && src !== undefined )
-//       dst.and( src );
-//     }
-//   }
-//
-//   if( dst === null )
-//   dst = new Self( null, 'includeAny' );
-//
-//   return dst;
-// }
-
 function And( dst )
 {
-
-  // dst = dst instanceof Self ? dst : null;
-  // let srcs = dst === null ? _.longSlice( arguments,0 ) : _.longSlice( arguments,1 );
 
   let result = this._extend
   ({
@@ -549,9 +515,6 @@ function And( dst )
 
 function Or( dst )
 {
-
-  // dst = dst instanceof Self ? dst : null;
-  // let srcs = dst === null ? _.longSlice( arguments,0 ) : _.longSlice( arguments,1 );
 
   let result = this._extend
   ({
