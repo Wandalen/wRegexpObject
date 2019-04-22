@@ -23,45 +23,9 @@ if( typeof module !== 'undefined' )
 //
 
 /**
- * Make RegexpObject from different type sources.
-    If passed RegexpObject or map with properties similar to RegexpObject but with string in values, then the second
- parameter is not required;
-    All strings in sources will be turned into RegExps.
-    If passed single RegExp/String or array of RegExps/Strings, then routine will return RegexpObject with
- `defaultMode` as key, and array of RegExps created from first parameter as value.
-    If passed array of RegexpObject, mixed with ordinary RegExps/Strings, the result object will be created by merging
- with anding (see [shrink]{@link wTools#shrink}) RegexpObjects and RegExps that associates
- with `defaultMode` key.
- *
- * @example
-   let src = [
-       /hello/,
-       'world',
-       {
-          includeAny : ['yellow', 'blue', 'red'],
-          includeAll : [/red/, /green/, /brown/],
-          excludeAny : [/yellow/, /white/, /grey/],
-          excludeAll : [/red/, /green/, /blue/]
-       }
-   ];
-   wTools.regexpMakeObject(src, 'excludeAll');
-
-   // {
-   //    includeAny: [/yellow/, /blue/, /red/],
-   //    includeAll: [/red/, /green/, /brown/],
-   //    excludeAny: [/yellow/, /white/, /grey/],
-   //    excludeAll: [/hello/, /world/]
-   // }
- * @param {RegexpObject|String|RegExp|RegexpObject[]|String[]|RegExp[]} src Source for making RegexpObject
- * @param {String} [defaultMode] key for result RegexpObject map. Can be one of next strings: 'includeAny',
- 'includeAll','excludeAny' or 'excludeAll'.
- * @returns {RegexpObject} Result RegexpObject
- * @throws {Error} Missing arguments if call without argument
- * @throws {Error} Missing arguments if passed array without `defaultMode`
- * @throws {Error} Unknown mode `defaultMode`
- * @throws {Error} Unknown src if first argument is not array, map, string or regexp.
- * @throws {Error} Unexpected if type of array element is not string regexp or RegexpObject.
- * @throws {Error} Unknown regexp filters if passed map has unexpected properties (see RegexpObject).
+ * @classdesc Class which encapsulates a trivial logical combination( expression ) and regular expressions which may be applied to a string to tell does that string satisfies regular expressions as well as the logic.
+ * @class wRegexpObject
+ * @memberof module:Tools/mid/RegexpObject
  */
 
 /**
@@ -71,7 +35,7 @@ if( typeof module !== 'undefined' )
  * @property {RegExp[]} includeAll - Array of RegExps, to check matching all of them;
  * @property {RegExp[]} excludeAny - Array of RegExps, to check mismatch any of them;
  * @property {RegExp[]} excludeAll - Array of RegExps, to check mismatch all of them;
- * @memberof wRegexpObject
+ * @memberof module:Tools/mid/RegexpObject
  */
 
 let _ = _global_.wTools;
@@ -90,49 +54,50 @@ Self.shortName = 'RegexpObject';
 
 //
 
-  /**
-   * Make RegexpObject from different type sources.
-      If passed RegexpObject or map with properties similar to RegexpObject but with string in values, then the second
-   parameter is not required;
-      All strings in sources will be turned into RegExps.
-      If passed single RegExp/String or array of RegExps/Strings, then method will return RegexpObject with
-   `defaultMode` as key, and array of RegExps created from first parameter as value.
-      If passed array of RegexpObject, mixed with ordinary RegExps/Strings, the result object will be created by merging
-   with anding (see [and]{@link wTools#and}) RegexpObjects and RegExps that associates
-   with `defaultMode` key.
-   *
-   * @example
-     let src = [
-         /hello/,
-         'world',
-         {
-            includeAny : [ 'yellow', 'blue', 'red' ],
-            includeAll : [ /red/, /green/, /brown/ ],
-            excludeAny : [ /yellow/, /white/, /grey/ ],
-            excludeAll : [ /red/, /green/, /blue/ ]
-         }
-     ];
-     _.wRegexpObject( src, 'excludeAll' );
+/**
+* @summary Make RegexpObject from different type sources.
+* @description
+* All strings in sources will be turned into RegExps.
+* * If passed RegexpObject or map with properties similar to RegexpObject but with string in values, then the second
+* parameter is not required;
+* * If passed single RegExp/String or array of RegExps/Strings, then method will return RegexpObject with
+* `defaultMode` as key, and array of RegExps created from first parameter as value.
+* * If passed array of RegexpObject, mixed with ordinary RegExps/Strings, the result object will be created by merging
+* with anding (see [and]{@link wTools#and}) RegexpObjects and RegExps that associates
+* with `defaultMode` key.
+*
+* @example
+ let src = [
+     /hello/,
+     'world',
+     {
+       includeAny : [ 'yellow', 'blue', 'red' ],
+       includeAll : [ /red/, /green/, /brown/ ],
+       excludeAny : [ /yellow/, /white/, /grey/ ],
+       excludeAll : [ /red/, /green/, /blue/ ]
+     }
+ ];
+ _.wRegexpObject( src, 'excludeAll' );
 
-     // {
-     //    includeAny: [ /yellow/, /blue/, /red/ ],
-     //    includeAll: [ /red/, /green/, /brown/ ],
-     //    excludeAny: [ /yellow/, /white/, /grey/ ],
-     //    excludeAll: [ /hello/, /world/ ]
-     // }
-   * @param {RegexpObject|String|RegExp|RegexpObject[]|String[]|RegExp[]} src Source for making RegexpObject
-   * @param {String} [defaultMode] key for result RegexpObject map. Can be one of next strings: 'includeAny',
-   'includeAll','excludeAny' or 'excludeAll'.
-   * @returns {RegexpObject} Result RegexpObject
-   * @throws {Error} Missing arguments if call without argument
-   * @throws {Error} Missing arguments if passed array without `defaultMode`
-   * @throws {Error} Unknown mode `defaultMode`
-   * @throws {Error} Unknown src if first argument is not array, map, string or regexp.
-   * @throws {Error} Unexpected if type of array element is not string regexp or RegexpObject.
-   * @throws {Error} Unknown regexp filters if passed map has unexpected properties (see RegexpObject).
-   * @method init
-   * @memberof wRegexpObject
-   */
+ // {
+ //    includeAny: [ /yellow/, /blue/, /red/ ],
+ //    includeAll: [ /red/, /green/, /brown/ ],
+ //    excludeAny: [ /yellow/, /white/, /grey/ ],
+ //    excludeAll: [ /hello/, /world/ ]
+ // }
+* @param {RegexpObject|String|RegExp|RegexpObject[]|String[]|RegExp[]} src Source for making RegexpObject
+* @param {String} [defaultMode] Key for result RegexpObject map. Can be one of next strings: 'includeAny',
+'includeAll','excludeAny' or 'excludeAll'.
+* @returns {RegexpObject} Result RegexpObject
+* @throws {Error} Missing arguments if call without argument
+* @throws {Error} Missing arguments if passed array without `defaultMode`
+* @throws {Error} Unknown mode `defaultMode`
+* @throws {Error} Unknown src if first argument is not array, map, string or regexp.
+* @throws {Error} Unexpected if type of array element is not string regexp or RegexpObject.
+* @throws {Error} Unknown regexp filters if passed map has unexpected properties (see RegexpObject).
+* @routine init
+* @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+*/
 
 function init( src, defaultMode )
 {
@@ -266,7 +231,7 @@ function validate()
  * @throws {Error} Throw an 'Expects string' error if `ins` is not string
  * @throws {Error} Throw an 'Expects object' error if `src` is not object
  * @method _test
- * @memberof wRegexpObject
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
 */
 
 //function _test( src,ins )
@@ -312,40 +277,40 @@ function _test( ins )
 
 //
 
-  /**
-   * Function for testing `ins` string for different regexps combination. If all condition passed in `src` object are
-   * met method return true
-   *
-   * @example
-   * let str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
-   *     regArr1 = [/red/, /green/, /blue/],
-   *     regArr2 = [/yellow/, /blue/, /red/],
-   *     regArr3 = [/yellow/, /white/, /greey/],
-   *     options = {
-   *        includeAny : regArr2,
-   *        includeAll : regArr1,
-   *        excludeAny : regArr3,
-   *        excludeAll : regArr2
-   *     };
-   *
-   * wTools.test( options, str ); // true
-   * @param {Object} src Map object in wich keys are strings each of them mean different condition for test, and values
-   * are the arrays of regexps;
-   * @param {Regexp[]} [src.excludeAll] Array with regexps for testing. If all of the regexps match at `ins` method
-   * return false
-   * @param {Regexp[]} [src.excludeAny] Array with regexps for testing. If any of them match `ins` string` method return
-   * false
-   * @param {Regexp[]} [src.includeAll] Array with regexps for testing. If any of them don't match `ins` string method
-   * return false
-   * @param {Regexp[]} [src.includeAny] Array with regexps for testing. If no one of regexps don't match `ins` string
-   * method return false
-   * @param ins String for testing
-   * @returns {boolean} If all test passed return true;
-   * @throws {Error} Throw an 'Expects string' error if `ins` is not string
-   * @throws {Error} Throw an 'Expects object' error if `src` is not object
-   * @method test
-   * @memberof wRegexpObject
-     */
+/**
+ * Function for testing `ins` string for different regexps combination. If all condition passed in `src` object are
+ * met method return true
+ *
+ * @example
+ * let str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
+ *     regArr1 = [/red/, /green/, /blue/],
+ *     regArr2 = [/yellow/, /blue/, /red/],
+ *     regArr3 = [/yellow/, /white/, /greey/],
+ *     options = {
+ *        includeAny : regArr2,
+ *        includeAll : regArr1,
+ *        excludeAny : regArr3,
+ *        excludeAll : regArr2
+ *     };
+ *
+ * wTools.test( options, str ); // true
+ * @param {Object} src Map object in wich keys are strings each of them mean different condition for test, and values
+ * are the arrays of regexps;
+ * @param {Regexp[]} [src.excludeAll] Array with regexps for testing. If all of the regexps match at `ins` method
+ * return false
+ * @param {Regexp[]} [src.excludeAny] Array with regexps for testing. If any of them match `ins` string` method return
+ * false
+ * @param {Regexp[]} [src.includeAll] Array with regexps for testing. If any of them don't match `ins` string method
+ * return false
+ * @param {Regexp[]} [src.includeAny] Array with regexps for testing. If no one of regexps don't match `ins` string
+ * method return false
+ * @param ins String for testing
+ * @returns {boolean} If all test passed return true;
+ * @throws {Error} Throw an 'Expects string' error if `ins` is not string
+ * @throws {Error} Throw an 'Expects object' error if `src` is not object
+ * @method test
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+*/
 
 //function test( src,ins )
 function test( ins )
@@ -367,40 +332,40 @@ function test( ins )
 
 //
 
-  /**
-   * Function for testing `ins` string for different regexps combination. If all condition passed in `src` object are
-   * met method return true
-   *
-   * @example
-   * let str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
-   *     regArr1 = [/red/, /green/, /blue/],
-   *     regArr2 = [/yellow/, /blue/, /red/],
-   *     regArr3 = [/yellow/, /white/, /greey/],
-   *     options = {
-   *        includeAny : regArr2,
-   *        includeAll : regArr1,
-   *        excludeAny : regArr3,
-   *        excludeAll : regArr2
-   *     };
-   *
-   * wTools.test( options, str ); // true
-   * @param {Object} src Map object in wich keys are strings each of them mean different condition for test, and values
-   * are the arrays of regexps;
-   * @param {Regexp[]} [src.excludeAll] Array with regexps for testing. If all of the regexps match at `ins` method
-   * return false
-   * @param {Regexp[]} [src.excludeAny] Array with regexps for testing. If any of them match `ins` string` method return
-   * false
-   * @param {Regexp[]} [src.includeAll] Array with regexps for testing. If any of them don't match `ins` string method
-   * return false
-   * @param {Regexp[]} [src.includeAny] Array with regexps for testing. If no one of regexps don't match `ins` string
-   * method return false
-   * @param ins String for testing
-   * @returns {boolean} If all test passed return true;
-   * @throws {Error} Throw an 'Expects string' error if `ins` is not string
-   * @throws {Error} Throw an 'Expects object' error if `src` is not object
-   * @method test
-   * @memberof wRegexpObject
-   */
+/**
+ * @summary Function for testing `ins` string for different regexps combination. If all condition passed in `src` object are
+ * met method return true
+ *
+ * @example
+ * let str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
+ *     regArr1 = [/red/, /green/, /blue/],
+ *     regArr2 = [/yellow/, /blue/, /red/],
+ *     regArr3 = [/yellow/, /white/, /greey/],
+ *     options = {
+ *        includeAny : regArr2,
+ *        includeAll : regArr1,
+ *        excludeAny : regArr3,
+ *        excludeAll : regArr2
+ *     };
+ *
+ * wTools.test( options, str ); // true
+ * @param {Object} src Map object in wich keys are strings each of them mean different condition for test, and values
+ * are the arrays of regexps;
+ * @param {Regexp[]} [src.excludeAll] Array with regexps for testing. If all of the regexps match at `ins` method
+ * return false
+ * @param {Regexp[]} [src.excludeAny] Array with regexps for testing. If any of them match `ins` string` method return
+ * false
+ * @param {Regexp[]} [src.includeAll] Array with regexps for testing. If any of them don't match `ins` string method
+ * return false
+ * @param {Regexp[]} [src.includeAny] Array with regexps for testing. If no one of regexps don't match `ins` string
+ * method return false
+ * @param ins String for testing
+ * @returns {boolean} If all test passed return true;
+ * @throws {Error} Throw an 'Expects string' error if `ins` is not string
+ * @throws {Error} Throw an 'Expects object' error if `src` is not object
+ * @function test
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject.
+*/
 
 function test_static( self,ins )
 {
@@ -415,47 +380,48 @@ function test_static( self,ins )
 
 //
 
-  /**
-   * Extends `result` of RegexpObjects by merging other RegexpObjects.
-   * The properties such as includeAll, excludeAny are complemented from appropriate properties in source  objects
-     by merging all of them;
-   * Properties includeAny and excludeAll are always replaced by appropriate properties from sources without merging,
-   *
-   * @example
-   * let dest = {
-   *     includeAny : [/yellow/, /blue/],
-   *     includeAll : [/red/],
-   *     excludeAny : [/yellow/],
-   *     excludeAll : [/red/]
-   * },
-   *
-   * src1 = {
-   *     includeAll : [/green/],
-   *     excludeAny : [/white/],
-   *     excludeAll : [/green/, /blue/]
-   * },
-   * src2 = {
-   *     includeAny : [/red/],
-   *     includeAll : [/brown/],
-   *     excludeAny : [/greey/],
-   * }
-   *
-   * RegexpObject.And( dest, src1, src2 );
-   *
-   * //{
-   * //    includeAny : [/red/],
-   * //    includeAll : [/red/, /green/, /brown/],
-   * //    excludeAny : [/yellow/, /white/, /greey/],
-   * //    excludeAll : [/green/, /blue/]
-   * //};
-   * @param {RegexpObject} result RegexpObject to merge in.
-   * @param {...RegexpObject} [src] RegexpObjects to merge from.
-   * @returns {RegexpObject} Reference to `result` parameter;
-   * @throws {Error} If missed arguments
-   * @throws {Error} If arguments are not RegexpObject
-   * @method And
-   * @memberof wRegexpObject
-   */
+/**
+ * @summary Extends `result` of RegexpObjects by merging other RegexpObjects.
+ * @description
+ * The properties such as includeAll, excludeAny are complemented from appropriate properties in source  objects
+ *  by merging all of them;
+ * Properties includeAny and excludeAll are always replaced by appropriate properties from sources without merging,
+ *
+ * @example
+ * let dest = {
+ *     includeAny : [/yellow/, /blue/],
+ *     includeAll : [/red/],
+ *     excludeAny : [/yellow/],
+ *     excludeAll : [/red/]
+ * },
+ *
+ * src1 = {
+ *     includeAll : [/green/],
+ *     excludeAny : [/white/],
+ *     excludeAll : [/green/, /blue/]
+ * },
+ * src2 = {
+ *     includeAny : [/red/],
+ *     includeAll : [/brown/],
+ *     excludeAny : [/greey/],
+ * }
+ *
+ * RegexpObject.And( dest, src1, src2 );
+ *
+ * //{
+ * //    includeAny : [/red/],
+ * //    includeAll : [/red/, /green/, /brown/],
+ * //    excludeAny : [/yellow/, /white/, /greey/],
+ * //    excludeAll : [/green/, /blue/]
+ * //};
+ * @param {RegexpObject} result RegexpObject to merge in.
+ * @param {...RegexpObject} [src] RegexpObjects to merge from.
+ * @returns {RegexpObject} Reference to `result` parameter;
+ * @throws {Error} If missed arguments
+ * @throws {Error} If arguments are not RegexpObject
+ * @function And
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject.
+*/
 
 function And( dst )
 {
@@ -473,8 +439,8 @@ function And( dst )
 //
 
 /**
- * Extends `result` of RegexpObjects by merging other RegexpObjects.
- * Appropriate properties such as includeAny, includeAll, excludeAny and excludeAll are complemented from appropriate
+ * @summary Extends `result` of RegexpObjects by merging other RegexpObjects.
+ * @description Appropriate properties such as includeAny, includeAll, excludeAny and excludeAll are complemented from appropriate
  * properties in source objects by merging;
  *
  * @example
@@ -509,8 +475,8 @@ function And( dst )
  * @returns {RegexpObject} Reference to `result` parameter;
  * @throws {Error} If missed arguments
  * @throws {Error} If arguments are not RegexpObject
- * @method Or
- * @memberof wRegexpObject
+ * @function Or
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject.
  */
 
 function Or( dst )
@@ -564,27 +530,22 @@ function or()
 //
 
 /**
- * Merge several RegexpObjects extending one by others.
-    Order of extending make difference because joining of some parameters without lose is not possible.
-    o.anding gives a hint in what direction the lost should be made.
-
+ * @summary Merge several RegexpObjects extending one by others.
+ * @description Order of extending make difference because joining of some parameters without lose is not possible.
+ * o.anding gives a hint in what direction the lost should be made.
  * @param {object} o - options of merging.
- * @param {RegexpObject} options.dst
-    RegexpObject to merge in.
- * @param {RegexpObject} options.srcs -
-    RegexpObjects to merge from.
- * @param {Boolean} options.anding -
-    Shrinking or broadening mode.
-    Joining of some parameters without lose is not possible.
-    This parameter gives a hint in what direction the lost should be made.
- * @returns {RegexpObject}
-    merged RegexpObject.
+ * @param {RegexpObject} options.dst RegexpObject to merge in.
+ * @param {RegexpObject} options.srcs RegexpObjects to merge from.
+ * @param {Boolean} options.anding Shrinking or broadening mode.
+  Joining of some parameters without lose is not possible.
+  This parameter gives a hint in what direction the lost should be made.
+ * @returns {RegexpObject} Returns merged RegexpObject.
  * @throws {Error} If in options missed any of 'dst', 'srcs' or 'anding' properties
  * @throws {Error} If options.dst is not object
  * @throws {Error} If options.srcs is not longIs object
  * @throws {Error} If options.srcs element is not RegexpObject object
  * @method _extend
- * @memberof wRegexpObject
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
  */
 
 function _extend( o )
@@ -671,36 +632,39 @@ _extend.defaults =
 //
 
 /**
+ * @description
  * Create RegexpObject, that represents the subtraction for match`s/mismatched with the input RegexpObject object
- e.g. if { includeAll: [ /red/, /green/, /blue/ ] } represents subset of all strings that contains each 'red', 'green'
- and 'blue' words, then result of but() - { excludeAll: [ /red/, /green/, /blue/ ]} will represent the
- subset of all strings that does not contains at least one of those worlds.
+ * e.g. if { includeAll: [ /red/, /green/, /blue/ ] } represents subset of all strings that contains each 'red', 'green'
+ * and 'blue' words, then result of but() - { excludeAll: [ /red/, /green/, /blue/ ]} will represent the
+ * subset of all strings that does not contains at least one of those worlds.
  *
  * @example
-   let options = {
-         includeAny : [/yellow/, /blue/, /red/],
-         includeAll : [/red/, /green/, /blue/],
-         excludeAny : [/yellow/, /white/, /grey/],
-         excludeAll : [/black/, /brown/, /pink/]
-     };
-
-   wTools.but(options);
-
-    // {
-    //   "includeAny":[/yellow/, /white/, /grey/],
-    //   "excludeAny":[/yellow/, /blue/, /red/],
-    //   "excludeAll":[/red/, /green/, /blue/],
-    //   "includeAll":[/black/, /brown/, /pink/]
-    // }
+ * let options =
+ * {
+ *       includeAny : [/yellow/, /blue/, /red/],
+ *       includeAll : [/red/, /green/, /blue/],
+ *       excludeAny : [/yellow/, /white/, /grey/],
+ *       excludeAll : [/black/, /brown/, /pink/]
+ * };
+ *
+ * wTools.but(options);
+ *
+ * // {
+ * //   "includeAny":[/yellow/, /white/, /grey/],
+ * //   "excludeAny":[/yellow/, /blue/, /red/],
+ * //   "excludeAll":[/red/, /green/, /blue/],
+ * //   "includeAll":[/black/, /brown/, /pink/]
+ * // }
+ *
  * @param {...RegexpObject|...String|...RegExp} [src] Input RegexpObject map/maps. If passed primitive values, they will
- be interpreted as value for `includeAny` property of RegexpObject. If objects more than one, their includeAny and
- excludeAny properties will be merged. Notice: if objects more than one and every has includeAll/excludeAll arrays
- with more than one elements, method will throw error.
+ * be interpreted as value for `includeAny` property of RegexpObject. If objects more than one, their includeAny and
+ * excludeAny properties will be merged. Notice: if objects more than one and every has includeAll/excludeAll arrays
+ * with more than one elements, method will throw error.
  * @returns {RegexpObject} Result RegexpObject map.
  * @throws {Error} If objects more than one and every has includeAll/excludeAll arrays with more than one elements
  * throws 'cant combineMethodUniform such regexp objects with "but" combiner'
  * @method but
- * @memberof wRegexpObject
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
  */
 
 function but()
@@ -749,49 +713,50 @@ function but()
 //
 
 /**
+ * @description
  * Creates array of RegexpObjects, that will be associated with some ordered set of subsets of strings.
- Accepts array of strings. They will be used as base for RegexpObjects. The empty string in array will be
- converted into RegexpObject that associates with subset what is the subtraction of all possible subsets of strings
- and union of subsets which match other words in array.
- If several arrays are passed in the method, the result will be cartesian product of appropriates arrays described
- above.
+ * Accepts array of strings. They will be used as base for RegexpObjects. The empty string in array will be
+ * converted into RegexpObject that associates with subset what is the subtraction of all possible subsets of strings
+ * and union of subsets which match other words in array.
+ * If several arrays are passed in the method, the result will be cartesian product of appropriates arrays described
+ * above.
  * @example
  *
- let arr1 = ['red', 'blue'],
- arr2 = ['', 'green'];
-
- wTools.order(arr1, arr2);
- // [
- //     {
- //         includeAny:[],
- //         includeAll:[/red/],
- //         excludeAny:[/green/],
- //         excludeAll:[]},
- //
- //     {
- //         includeAny:[],
- //         includeAll:[/red/,/green/],
- //         excludeAny:[],
- //         excludeAll:[]},
- //
- //     {
- //         includeAny:[],
- //         includeAll:[/blue/],
- //         excludeAny:[/green/],
- //         excludeAll:[]},
- //
- //     {
- //         includeAny:[],
- //         includeAll:[/blue/, /green/],
- //         excludeAny:[],
- //         excludeAll:[]
- //     }
- // ]
+ * let arr1 = ['red', 'blue'],
+ * arr2 = ['', 'green'];
+ *
+ * wTools.order(arr1, arr2);
+ * // [
+ * //     {
+ * //         includeAny:[],
+ * //         includeAll:[/red/],
+ * //         excludeAny:[/green/],
+ * //         excludeAll:[]},
+ * //
+ * //     {
+ * //         includeAny:[],
+ * //         includeAll:[/red/,/green/],
+ * //         excludeAny:[],
+ * //         excludeAll:[]},
+ * //
+ * //     {
+ * //         includeAny:[],
+ * //         includeAll:[/blue/],
+ * //         excludeAny:[/green/],
+ * //         excludeAll:[]},
+ * //
+ * //     {
+ * //         includeAny:[],
+ * //         includeAll:[/blue/, /green/],
+ * //         excludeAny:[],
+ * //         excludeAll:[]
+ * //     }
+ * // ]
  * @param {...String[]} ordering аrray/аrrays of strings
  * @returns {RegexpObject[]} аrray of RegexpObject that represent resulting ordering
  * @throws {Error} Unexpected type, if passed arguments is not arrays.
  * @method order
- * @memberof wRegexpObject
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
  */
 
 function order( ordering )
@@ -835,17 +800,18 @@ function order( ordering )
 //
 
 /**
+ * @description
  * Wrap strings passed in `ordering` array into RegexpObjects.
-    Any non empty string in input array turns into RegExp which is wraped into array and assign to includeAll,
- property of appropriate object. An empty string in array are replaced by merged subtractions for all created
- RegexpObjects objects.
-
+ * Any non empty string in input array turns into RegExp which is wraped into array and assign to includeAll,
+ * property of appropriate object. An empty string in array are replaced by merged subtractions for all created
+ * RegexpObjects objects.
+ *
  * @param {String[]} ordering - array of strings.
  * @returns {RegexpObject[]} Returns array of RegexpObject
  * @private
  * @throws {Error} If no arguments, or arguments more than 1.
  * @method _regexpObjectOrderingExclusion
- * @memberof wRegexpObject
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
  */
 
 function _regexpObjectOrderingExclusion( ordering )
