@@ -103,7 +103,7 @@ function init( src, defaultMode )
 {
   let self = this;
 
-  _.instanceInit( self );
+  _.workpiece.initFields( self );
 
   if( self.Self === Self )
   Object.preventExtensions( self );
