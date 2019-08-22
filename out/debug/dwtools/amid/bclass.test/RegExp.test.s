@@ -288,7 +288,7 @@ function regexpArrayAll( test )
 
 //
 
-function test( test )
+function Test( test )
 {
   var regexpObj1 =
     {
@@ -328,27 +328,27 @@ function test( test )
     testStr = '012345';
 
   test.case = 'all regeps array are matched';
-  var got = _.RegexpObject.test( regexpObj1, testStr );
+  var got = _.RegexpObject.Test( regexpObj1, testStr );
   test.identical( got, true );
 
   test.case = 'includeAny parameter do not contains any regexp that matches the string';
-  var got = _.RegexpObject.test( regexpObj2, testStr );
+  var got = _.RegexpObject.Test( regexpObj2, testStr );
   test.identical( got, false );
 
   test.case = 'includeAll contains any regexp that do not matches the string';
-  var got = _.RegexpObject.test( regexpObj3, testStr );
+  var got = _.RegexpObject.Test( regexpObj3, testStr );
   test.identical( got, false );
 
   test.case = 'excludeAny contains any regexp that matches the test string';
-  var got = _.RegexpObject.test( regexpObj4, testStr );
+  var got = _.RegexpObject.Test( regexpObj4, testStr );
   test.identical( got, false );
 
   test.case = 'excludeAll contains regexps that all matches the test string';
-  var got = _.RegexpObject.test( regexpObj4, testStr );
+  var got = _.RegexpObject.Test( regexpObj4, testStr );
   test.identical( got, false );
 
   test.case = 'null';
-  var got = _.RegexpObject.test( null, testStr );
+  var got = _.RegexpObject.Test( null, testStr );
   test.identical( got, true );
 
   /**/
@@ -359,32 +359,32 @@ function test( test )
   test.case = 'missing arguments';
   test.shouldThrowErrorSync( function()
   {
-    _.RegexpObject.test();
+    _.RegexpObject.Test();
   });
 
   test.case = 'missing string for testing';
   test.shouldThrowErrorSync( function()
   {
-    _.RegexpObject.test( regexpObj1 );
+    _.RegexpObject.Test( regexpObj1 );
   });
 
   test.case = 'incorrect first argument';
   test.shouldThrowErrorSync( function()
   {
-    _.RegexpObject.test( 1, testStr );
+    _.RegexpObject.Test( 1, testStr );
   });
 
   test.case = 'second argument is not a string';
   test.shouldThrowErrorSync( function()
   {
-    _.RegexpObject.test( regexpObj1, 44 );
+    _.RegexpObject.Test( regexpObj1, 44 );
   });
 
 }
 
 //
 
-function _extend( test )
+function _Extend( test )
 {
   var src1 =
       [
@@ -466,19 +466,19 @@ function _extend( test )
     {
       dst : dst1,
       srcs : src1,
-      anding : true
+      mode : 'and',
     },
     extendOpt2 =
     {
       dst : dst2,
       srcs : src2,
-      anding : true
+      mode : 'and',
     },
     extendOpt3 =
     {
       dst : dst3,
       srcs : src2,
-      anding : false
+      mode : 'or',
     },
 
     wrongOpt1 =
@@ -490,45 +490,43 @@ function _extend( test )
     {
       dst : null,
       srcs : src1,
-      anding : false
+      mode : 'or',
     },
     wrongOpt3 =
     {
       dst : dst3,
       srcs : wrongSrc1,
-      anding : false
+      mode : 'or',
     },
     wrongOpt4 =
     {
       dst : {},
       srcs : wrongSrc2,
-      anding : false
+      mode : 'or',
     },
     wrongOpt5 =
     {
       dst : {},
       srcs : wrongSrc3,
-      anding : false
+      mode : 'or',
     };
 
   test.case = 'simple regexp objects extend with anding';
-  var got = wRegexpObject._extend( extendOpt1 );
+  var got = wRegexpObject._Extend( extendOpt1 );
   test.contains( got, expected1 );
 
   test.case = 'regexp objects extend with anding';
-  var got = wRegexpObject._extend( extendOpt2 );
+  var got = wRegexpObject._Extend( extendOpt2 );
   test.contains( got, expected2 );
 
   test.case = 'regexp objects extend without anding';
-  var got = wRegexpObject._extend( extendOpt3 );
+  var got = wRegexpObject._Extend( extendOpt3 );
   test.contains( got, expected3 );
 
   test.case = 'regexp objects extend without anding';
-  var got = _.RegexpObject._extend( extendOpt3 );
+  var got = _.RegexpObject._Extend( extendOpt3 );
   var expected = _.RegexpObject( expected3 );
-  debugger;
   test.identical( got, expected );
-  debugger;
 
   /**/
 
@@ -540,39 +538,39 @@ function _extend( test )
   // test.shouldThrowErrorSync( function()
   // {
   //   debugger;
-  //   wRegexpObject._extend( wrongOpt1 );
+  //   wRegexpObject._Extend( wrongOpt1 );
   // });
 
   // test.case = 'options.dst is not object';
   // test.shouldThrowErrorSync( function()
   // {
-  //   wRegexpObject._extend( wrongOpt2 );
+  //   wRegexpObject._Extend( wrongOpt2 );
   // });
 
   test.case = 'options.srcs not wrapped into array';
   test.shouldThrowErrorSync( function()
   {
-    wRegexpObject._extend( wrongOpt3 );
+    wRegexpObject._Extend( wrongOpt3 );
   });
 
   test.case = 'element of options.srcs is not object';
   test.shouldThrowErrorSync( function()
   {
     debugger
-    wRegexpObject._extend( wrongOpt4 );
+    wRegexpObject._Extend( wrongOpt4 );
   });
 
   test.case = 'element of options.srcs has wrong format : (extra property)';
   test.shouldThrowErrorSync( function()
   {
-    wRegexpObject._extend( wrongOpt5 );
+    wRegexpObject._Extend( wrongOpt5 );
   });
 
 }
 
 //
 
-function or( test )
+function Or( test )
 {
   var dst1 = {},
     dst2 =
@@ -648,7 +646,7 @@ function or( test )
 
 //
 
-function and( test )
+function And( test )
 {
   var dst1 = {}
   var dst2 =
@@ -736,16 +734,16 @@ var Self =
   tests :
   {
 
-    regexpEscape        : regexpEscape,
-    regexpArrayMake     : regexpArrayMake,
-    regexpFrom : regexpFrom,
-    regexpArrayAny          : regexpArrayAny,
-    regexpArrayAll          : regexpArrayAll,
-    test          : test,
+    regexpEscape,
+    regexpArrayMake,
+    regexpFrom,
+    regexpArrayAny,
+    regexpArrayAll,
 
-    _extend : _extend,
-    or : or,
-    and  : and
+    Test,
+    _Extend,
+    Or,
+    And,
 
   }
 

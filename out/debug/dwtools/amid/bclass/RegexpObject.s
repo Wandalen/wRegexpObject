@@ -20,6 +20,10 @@ if( typeof module !== 'undefined' )
 
 }
 
+/*
+qqq : rewrite documentation
+*/
+
 //
 
 /**
@@ -40,14 +44,14 @@ if( typeof module !== 'undefined' )
 
 let _ = _global_.wTools;
 let Parent = null;
-let Self = function wRegexpObject( o )
+let Self = function wRegexpObject( src, defaultMode )
 {
   if( !( this instanceof Self ) )
-  if( o instanceof Self )
-  return o;
+  if( src instanceof Self )
+  return src;
   else
   return new( _.constructorJoin( Self, arguments ) );
-  return Self.prototype.init.apply( this,arguments );
+  return Self.prototype.init.apply( this, arguments );
 }
 
 Self.shortName = 'RegexpObject';
@@ -87,7 +91,7 @@ Self.shortName = 'RegexpObject';
  // }
 * @param {RegexpObject|String|RegExp|RegexpObject[]|String[]|RegExp[]} src Source for making RegexpObject
 * @param {String} [defaultMode] Key for result RegexpObject map. Can be one of next strings: 'includeAny',
-'includeAll','excludeAny' or 'excludeAll'.
+'includeAll', 'excludeAny' or 'excludeAll'.
 * @returns {RegexpObject} Result RegexpObject
 * @throws {Error} Missing arguments if call without argument
 * @throws {Error} Missing arguments if passed array without `defaultMode`
@@ -129,7 +133,7 @@ function init( src, defaultMode )
   if( _.arrayIs( src ) )
   {
 
-    src = _.arrayFlatten( [],src );
+    src = _.arrayFlatten( [], src );
 
     let ar = [];
     for( let s = 0 ; s < src.length ; s += 1 )
@@ -137,7 +141,7 @@ function init( src, defaultMode )
       if( _.regexpIs( src[ s ] ) || _.strIs( src[ s ] ) )
       ar.push( _.regexpFrom( src[ s ] ) );
       else if( _.objectIs( src[ s ] ) )
-      self = _.RegexpObject.Or( self,Self( src[ s ] ) );
+      self = Self.Or( self, Self( src[ s ] ) );
       else _.assert( 0, 'Unexpected' );
     }
 
@@ -152,8 +156,8 @@ function init( src, defaultMode )
       {
         let r = {};
         r[ defaultMode ] = ar;
-        //_.RegexpObject.And( self,r );
-        _.RegexpObject.Or( self,r );
+        //Self.And( self, r );
+        Self.Or( self, r );
       }
       else
       {
@@ -165,10 +169,7 @@ function init( src, defaultMode )
   else if( _.objectIs( src ) )
   {
 
-    //debugger;
-    //_.mapIs( src );
-
-    _.eachOwn( src,function onEach( e,k )
+    _.eachOwn( src, function onEach( e, k )
     {
       if( e === null )
       {
@@ -181,7 +182,7 @@ function init( src, defaultMode )
     });
 
   }
-  else _.assert( 0,'wRegexpObject :','unknown src',src );
+  else _.assert( 0, 'wRegexpObject :', 'unknown src', src );
 
   _.assertMapOwnOnly( self, self.Names, 'Unknown regexp fields' );
 
@@ -206,7 +207,7 @@ function validate()
     _.assert( _.arrayIs( self[ f ] ) );
     for( let i = 0 ; i < self[ f ].length ; i++ )
     {
-      _.assert( _.regexpIs( self[ f ][ i ] ),'Regexp object expects regexps, but got',_.strType( self[ f ][ i ] ) );
+      _.assert( _.regexpIs( self[ f ][ i ] ), 'Regexp object expects regexps, but got', _.strType( self[ f ][ i ] ) );
     }
   }
 
@@ -234,7 +235,7 @@ function validate()
  * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
 */
 
-//function _test( src,ins )
+//function _test( src, ins )
 function _test( ins )
 {
   let src = this;
@@ -242,32 +243,32 @@ function _test( ins )
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( !_.strIs( ins ) )
-  throw _.err( 'test :','Expects string as second argument',ins );
+  throw _.err( 'test :', 'Expects string as second argument', ins );
 
   if( src.excludeAll )
   {
-    let r = _.regexpArrayAll( src.excludeAll,ins,false );
+    let r = _.regexpArrayAll( src.excludeAll, ins, false );
     if( r === true )
     return 'excludeAll';
   }
 
   if( src.excludeAny )
   {
-    let r = _.regexpArrayAny( src.excludeAny,ins,false );
+    let r = _.regexpArrayAny( src.excludeAny, ins, false );
     if( r !== false )
     return src.excludeAny[ r ].source;
   }
 
   if( src.includeAll )
   {
-    let r = _.regexpArrayAll( src.includeAll,ins,true );
+    let r = _.regexpArrayAll( src.includeAll, ins, true );
     if( r !== true )
     return src.includeAll[ r ].source;
   }
 
   if( src.includeAny )
   {
-    let r = _.regexpArrayAny( src.includeAny,ins,true );
+    let r = _.regexpArrayAny( src.includeAny, ins, true );
     if( r === false )
     return 'include none from includeAny';
   }
@@ -312,7 +313,6 @@ function _test( ins )
  * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
 */
 
-//function test( src,ins )
 function test( ins )
 {
   let self = this;
@@ -367,15 +367,133 @@ function test( ins )
  * @memberof module:Tools/mid/RegexpObject.wRegexpObject.
 */
 
-function test_static( self,ins )
+function Test( self, ins )
+{
+  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  self = Self( self, 'includeAll' );
+  return self.test( ins );
+}
+
+//
+
+/**
+ * @summary Merge several RegexpObjects extending one by others.
+ * @description Order of extending make difference because joining of some parameters without lose is not possible.
+ * o.anding gives a hint in what direction the lost should be made.
+ * @param {object} o - options of merging.
+ * @param {RegexpObject} options.dst RegexpObject to merge in.
+ * @param {RegexpObject} options.srcs RegexpObjects to merge from.
+ * @param {Boolean} options.anding Shrinking or broadening mode.
+  Joining of some parameters without lose is not possible.
+  This parameter gives a hint in what direction the lost should be made.
+ * @returns {RegexpObject} Returns merged RegexpObject.
+ * @throws {Error} If in options missed any of 'dst', 'srcs' or 'anding' properties
+ * @throws {Error} If options.dst is not object
+ * @throws {Error} If options.srcs is not longIs object
+ * @throws {Error} If options.srcs element is not RegexpObject object
+ * @method _Extend
+ * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+ */
+
+function _Extend( o )
 {
 
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  if( o.dst === null )
+  o.dst = new Self( [] );
 
-  //if( _.strIs( self ) || _.regexpIs( self ) )
-  self = Self( self,'includeAll' );
+  _.routineOptions( _Extend, o );
+  _.assert( _.objectIs( o.dst ) );
+  _.assert( _.longIs( o.srcs ) );
+  _.assert( _.arrayHas( [ 'extend', 'or', 'and' ], o.mode ) );
 
-  return self.test( ins );
+  o.srcs = _.arrayFlatten( [], o.srcs );
+
+  let result = o.dst;
+  for( let n in Names )
+  if( !result[ n ] )
+  result[ n ] = [];
+  result = Self( result );
+
+  for( let s = 0 ; s < o.srcs.length ; s++ )
+  {
+    let src = o.srcs[ s ];
+
+    if( src === null )
+    {
+      continue;
+    }
+    else if( !_.objectIs( src ) )
+    {
+      // src = Self( src, o.anding ? 'includeAll' : 'includeAny' );
+      src = Self( src, o.mode === 'and' ? 'includeAll' : 'includeAny' );
+    }
+
+    _.assertMapOwnOnly( src, Names );
+
+    // let toExtend = o.anding ? RegexpModeNamesToExtendMap : Names;
+    let toExtend = o.mode === 'and' ? RegexpModeNamesToExtendMap : Names;
+
+    for( let n in toExtend )
+    if( src[ n ] )
+    if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
+    {
+      result[ n ] = _.arrayFlattenOnce( result[ n ], [ src[ n ] ], _.regexpIdentical );
+    }
+
+    if( o.mode === 'and' )
+    for( let n in RegexpModeNamesToReplaceMap )
+    if( src[ n ] )
+    if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
+    {
+      if( _.regexpIs( src[ n ] ) )
+      result[ n ] = [ src[ n ] ];
+      else
+      result[ n ] = src[ n ];
+    }
+
+  }
+
+  /* normalize */
+
+  for( let r in result )
+  for( let i = 0; i < result[ r ].length ; i++ )
+  {
+    let element = result[ r ][ i ];
+    if( _.strIs( element ) )
+    result[ r ][ i ] = new RegExp( _.regexpEscape( element ) );
+  }
+
+  /* */
+
+  _.assert( result instanceof Self );
+  if( Config.debug )
+  result.validate();
+
+  return result;
+}
+
+_Extend.defaults =
+{
+  dst : null,
+  srcs : null,
+  // anding : true,
+  mode : 'extend',
+}
+
+//
+
+function Extend( dst )
+{
+
+  let result = this._Extend
+  ({
+    dst : null,
+    srcs : _.longSlice( arguments, 0 ),
+    mode : 'extend',
+    // anding : 1,
+  });
+
+  return result;
 }
 
 //
@@ -426,11 +544,12 @@ function test_static( self,ins )
 function And( dst )
 {
 
-  let result = this._extend
+  let result = this._Extend
   ({
     dst : null,
-    srcs : _.longSlice( arguments,0 ),
-    anding : 1,
+    srcs : _.longSlice( arguments, 0 ),
+    // anding : 1,
+    mode : 'and',
   });
 
   return result;
@@ -482,14 +601,32 @@ function And( dst )
 function Or( dst )
 {
 
-  let result = this._extend
+  let result = this._Extend
   ({
     dst : null,
-    srcs : _.longSlice( arguments,0 ),
-    anding : 0,
+    srcs : _.longSlice( arguments, 0 ),
+    // anding : 0,
+    mode : 'or',
   });
 
   return result;
+}
+
+//
+
+function extend()
+{
+  let self = this;
+
+  self._Extend
+  ({
+    dst : self,
+    srcs : arguments,
+    // anding : 1,
+    mode : 'extend',
+  });
+
+  return self;
 }
 
 //
@@ -498,11 +635,12 @@ function and()
 {
   let self = this;
 
-  self._extend
+  self._Extend
   ({
     dst : self,
     srcs : arguments,
-    anding : 1,
+    // anding : 1,
+    mode : 'and',
   });
 
   return self;
@@ -514,119 +652,18 @@ function or()
 {
   let self = this;
 
-  self._extend
+  self._Extend
   ({
     dst : self,
     srcs : arguments,
-    anding : 0,
+    mode : 'or'
+    // anding : 0,
   });
 
-  debugger;
-  throw _.err( 'not tested' );
+  // debugger;
+  // throw _.err( 'not tested' );
 
   return self;
-}
-
-//
-
-/**
- * @summary Merge several RegexpObjects extending one by others.
- * @description Order of extending make difference because joining of some parameters without lose is not possible.
- * o.anding gives a hint in what direction the lost should be made.
- * @param {object} o - options of merging.
- * @param {RegexpObject} options.dst RegexpObject to merge in.
- * @param {RegexpObject} options.srcs RegexpObjects to merge from.
- * @param {Boolean} options.anding Shrinking or broadening mode.
-  Joining of some parameters without lose is not possible.
-  This parameter gives a hint in what direction the lost should be made.
- * @returns {RegexpObject} Returns merged RegexpObject.
- * @throws {Error} If in options missed any of 'dst', 'srcs' or 'anding' properties
- * @throws {Error} If options.dst is not object
- * @throws {Error} If options.srcs is not longIs object
- * @throws {Error} If options.srcs element is not RegexpObject object
- * @method _extend
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
- */
-
-function _extend( o )
-{
-
-  if( o.dst === null )
-  o.dst = new Self( [] );
-
-  _.routineOptions( _extend,o );
-  _.assert( _.objectIs( o.dst ) );
-  _.assert( _.longIs( o.srcs ) );
-
-  o.srcs = _.arrayFlatten( [],o.srcs );
-
-  let result = o.dst;
-  for( let n in Names )
-  if( !result[ n ] )
-  result[ n ] = [];
-  result = Self( result );
-
-  for( let s = 0 ; s < o.srcs.length ; s++ )
-  {
-    let src = o.srcs[ s ];
-
-    if( src === null )
-    {
-      continue;
-    }
-    else if( !_.objectIs( src ) )
-    {
-      src = Self( src, o.anding ? 'includeAll' : 'includeAny' );
-    }
-
-    _.assertMapOwnOnly( src, Names );
-
-    let toExtend = o.anding ? RegexpModeNamesToExtendMap : Names;
-
-    for( let n in toExtend )
-    if( src[ n ] )
-    if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
-    {
-      result[ n ] = _.arrayFlattenOnce( result[ n ], [ src[ n ] ], _.regexpIdentical );
-    }
-
-    if( o.anding )
-    for( let n in RegexpModeNamesToReplaceMap )
-    if( src[ n ] )
-    if( ( _.arrayIs( src[ n ] ) && src[ n ].length ) || !_.arrayIs( src[ n ] ) )
-    {
-      if( _.regexpIs( src[ n ] ) )
-      result[ n ] = [ src[ n ] ];
-      else
-      result[ n ] = src[ n ];
-    }
-
-  }
-
-  /* normalize */
-
-  for( let r in result )
-  for( let i = 0; i < result[ r ].length ; i++ )
-  {
-    let element = result[ r ][ i ];
-    if( _.strIs( element ) )
-    result[ r ][ i ] = new RegExp( _.regexpEscape( element ) );
-  }
-
-  /* */
-
-  _.assert( result instanceof Self );
-  if( Config.debug )
-  result.validate();
-
-  return result;
-}
-
-_extend.defaults =
-{
-  dst : null,
-  srcs : null,
-  anding : true,
 }
 
 //
@@ -647,7 +684,7 @@ _extend.defaults =
  *       excludeAll : [/black/, /brown/, /pink/]
  * };
  *
- * wTools.but(options);
+ * _.RegexpObject.But( options );
  *
  * // {
  * //   "includeAny":[/yellow/, /white/, /grey/],
@@ -663,18 +700,18 @@ _extend.defaults =
  * @returns {RegexpObject} Result RegexpObject map.
  * @throws {Error} If objects more than one and every has includeAll/excludeAll arrays with more than one elements
  * throws 'cant combineMethodUniform such regexp objects with "but" combiner'
- * @method but
+ * @method But
  * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
  */
 
-function but()
+function But()
 {
-  let result = Self( [],Self.Names.includeAny );
+  let result = Self( [], Self.Names.includeAny );
 
   for( let a = 0, al = arguments.length ; a < al ; a++ )
   {
     let argument = arguments[ a ];
-    let src = Self( argument,Self.Names.includeAny );
+    let src = Self( argument, Self.Names.includeAny );
 
     if( src.includeAny ) result.excludeAny = _.arrayAppendArray( result.excludeAny || [], src.includeAny );
     if( src.excludeAny ) result.includeAny = _.arrayAppendArray( result.includeAny || [], src.excludeAny );
@@ -689,7 +726,7 @@ function but()
       {
         result.excludeAll = _.arrayAppendArray( result.excludeAll || [], src.includeAll );
       }
-      else throw _.err( 'but :','cant combineMethodUniform such regexp objects with "but" combiner' );
+      else throw _.err( 'Cant combineMethodUniform such regexp objects with "but" combiner' );
     }
 
     if( src.excludeAll && src.excludeAll.length )
@@ -702,7 +739,7 @@ function but()
       {
         result.includeAll = _.arrayAppendArray( result.includeAll || [], src.excludeAll );
       }
-      else throw _.err( 'but :','cant combineMethodUniform such regexp objects with "but" combiner' );
+      else throw _.err( 'Cant combineMethodUniform such regexp objects with "but" combiner' );
     }
 
   }
@@ -725,7 +762,7 @@ function but()
  * let arr1 = ['red', 'blue'],
  * arr2 = ['', 'green'];
  *
- * wTools.order(arr1, arr2);
+ * wTools.Order(arr1, arr2);
  * // [
  * //     {
  * //         includeAny:[],
@@ -735,7 +772,7 @@ function but()
  * //
  * //     {
  * //         includeAny:[],
- * //         includeAll:[/red/,/green/],
+ * //         includeAll:[/red/, /green/],
  * //         excludeAny:[],
  * //         excludeAll:[]},
  * //
@@ -755,11 +792,11 @@ function but()
  * @param {...String[]} ordering аrray/аrrays of strings
  * @returns {RegexpObject[]} аrray of RegexpObject that represent resulting ordering
  * @throws {Error} Unexpected type, if passed arguments is not arrays.
- * @method order
+ * @method Order
  * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
  */
 
-function order( ordering )
+function Order( ordering )
 {
   let res = [];
 
@@ -771,9 +808,9 @@ function order( ordering )
     let argument = arguments[ a ];
     if( _.arrayIs( argument[ 0 ] ) )
     for( let i = 0 ; i < argument.length ; i++ )
-    res.push( _regexpObjectOrderingExclusion( argument[ i ] ) );
+    res.push( _OrderingExclusion( argument[ i ] ) );
     else if( _.strIs( argument[ 0 ] ) )
-    res.push( _regexpObjectOrderingExclusion( argument ) );
+    res.push( _OrderingExclusion( argument ) );
     else throw _.err( 'unexpected' );
   }
 
@@ -785,11 +822,11 @@ function order( ordering )
   ({
     leftToRight : 0,
     sets : res,
-    onEach : function( sample,index )
+    onEach : function( sample, index )
     {
-      let mask = _.RegexpObject.And( {},sample[ 0 ] );
+      let mask = Self.And( {}, sample[ 0 ] );
       for( let s = 1 ; s < sample.length ; s++ )
-      _.RegexpObject.And( mask,sample[ s ] );
+      Self.And( mask, sample[ s ] );
       result.push( mask );
     }
   });
@@ -810,11 +847,11 @@ function order( ordering )
  * @returns {RegexpObject[]} Returns array of RegexpObject
  * @private
  * @throws {Error} If no arguments, or arguments more than 1.
- * @method _regexpObjectOrderingExclusion
+ * @method _OrderingExclusion
  * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
  */
 
-function _regexpObjectOrderingExclusion( ordering )
+function _OrderingExclusion( ordering )
 {
 
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -833,19 +870,19 @@ function _regexpObjectOrderingExclusion( ordering )
     _.assert( _.strIs( ordering[ o ] ) );
     if( ordering[ o ] === '' )
     continue;
-    result.push( Self( ordering[ o ],Names.includeAll ) );
+    result.push( Self( ordering[ o ], Names.includeAll ) );
   }
 
   let nomask = {};
   for( let r = 0 ; r < result.length ; r++ )
   {
-    _.RegexpObject.And( nomask,Self.but( result[ r ] ) );
+    Self.And( nomask, Self.But( result[ r ] ) );
   }
 
   for( let o = 0 ; o < ordering.length ; o++ )
   {
     if( ordering[ o ] === '' )
-    result.splice( o,0,nomask );
+    result.splice( o, 0, nomask );
   }
 
   return result;
@@ -883,21 +920,6 @@ function compactField( it )
 
   return it.dst;
 }
-
-//
-
-// function toStr( o )
-// {
-//   let self = this;
-//   let o = o || {};
-//
-//   if( o.levels === undefined )
-//   o.levels = 3;
-//
-//   let result = self.toStr_functor({ fields : [ self.Composes,self.Aggregates ] }).call( self,o );
-//
-//   return result;
-// }
 
 // --
 // class let
@@ -950,20 +972,21 @@ let Restricts =
 let Statics =
 {
 
-  test : test_static,
+  Test,
 
-  And : And,
-  Or : Or,
-  _extend : _extend,
+  _Extend,
+  Extend,
+  And,
+  Or,
 
-  but : but,
+  But,
 
-  order : order,
-  _regexpObjectOrderingExclusion : _regexpObjectOrderingExclusion,
+  Order,
+  _OrderingExclusion,
 
-  Names : Names,
-  RegexpModeNamesToExtendMap : RegexpModeNamesToExtendMap,
-  RegexpModeNamesToReplaceMap : RegexpModeNamesToReplaceMap,
+  Names,
+  RegexpModeNamesToExtendMap,
+  RegexpModeNamesToReplaceMap,
 
 }
 
@@ -971,40 +994,44 @@ let Statics =
 // declare
 // --
 
-let Extend =
+let ExtendRoutines =
 {
 
-  init : init,
-  validate : validate,
+  init,
+  validate,
 
-  _test : _test,
-  test : test,
+  _test,
+  test,
 
-  And : And,
-  Or : Or,
-  and : and,
-  or : or,
+  _Extend,
+  Extend,
+  And,
+  Or,
 
-  order : order,
-  _regexpObjectOrderingExclusion : _regexpObjectOrderingExclusion,
+  extend,
+  and,
+  or,
 
-  isEmpty : isEmpty,
-  compactField : compactField,
+  Order,
+  _OrderingExclusion,
+
+  isEmpty,
+  compactField,
 
   // relations
 
-  Composes : Composes,
-  Aggregates : Aggregates,
-  Associates : Associates,
-  Restricts : Restricts,
+  Composes,
+  Aggregates,
+  Associates,
+  Restricts,
 
 }
 
 //
 
-let Supplement =
+let SupplementRoutines =
 {
-  Statics : Statics,
+  Statics,
 }
 
 //
@@ -1013,8 +1040,8 @@ _.classDeclare
 ({
   cls : Self,
   parent : Parent,
-  extend : Extend,
-  supplement : Supplement,
+  extend : ExtendRoutines,
+  supplement : SupplementRoutines,
 });
 
 _.Copyable.mixin( Self );
@@ -1024,10 +1051,6 @@ _.Copyable.mixin( Self );
 // --
 
 _global_[ Self.name ] = _[ Self.shortName ] = Self;
-
-// if( typeof module !== 'undefined' )
-// if( _global_.WTOOLS_PRIVATE )
-// { /* delete require.cache[ module.id ]; */ }
 
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;
