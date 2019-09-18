@@ -728,7 +728,7 @@ function And( test )
 var Self =
 {
 
-  name : 'Tools/mid/RegExp',
+  name : 'Tools.mid.RegExp',
   silencing : 1,
 
   tests :

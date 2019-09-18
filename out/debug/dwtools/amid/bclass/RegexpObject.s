@@ -169,24 +169,30 @@ function init( src, defaultMode )
   else if( _.objectIs( src ) )
   {
 
-    _.eachOwn( src, function onEach( e, k )
+    for( let k in src )
     {
-      if( e === null )
-      {
-        debugger;
-        throw _.err( 'not tested' );
-        delete self[ k ];
-        return;
-      }
+      if( !Reflect.hasOwnProperty.call( src, k ) )
+      continue;
+      let e = src[ k ];
       self[ k ] = _.regexpArrayMake( e );
-    });
+    }
+
+    // _.eachOwn( src, function onEach( e, k )
+    // {
+    //   if( e === null )
+    //   {
+    //     debugger;
+    //     throw _.err( 'not tested' );
+    //     delete self[ k ];
+    //     return;
+    //   }
+    //   self[ k ] = _.regexpArrayMake( e );
+    // });
 
   }
   else _.assert( 0, 'wRegexpObject :', 'unknown src', src );
 
   _.assertMapOwnOnly( self, self.Names, 'Unknown regexp fields' );
-
-  // logger.log( 'RegExpObject\n' + self.toStr() );
 
   if( Config.debug )
   self.validate();
