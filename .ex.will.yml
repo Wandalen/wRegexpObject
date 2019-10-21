@@ -34,7 +34,7 @@ about :
 path :
 
   repository : git+https:///github.com/Wandalen/wRegexpObject.git
-  remotes :
+  origins :
    - git+https:///github.com/Wandalen/wRegexpObject.git
    - npm:///wRegexpObject
   bugtracker : https:///github.com/Wandalen/wRegexpObject/issues
