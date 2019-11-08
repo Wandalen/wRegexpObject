@@ -410,7 +410,7 @@ function _Extend( o )
   _.routineOptions( _Extend, o );
   _.assert( _.objectIs( o.dst ) );
   _.assert( _.longIs( o.srcs ) );
-  _.assert( _.arrayHas( [ 'extend', 'or', 'and' ], o.mode ) );
+  _.assert( _.longHas( [ 'extend', 'or', 'and' ], o.mode ) );
 
   o.srcs = _.arrayFlatten( [], o.srcs );
 
