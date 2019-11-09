@@ -23,8 +23,8 @@
   {
     "url" : "https://github.com/Wandalen/wRegexpObject/issues"
   }, 
-  "dependencies" : { "wTools" : "" }, 
-  "devDependencies" : { "wTesting" : "" }, 
+  "dependencies" : { "wTools" : "alpha" }, 
+  "devDependencies" : { "wTesting" : "alpha" }, 
   "keywords" : 
   [
     "base", 
