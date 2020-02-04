@@ -206,7 +206,7 @@ function validate()
 {
   let self = this;
 
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
   for( let f in Composes )
   {
