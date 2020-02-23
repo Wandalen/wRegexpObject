@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wRegexpObject.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wRegexpObject.out.will.yml: &ref_0
+    hash: 9a206bf1a640432fd8c56653490b92a9
+    size: 39200
+  ../.ex.will.yml: &ref_1
     hash: 490be6fe901e40e8967792228d7e96d7
     size: 2274
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: b1697facaa3995018d77a2dc16b35e26
     size: 4954
 module:
@@ -22,11 +25,11 @@ module:
         conditions as a single object. Refactoring required.
       enabled: 1
       version: 0.5.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - base
         - basic
         - core
@@ -39,12 +42,12 @@ module:
         - underscore
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@willbe.so>
         - Volodymyr M. <volodymyr.migdal@gmail.com>
         - Ihor O. <iostashvxi@gmail.com>
       npm.name: wRegexpObject
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -711,6 +714,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          reflector: 'reflector::exported.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          reflector: 'reflector::exported.files.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -799,8 +820,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wRegexpObject.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wRegexpObject
@@ -814,13 +836,31 @@ module:
         conditions as a single object. Refactoring required.
       enabled: 1
       version: 0.5.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 8.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - base
+        - basic
+        - core
+        - platform
+        - tools
+        - wTools
+        - wBase
+        - wRegexpObject
+        - generic
+        - underscore
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@willbe.so>
+        - Volodymyr M. <volodymyr.migdal@gmail.com>
+        - Ihor O. <iostashvxi@gmail.com>
       npm.name: wRegexpObject
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1492,3 +1532,6 @@ module:
       ../.im.will.yml:
         hash: b1697facaa3995018d77a2dc16b35e26
         size: 4954
+      wRegexpObject.out.will.yml:
+        hash: 9a206bf1a640432fd8c56653490b92a9
+        size: 39200
