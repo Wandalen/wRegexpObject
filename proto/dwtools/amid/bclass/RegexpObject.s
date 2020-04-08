@@ -29,7 +29,7 @@ qqq : rewrite documentation
 /**
  * @classdesc Class which encapsulates a trivial logical combination( expression ) and regular expressions which may be applied to a string to tell does that string satisfies regular expressions as well as the logic.
  * @class wRegexpObject
- * @memberof module:Tools/mid/RegexpObject
+ * @module Tools/mid/RegexpObject
  */
 
 /**
@@ -39,7 +39,7 @@ qqq : rewrite documentation
  * @property {RegExp[]} includeAll - Array of RegExps, to check matching all of them;
  * @property {RegExp[]} excludeAny - Array of RegExps, to check mismatch any of them;
  * @property {RegExp[]} excludeAll - Array of RegExps, to check mismatch all of them;
- * @memberof module:Tools/mid/RegexpObject
+ * @module Tools/mid/RegexpObject
  */
 
 let _ = _global_.wTools;
@@ -100,7 +100,9 @@ Self.shortName = 'RegexpObject';
 * @throws {Error} Unexpected if type of array element is not string regexp or RegexpObject.
 * @throws {Error} Unknown regexp filters if passed map has unexpected properties (see RegexpObject).
 * @routine init
-* @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+* @class wRegexpObject
+* @namespace wTools
+* @module Tools/mid/RegexpObject
 */
 
 function init( src, defaultMode )
@@ -238,7 +240,9 @@ function validate()
  * @throws {Error} Throw an 'Expects string' error if `ins` is not string
  * @throws {Error} Throw an 'Expects object' error if `src` is not object
  * @method _test
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+ * @class wRegexpObject
+ * @namespace wTools
+ * @module Tools/mid/RegexpObject
 */
 
 //function _test( src, ins )
@@ -316,7 +320,9 @@ function _test( ins )
  * @throws {Error} Throw an 'Expects string' error if `ins` is not string
  * @throws {Error} Throw an 'Expects object' error if `src` is not object
  * @method test
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+ * @class wRegexpObject
+ * @namespace wTools
+ * @module Tools/mid/RegexpObject
 */
 
 function test( ins )
@@ -370,7 +376,7 @@ function test( ins )
  * @throws {Error} Throw an 'Expects string' error if `ins` is not string
  * @throws {Error} Throw an 'Expects object' error if `src` is not object
  * @function test
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject.
+ * @module Tools/mid/RegexpObject.wRegexpObject.
 */
 
 function Test( self, ins )
@@ -398,7 +404,9 @@ function Test( self, ins )
  * @throws {Error} If options.srcs is not longIs object
  * @throws {Error} If options.srcs element is not RegexpObject object
  * @method _Extend
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+ * @class wRegexpObject
+ * @namespace wTools
+ * @module Tools/mid/RegexpObject
  */
 
 function _Extend( o )
@@ -544,7 +552,7 @@ function Extend( dst )
  * @throws {Error} If missed arguments
  * @throws {Error} If arguments are not RegexpObject
  * @function And
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject.
+ * @module Tools/mid/RegexpObject.wRegexpObject.
 */
 
 function And( dst )
@@ -601,7 +609,7 @@ function And( dst )
  * @throws {Error} If missed arguments
  * @throws {Error} If arguments are not RegexpObject
  * @function Or
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject.
+ * @module Tools/mid/RegexpObject.wRegexpObject.
  */
 
 function Or( dst )
@@ -707,7 +715,9 @@ function or()
  * @throws {Error} If objects more than one and every has includeAll/excludeAll arrays with more than one elements
  * throws 'cant combineMethodUniform such regexp objects with "but" combiner'
  * @method But
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+ * @class wRegexpObject
+ * @namespace wTools
+ * @module Tools/mid/RegexpObject
  */
 
 function But()
@@ -799,7 +809,9 @@ function But()
  * @returns {RegexpObject[]} аrray of RegexpObject that represent resulting ordering
  * @throws {Error} Unexpected type, if passed arguments is not arrays.
  * @method Order
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+ * @class wRegexpObject
+ * @namespace wTools
+ * @module Tools/mid/RegexpObject
  */
 
 function Order( ordering )
@@ -854,7 +866,9 @@ function Order( ordering )
  * @private
  * @throws {Error} If no arguments, or arguments more than 1.
  * @method _OrderingExclusion
- * @memberof module:Tools/mid/RegexpObject.wRegexpObject#
+ * @class wRegexpObject
+ * @namespace wTools
+ * @module Tools/mid/RegexpObject
  */
 
 function _OrderingExclusion( ordering )
