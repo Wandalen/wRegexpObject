@@ -13,7 +13,7 @@
   ],
   "main" : "proto/dwtools/amid/bclass/RegexpObject.s",
   "files" : [ "proto/dwtools/amid/bclass", "proto/dwtools/Tools.s", "out" ],
-  "scripts" : { "test" : "wtest .run proto/**", "docgen" : "wdocgen proto" },
+  "scripts" : { "test" : "wtest .run 'proto/**'", "docgen" : "wdocgen proto" },
   "repository" :
   {
     "type" : "git",
