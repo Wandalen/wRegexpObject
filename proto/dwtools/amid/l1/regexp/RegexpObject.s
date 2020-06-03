@@ -13,16 +13,9 @@
 
 if( typeof module !== 'undefined' )
 {
-
-  let _ = require( '../../../dwtools/Tools.s' );
-
+  let _ = require( '../../../../dwtools/Tools.s' );
   _.include( 'wCopyable' );
-
 }
-
-/*
-qqq : rewrite documentation
-*/
 
 //
 
@@ -941,6 +934,51 @@ function compactField( it )
   return it.dst;
 }
 
+//
+
+function _equalAre( it )
+{
+  let self = this;
+
+  _.assert( arguments.length === 1 );
+
+  it.continue = false; debugger;
+
+  if( !it.src )
+  return false;
+  if( !it.src2 )
+  return false;
+
+  if( it.strictTyping )
+  if( !( it.src instanceof Self ) )
+  return false;
+  if( it.strictTyping )
+  if( !( it.src2 instanceof Self ) )
+  return false;
+
+  if( it.containing )
+  {
+
+    for( let n in self.Names )
+    {
+      if( !it.src[ n ] || !it.src[ n ].length )
+      if( !it.src2[ n ] || !it.src2[ n ].length )
+      continue;
+      if( !it.equal( it.src[ n ], it.src2[ n ] ) )
+      return false;
+    }
+
+  }
+  else
+  {
+    for( let n in self.Names )
+    if( !it.equal( it.src[ n ], it.src2[ n ] ) )
+    return false;
+  }
+
+  return true;
+}
+
 // --
 // class let
 // --
@@ -1038,6 +1076,8 @@ let ExtendRoutines =
   isEmpty,
   compactField,
 
+  _equalAre,
+
   // relations
 
   Composes,
@@ -1065,6 +1105,8 @@ _.classDeclare
 });
 
 _.Copyable.mixin( Self );
+
+Self.prototype[ Symbol.for( 'equalAre' ) ] = _equalAre;
 
 // --
 // export

@@ -1,16 +1,12 @@
-( function _RegExp_test_s_( ) {
+( function _RegexpObject_test_s_( ) {
 
 'use strict';
 
 if( typeof module !== 'undefined' )
 {
-
-  let _ = require( '../../../dwtools/Tools.s' );
-
+  let _ = require( '../../../../dwtools/Tools.s' );
   _.include( 'wTesting' );
-
-  require( '../bclass/RegexpObject.s' );
-
+  require( '../regexp/RegexpObject.s' );
 }
 
 var _ = _global_.wTools;
@@ -725,6 +721,75 @@ function And( test )
 
 //
 
+function compare( test )
+{
+
+  /* */
+
+  test.case = 'basic';
+
+  var src1 = _.RegexpObject
+  ({
+    includeAny : [ /a0/, /a1/, /a2/ ],
+    includeAll : [ /b0/, /c1/, /c2/ ],
+    excludeAny : [ /c0/, /c1/, /c2/ ],
+    excludeAll : [ /d0/, /d1/, /d2/ ]
+  });
+  var src2 = _.RegexpObject
+  ({
+    includeAny : [ /a0/, /a1/, /a2/ ],
+    includeAll : [ /b0/, /c1/, /c2/ ],
+    excludeAny : [ /c0/, /c1/, /c2/ ],
+    excludeAll : [ /d0/, /d1/, /d2/ ]
+  });
+
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'no equivalent';
+
+  var src1 = _.RegexpObject
+  ({
+    includeAny : [ /a0/, /a1/, /a2/ ],
+    includeAll : [ /b0/, /c1/, /c2/ ],
+    excludeAny : [ /c0/, /c1/, /c2/ ],
+    excludeAll : [ /d0/, /d1/, /d2/ ]
+  });
+  var src2 = _.RegexpObject
+  ({
+    includeAny : [ /a0/, /a2/ ],
+    includeAll : [ /b0/, /c2/ ],
+    excludeAny : [ /c1/, /c2/ ],
+    excludeAll : [ /d0/, /d1/ ]
+  });
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+}
+
+// --
+// declare
+// --
+
 var Self =
 {
 
@@ -744,6 +809,7 @@ var Self =
     _Extend,
     Or,
     And,
+    compare,
 
   }
 

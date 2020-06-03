@@ -129,7 +129,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: ../proto/dwtools/amid/bclass/RegexpObject.s
+        path: ../proto/dwtools/amid/l1/regexp/RegexpObject.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -139,13 +139,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/bclass/RegexpObject.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l1/regexp/RegexpObject.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/bclass/RegexpObject.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l1/regexp/RegexpObject.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -176,11 +176,11 @@ module:
           - ../proto/dwtools/abase
           - ../proto/dwtools/amid
           - ../proto/dwtools/amid/.DS_Store
-          - ../proto/dwtools/amid/bclass
-          - ../proto/dwtools/amid/bclass/.DS_Store
-          - ../proto/dwtools/amid/bclass/RegexpObject.s
-          - ../proto/dwtools/amid/bclass.test
-          - ../proto/dwtools/amid/bclass.test/RegExp.test.s
+          - ../proto/dwtools/amid/l1/regexp
+          - ../proto/dwtools/amid/l1/regexp/.DS_Store
+          - ../proto/dwtools/amid/l1/regexp/RegexpObject.s
+          - ../proto/dwtools/amid/l1/regexp.test
+          - ../proto/dwtools/amid/l1/regexp.test/RegExp.test.s
           - ../proto/dwtools/atop
     submodule:
       wTools:
@@ -962,7 +962,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: proto/dwtools/amid/bclass/RegexpObject.s
+        path: proto/dwtools/amid/l1/regexp/RegexpObject.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -972,13 +972,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/bclass/RegexpObject.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l1/regexp/RegexpObject.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/bclass/RegexpObject.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l1/regexp/RegexpObject.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug

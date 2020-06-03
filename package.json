@@ -11,8 +11,8 @@
     { "name" : "Volodymyr M.", "email" : "volodymyr.migdal@gmail.com" },
     { "name" : "Ihor O.", "email" : "iostashvxi@gmail.com" }
   ],
-  "main" : "proto/dwtools/amid/bclass/RegexpObject.s",
-  "files" : [ "proto/dwtools/amid/bclass", "proto/dwtools/Tools.s", "out" ],
+  "main" : "proto/dwtools/amid/l1/regexp/RegexpObject.s",
+  "files" : [ "proto/dwtools/amid/l1/regexp", "proto/dwtools/Tools.s", "out" ],
   "scripts" : { "test" : "wtest .run 'proto/**'", "docgen" : "wdocgen proto" },
   "repository" :
   {
