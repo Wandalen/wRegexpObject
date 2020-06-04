@@ -1,4 +1,5 @@
-( function _RegexpObject_test_s_( ) {
+( function _RegexpObject_test_s_()
+{
 
 'use strict';
 
@@ -12,37 +13,37 @@ if( typeof module !== 'undefined' )
 var _ = _global_.wTools;
 
 // shared variables
-var ArrOfRegx1 = [ /0/, /1/, /2/ ],
-  ArrOfRegx2 = [ /3/, /4/, /5/ ],
-  ArrOfRegx3 = [ /6/, /7/, /8/ ],
-  ArrOfRegx4 = [ /9/, /10/, /11/ ],
-  ArrOfRegx5 = [ /12/, /13/, /14/ ],
-  ArrOfRegx6 = [ /14/, /16/, /17/ ],
-  ArrOfRegx7 = [ /18/, /19/, /20/ ],
-  ArrOfRegx8 = [ /21/, /22/, /23/ ],
+var ArrOfRegx1 = [ /0/, /1/, /2/ ];
+var ArrOfRegx2 = [ /3/, /4/, /5/ ];
+var ArrOfRegx3 = [ /6/, /7/, /8/ ];
+var ArrOfRegx4 = [ /9/, /10/, /11/ ];
+var ArrOfRegx5 = [ /12/, /13/, /14/ ];
+var ArrOfRegx6 = [ /14/, /16/, /17/ ];
+var ArrOfRegx7 = [ /18/, /19/, /20/ ];
+var ArrOfRegx8 = [ /21/, /22/, /23/ ];
 
-  src1 =
+var src1 =
   {
     includeAny : ArrOfRegx1,
     includeAll : ArrOfRegx2,
     excludeAny : ArrOfRegx3,
     excludeAll : ArrOfRegx4
-  },
-  src2 =
+  };
+var src2 =
   {
     includeAny : ArrOfRegx5,
     includeAll : ArrOfRegx6,
     excludeAny : ArrOfRegx7,
     excludeAll : ArrOfRegx8
-  },
-  src3 =
+  };
+var src3 =
   {
     includeAny : [ /a0/, /a1/, /a2/ ],
     includeAll : [ /b0/, /c1/, /c2/ ],
     excludeAny : [ /c0/, /c1/, /c2/ ],
     excludeAll : [ /d0/, /d1/, /d2/ ]
-  },
-  wrongSrc =
+  };
+var wrongSrc =
   {
     includeAny : ArrOfRegx5,
     includeAll : ArrOfRegx6,
@@ -55,13 +56,13 @@ var ArrOfRegx1 = [ /0/, /1/, /2/ ],
 
 function regexpEscape( test )
 {
-  var simpleStr = 'hello world',
-    specialCharacters = '.*+?^=!:${}()|[]/\\',
-    simpleSent = 'Hello. How are you?',
-    empty = '';
+  var simpleStr = 'hello world';
+  var specialCharacters = '.*+?^=!:${}()|[]/\\';
+  var simpleSent = 'Hello. How are you?';
+  var empty = '';
 
-  var expected1 = '\\.\\*\\+\\?\\^\\=\\!\\:\\$\\{\\}\\(\\)\\|\\[\\]\\/\\\\',
-    expected2 = "Hello\\. How are you\\?"
+  var expected1 = '\\.\\*\\+\\?\\^\\=\\!\\:\\$\\{\\}\\(\\)\\|\\[\\]\\/\\\\';
+  var expected2 = 'Hello\\. How are you\\?'
 
   test.case = 'escape simple str without spec. characters';
   var got = _.regexpEscape( simpleStr );
@@ -84,14 +85,14 @@ function regexpEscape( test )
 
 function regexpArrayMake( test )
 {
-  var arrOfStr = [ 'hello', 'world' ],
-    singleStr = 'hello',
-    singleReg = /world/,
-    wrongParam1 = null,
-    wrongParam2 = [ 3, 4 ],
-    expectedArr1 = [ /hello/, /world/ ],
-    expectedArr2 = [ /hello/ ],
-    expectedArr3 = [ singleReg ];
+  var arrOfStr = [ 'hello', 'world' ];
+  var singleStr = 'hello';
+  var singleReg = /world/;
+  var wrongParam1 = null;
+  var wrongParam2 = [ 3, 4 ];
+  var expectedArr1 = [ /hello/, /world/ ];
+  var expectedArr2 = [ /hello/ ];
+  var expectedArr3 = [ singleReg ];
 
   function getSource( v )
   {
@@ -125,19 +126,19 @@ function regexpArrayMake( test )
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayMake();
-  });
+  } );
 
   test.case = 'call with wrong type argument';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayMake( wrongParam1 );
-  });
+  } );
 
   test.case = 'call with wrong type argument';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayMake( wrongParam2 );
-  });
+  } );
 
 };
 
@@ -145,12 +146,12 @@ function regexpArrayMake( test )
 
 function regexpFrom( test )
 {
-  var simpleStr = 'hello',
-    simpleReg = /world/,
-    strWithSpChar = 'Hello. How are you?',
-    wrongParam1 = null,
-    expected1 = /hello/,
-    expected2 = /Hello\. How are you\?/;
+  var simpleStr = 'hello';
+  var simpleReg = /world/;
+  var strWithSpChar = 'Hello. How are you?';
+  var wrongParam1 = null;
+  var expected1 = /hello/;
+  var expected2 = /Hello\. How are you\?/;
 
 
   test.case = 'argument is simple string';
@@ -172,13 +173,13 @@ function regexpFrom( test )
   test.shouldThrowErrorSync( function()
   {
     _.regexpFrom();
-  });
+  } );
 
   test.case = 'call with wrong type argument';
   test.shouldThrowErrorSync( function()
   {
     _.regexpFrom( wrongParam1 );
-  });
+  } );
 
 };
 
@@ -186,10 +187,10 @@ function regexpFrom( test )
 
 function regexpArrayAny( test )
 {
-  var strForTest1 = 'some text 5',
-    wrongTypeArr = [ /a/, /b/, '5' ],
-    expectedIndex = 2,
-    defaultParam = true;
+  var strForTest1 = 'some text 5';
+  var wrongTypeArr = [ /a/, /b/, '5' ];
+  var expectedIndex = 2;
+  var defaultParam = true;
 
   test.case = 'regexp is found in str';
   var got = _.regexpArrayAny( ArrOfRegx2, strForTest1, false );
@@ -210,25 +211,25 @@ function regexpArrayAny( test )
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAny()
-  });
+  } );
 
   test.case = 'missed one of arguments';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAny( ArrOfRegx2, strForTest1 )
-  });
+  } );
 
   test.case = 'first argument is not array';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAny( 'hello', strForTest1, false );
-  });
+  } );
 
   test.case = 'element of array is not regexp';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAny( wrongTypeArr, strForTest1, false );
-  });
+  } );
 
 }
 
@@ -236,10 +237,10 @@ function regexpArrayAny( test )
 
 function regexpArrayAll( test )
 {
-  var strForTest1 = '012349',
-    wrongTypeArr = [ /0/, /3/, '9' ],
-    expectedIndex = 2,
-    defaultParam = false;
+  var strForTest1 = '012349';
+  var wrongTypeArr = [ /0/, /3/, '9' ];
+  var expectedIndex = 2;
+  var defaultParam = false;
 
   test.case = 'all regexp is found in str';
   var got = _.regexpArrayAll( ArrOfRegx1, strForTest1, false );
@@ -260,25 +261,25 @@ function regexpArrayAll( test )
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAll()
-  });
+  } );
 
   test.case = 'missed one of arguments';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAll( ArrOfRegx2, strForTest1 )
-  });
+  } );
 
   test.case = 'first argument is not array';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAll( 'hello', strForTest1, false );
-  });
+  } );
 
   test.case = 'element of array is not regexp';
   test.shouldThrowErrorSync( function()
   {
     _.regexpArrayAll( wrongTypeArr, strForTest1, false );
-  });
+  } );
 
 }
 
@@ -292,36 +293,36 @@ function Test( test )
       includeAll : [ /0/, /1/, /2/ ],
       excludeAny : [ /6/, /7/, /8/ ],
       excludeAll : [ /2/, /6/, /7/ ]
-    },
-    regexpObj2 =
+    };
+  var regexpObj2 =
     {
       includeAny : [ /9/, /6/, /7/ ], //
       includeAll : [ /0/, /1/, /2/ ],
       excludeAny : [ /6/, /7/, /8/ ],
       excludeAll : [ /2/, /6/, /7/ ]
-    },
-    regexpObj3 =
+    };
+  var regexpObj3 =
     {
       includeAny : [ /2/, /6/, /7/ ],
       includeAll : [ /0/, /6/, /2/ ], //
       excludeAny : [ /6/, /7/, /8/ ],
       excludeAll : [ /2/, /6/, /7/ ]
-    },
-    regexpObj4 =
+    };
+  var regexpObj4 =
     {
       includeAny : [ /2/, /6/, /7/ ],
       includeAll : [ /0/, /1/, /2/ ],
       excludeAny : [ /6/, /7/, /0/ ], //
       excludeAll : [ /2/, /6/, /7/ ]
-    },
-    regexpObj5 =
+    };
+  var regexpObj5 =
     {
       includeAny : [ /2/, /6/, /7/ ],
       includeAll : [ /0/, /1/, /2/ ],
       excludeAny : [ /6/, /7/, /8/ ],
       excludeAll : [ /0/, /1/, /2/ ] //
-    },
-    testStr = '012345';
+    };
+  var testStr = '012345';
 
   test.case = 'all regeps array are matched';
   var got = _.RegexpObject.Test( regexpObj1, testStr );
@@ -356,25 +357,25 @@ function Test( test )
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.Test();
-  });
+  } );
 
   test.case = 'missing string for testing';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.Test( regexpObj1 );
-  });
+  } );
 
   test.case = 'incorrect first argument';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.Test( 1, testStr );
-  });
+  } );
 
   test.case = 'second argument is not a string';
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.Test( regexpObj1, 44 );
-  });
+  } );
 
 }
 
@@ -390,8 +391,8 @@ function _Extend( test )
           excludeAny : ArrOfRegx3,
           excludeAll : ArrOfRegx4
         }
-      ],
-    src2 =
+      ];
+  var src2 =
       [
         {
           includeAny : ArrOfRegx1,
@@ -405,17 +406,17 @@ function _Extend( test )
           excludeAny : ArrOfRegx7,
           excludeAll : ArrOfRegx8
         }
-      ],
+      ];
 
-    wrongSrc1 =
+  var wrongSrc1 =
     {
       includeAny : ArrOfRegx5,
       includeAll : ArrOfRegx6,
       excludeAny : ArrOfRegx7,
       excludeAll : ArrOfRegx8
-    },
-    wrongSrc2 = { includeAny : ArrOfRegx5 },
-    wrongSrc3 =
+    };
+  var wrongSrc2 = { includeAny : ArrOfRegx5 };
+  var wrongSrc3 =
       [
         {
           includeAny : ArrOfRegx5,
@@ -424,83 +425,83 @@ function _Extend( test )
           excludeAll : ArrOfRegx8,
           excludeSome : [ /[^a]/ ]
         }
-      ],
+      ];
 
-    dst1 = {},
-    dst2 =
+  var dst1 = {};
+  var dst2 =
     {
       includeAny : [ /a0/, /a1/, /a2/ ],
       includeAll : [ /b0/, /c1/, /c2/ ],
       excludeAny : [ /c0/, /c1/, /c2/ ],
       excludeAll : [ /d0/, /d1/, /d2/ ]
-    },
-    dst3 =
+    };
+  var dst3 =
     {
       includeAny : [ /a0/, /a1/, /a2/ ],
       includeAll : [ /b0/, /c1/, /c2/ ],
       excludeAny : [ /c0/, /c1/, /c2/ ],
       excludeAll : [ /d0/, /d1/, /d2/ ]
-    },
+    };
 
-    expected1 = src1.slice().pop(),
-    expected2 =
+  var expected1 = src1.slice().pop();
+  var expected2 =
     {
       includeAny : src2[ 1 ].includeAny,
       includeAll : dst2.includeAll.concat( src2[ 0 ].includeAll, src2[ 1 ].includeAll ),
       excludeAny : dst2.excludeAny.concat( src2[ 0 ].excludeAny, src2[ 1 ].excludeAny ),
       excludeAll : src2[ 1 ].excludeAll
-    },
-    expected3 =
+    };
+  var expected3 =
     {
       includeAny : dst3.includeAny.concat( src2[ 0 ].includeAny, src2[ 1 ].includeAny ),
       includeAll : dst3.includeAll.concat( src2[ 0 ].includeAll, src2[ 1 ].includeAll ),
       excludeAny : dst3.excludeAny.concat( src2[ 0 ].excludeAny, src2[ 1 ].excludeAny ),
       excludeAll : dst3.excludeAll.concat( src2[ 0 ].excludeAll, src2[ 1 ].excludeAll )
-    },
+    };
 
-    extendOpt1 =
+  var extendOpt1 =
     {
       dst : dst1,
       srcs : src1,
       mode : 'and',
-    },
-    extendOpt2 =
+    };
+  var extendOpt2 =
     {
       dst : dst2,
       srcs : src2,
       mode : 'and',
-    },
-    extendOpt3 =
+    };
+  var extendOpt3 =
     {
       dst : dst3,
       srcs : src2,
       mode : 'or',
-    },
+    };
 
-    wrongOpt1 =
+  var wrongOpt1 =
     {
       dst : dst1,
       srcs : src1,
-    },
-    wrongOpt2 =
+    };
+  var wrongOpt2 =
     {
       dst : null,
       srcs : src1,
       mode : 'or',
-    },
-    wrongOpt3 =
+    };
+  var wrongOpt3 =
     {
       dst : dst3,
       srcs : wrongSrc1,
       mode : 'or',
-    },
-    wrongOpt4 =
+    };
+  var wrongOpt4 =
     {
       dst : {},
       srcs : wrongSrc2,
       mode : 'or',
-    },
-    wrongOpt5 =
+    };
+  var wrongOpt5 =
     {
       dst : {},
       srcs : wrongSrc3,
@@ -547,20 +548,20 @@ function _Extend( test )
   test.shouldThrowErrorSync( function()
   {
     wRegexpObject._Extend( wrongOpt3 );
-  });
+  } );
 
   test.case = 'element of options.srcs is not object';
   test.shouldThrowErrorSync( function()
   {
     debugger
     wRegexpObject._Extend( wrongOpt4 );
-  });
+  } );
 
   test.case = 'element of options.srcs has wrong format : (extra property)';
   test.shouldThrowErrorSync( function()
   {
     wRegexpObject._Extend( wrongOpt5 );
-  });
+  } );
 
 }
 
@@ -568,35 +569,35 @@ function _Extend( test )
 
 function Or( test )
 {
-  var dst1 = {},
-    dst2 =
+  var dst1 = {};
+  var dst2 =
     {
       includeAny : [ /a0/, /a1/, /a2/ ],
       includeAll : [ /b0/, /c1/, /c2/ ],
       excludeAny : [ /c0/, /c1/, /c2/ ],
       excludeAll : [ /d0/, /d1/, /d2/ ]
-    },
+    };
 
 
-    expected0 =
+  var expected0 =
     {
       includeAny : [],
       includeAll : [],
       excludeAny : [],
       excludeAll : []
-    },
-    expected1 = src1,
-    expected2 =
+    };
+  var expected1 = src1;
+  var expected2 =
     {
       includeAny :  [ /a0/, /a1/, /a2/, /0/, /1/, /2/, /12/, /13/, /14/ ],
       includeAll :  [ /b0/, /c1/, /c2/, /3/, /4/, /5/, /14/, /16/, /17/ ],
       excludeAny :  [ /c0/, /c1/, /c2/, /6/, /7/, /8/, /18/, /19/, /20/ ],
       excludeAll :  [ /d0/, /d1/, /d2/, /9/, /10/, /11/, /21/, /22/, /23/ ]
-    },
-    expected3 =
+    };
+  var expected3 =
     {
       excludeAll : [ /9/, /10/, /11/ ],
-      excludeAny : [ /6/, /7/, /8/ ] ,
+      excludeAny : [ /6/, /7/, /8/ ],
       includeAll : [ /3/, /4/, /5/ ],
       includeAny : [ /hello/, /0/, /1/, /2/ ]
     };
@@ -636,7 +637,7 @@ function Or( test )
   test.shouldThrowErrorSync( function()
   {
     wRegexpObject.Or( {}, wrongSrc );
-  });
+  } );
 
 }
 
@@ -666,11 +667,11 @@ function And( test )
     includeAll : [ /b0/, /c1/, /c2/, /3/, /4/, /5/, /14/, /16/, /17/ ],
     excludeAny : [ /c0/, /c1/, /c2/, /6/, /7/, /8/, /18/, /19/, /20/ ],
     excludeAll : src3.excludeAll
-  },
-  expected3 =
+  };
+  var expected3 =
   {
     excludeAll : [ /9/, /10/, /11/ ],
-    excludeAny : [ /6/, /7/, /8/ ] ,
+    excludeAny : [ /6/, /7/, /8/ ],
     includeAll : [ /hello/, /3/, /4/, /5/ ],
     includeAny : [ /0/, /1/, /2/ ]
   };
@@ -715,7 +716,7 @@ function And( test )
   test.shouldThrowErrorSync( function()
   {
     _.RegexpObject.And( {}, wrongSrc );
-  });
+  } );
 
 };
 
@@ -729,19 +730,19 @@ function compare( test )
   test.case = 'basic';
 
   var src1 = _.RegexpObject
-  ({
+  ( {
     includeAny : [ /a0/, /a1/, /a2/ ],
     includeAll : [ /b0/, /c1/, /c2/ ],
     excludeAny : [ /c0/, /c1/, /c2/ ],
     excludeAll : [ /d0/, /d1/, /d2/ ]
-  });
+  } );
   var src2 = _.RegexpObject
-  ({
+  ( {
     includeAny : [ /a0/, /a1/, /a2/ ],
     includeAll : [ /b0/, /c1/, /c2/ ],
     excludeAny : [ /c0/, /c1/, /c2/ ],
     excludeAll : [ /d0/, /d1/, /d2/ ]
-  });
+  } );
 
   test.identical( _.identical( src1, src2 ), true );
   test.identical( _.identical( src2, src1 ), true );
@@ -757,19 +758,19 @@ function compare( test )
   test.case = 'no equivalent';
 
   var src1 = _.RegexpObject
-  ({
+  ( {
     includeAny : [ /a0/, /a1/, /a2/ ],
     includeAll : [ /b0/, /c1/, /c2/ ],
     excludeAny : [ /c0/, /c1/, /c2/ ],
     excludeAll : [ /d0/, /d1/, /d2/ ]
-  });
+  } );
   var src2 = _.RegexpObject
-  ({
+  ( {
     includeAny : [ /a0/, /a2/ ],
     includeAll : [ /b0/, /c2/ ],
     excludeAny : [ /c1/, /c2/ ],
     excludeAll : [ /d0/, /d1/ ]
-  });
+  } );
 
   test.identical( _.identical( src1, src2 ), false );
   test.identical( _.identical( src2, src1 ), false );
@@ -821,4 +822,4 @@ Self = wTestSuite( Self );
 if( typeof module !== 'undefined' && !module.parent )
 wTester.test( Self.name );
 
-})( );
+} )();
