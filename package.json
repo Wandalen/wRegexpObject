@@ -24,7 +24,7 @@
     "url" : "https://github.com/Wandalen/wRegexpObject/issues"
   },
   "dependencies" : { "wTools" : "alpha" },
-  "devDependencies" : { "wTesting" : "alpha" },
+  "devDependencies" : { "wTesting" : "alpha", "eslint": "=7.1.0" },
   "keywords" :
   [
     "base",

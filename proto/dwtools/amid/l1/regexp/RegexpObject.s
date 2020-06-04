@@ -1,10 +1,14 @@
-( function _RegexpObject_s_() {
+( function _RegexpObject_s_()
+{
 
 'use strict';
 
 /**
- * Class which encapsulates a trivial logical combination( expression ) and regular expressions which may be applied to a string to tell does that string satisfies regular expressions as well as the logic. RegexpObject provides functionality to compose, combine several instances of the class, extend it, apply to a string and other. Use it to treat multiple conditions as a single object. Refactoring required.
-  @module Tools/mid/RegexpObject
+ * Class which encapsulates a trivial logical combination( expression ) and regular expressions
+ * which may be applied to a string to tell does that string satisfies regular expressions as well as the logic.
+ * RegexpObject provides functionality to compose, combine several instances of the class, extend it, apply to a string and other.
+ * Use it to treat multiple conditions as a single object. Refactoring required.
+* @module Tools/mid/RegexpObject
 */
 
 /**
@@ -20,7 +24,8 @@ if( typeof module !== 'undefined' )
 //
 
 /**
- * @classdesc Class which encapsulates a trivial logical combination( expression ) and regular expressions which may be applied to a string to tell does that string satisfies regular expressions as well as the logic.
+ * @classdesc Class which encapsulates a trivial logical combination( expression ) and regular expressions
+ * which may be applied to a string to tell does that string satisfies regular expressions as well as the logic.
  * @class wRegexpObject
  * @module Tools/mid/RegexpObject
  */
@@ -37,13 +42,14 @@ if( typeof module !== 'undefined' )
 
 let _ = _global_.wTools;
 let Parent = null;
-let Self = function wRegexpObject( src, defaultMode )
+let Self = wRegexpObject;
+function wRegexpObject( src, defaultMode )
 {
   if( !( this instanceof Self ) )
   if( src instanceof Self )
-  return src;
+    return src;
   else
-  return new( _.constructorJoin( Self, arguments ) );
+    return new( _.constructorJoin( Self, arguments ) );
   return Self.prototype.init.apply( this, arguments );
 }
 
@@ -136,7 +142,7 @@ function init( src, defaultMode )
       if( _.regexpIs( src[ s ] ) || _.strIs( src[ s ] ) )
       ar.push( _.regexpFrom( src[ s ] ) );
       else if( _.objectIs( src[ s ] ) )
-      self = Self.Or( self, Self( src[ s ] ) );
+        self = Self.Or( self, Self( src[ s ] ) );
       else _.assert( 0, 'Unexpected' );
     }
 
@@ -286,7 +292,8 @@ function _test( ins )
  * met method return true
  *
  * @example
- * let str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
+ * let str = "The RGB color model is an additive color model in which red, green,
+ *   and blue light are added together in various ways to reproduce a broad array of colors";
  *     regArr1 = [/red/, /green/, /blue/],
  *     regArr2 = [/yellow/, /blue/, /red/],
  *     regArr3 = [/yellow/, /white/, /greey/],
@@ -342,7 +349,8 @@ function test( ins )
  * met method return true
  *
  * @example
- * let str = "The RGB color model is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors";
+ * let str = "The RGB color model is an additive color model in which red, green,
+ *  and blue light are added together in various ways to reproduce a broad array of colors";
  *     regArr1 = [/red/, /green/, /blue/],
  *     regArr2 = [/yellow/, /blue/, /red/],
  *     regArr3 = [/yellow/, /white/, /greey/],
@@ -493,12 +501,12 @@ function Extend( dst )
 {
 
   let result = this._Extend
-  ({
+  ( {
     dst : null,
     srcs : _.longSlice( arguments, 0 ),
     mode : 'extend',
     // anding : 1,
-  });
+  } );
 
   return result;
 }
@@ -552,12 +560,12 @@ function And( dst )
 {
 
   let result = this._Extend
-  ({
+  ( {
     dst : null,
     srcs : _.longSlice( arguments, 0 ),
     // anding : 1,
     mode : 'and',
-  });
+  } );
 
   return result;
 }
@@ -609,12 +617,12 @@ function Or( dst )
 {
 
   let result = this._Extend
-  ({
+  ( {
     dst : null,
     srcs : _.longSlice( arguments, 0 ),
     // anding : 0,
     mode : 'or',
-  });
+  } );
 
   return result;
 }
@@ -626,12 +634,12 @@ function extend()
   let self = this;
 
   self._Extend
-  ({
+  ( {
     dst : self,
     srcs : arguments,
     // anding : 1,
     mode : 'extend',
-  });
+  } );
 
   return self;
 }
@@ -643,12 +651,12 @@ function and()
   let self = this;
 
   self._Extend
-  ({
+  ( {
     dst : self,
     srcs : arguments,
     // anding : 1,
     mode : 'and',
-  });
+  } );
 
   return self;
 }
@@ -660,12 +668,12 @@ function or()
   let self = this;
 
   self._Extend
-  ({
+  ( {
     dst : self,
     srcs : arguments,
     mode : 'or'
     // anding : 0,
-  });
+  } );
 
   // debugger;
   // throw _.err( 'not tested' );
@@ -819,9 +827,9 @@ function Order( ordering )
     let argument = arguments[ a ];
     if( _.arrayIs( argument[ 0 ] ) )
     for( let i = 0 ; i < argument.length ; i++ )
-    res.push( _OrderingExclusion( argument[ i ] ) );
+      res.push( _OrderingExclusion( argument[ i ] ) );
     else if( _.strIs( argument[ 0 ] ) )
-    res.push( _OrderingExclusion( argument ) );
+      res.push( _OrderingExclusion( argument ) );
     else throw _.err( 'unexpected' );
   }
 
@@ -830,7 +838,7 @@ function Order( ordering )
 
   let result = [];
   _.eachSample
-  ({
+  ( {
     leftToRight : 0,
     sets : res,
     onEach : function( sample, index )
@@ -840,7 +848,7 @@ function Order( ordering )
       Self.And( mask, sample[ s ] );
       result.push( mask );
     }
-  });
+  } );
 
   return result;
 }
@@ -951,10 +959,10 @@ function _equalAre( it )
 
   if( it.strictTyping )
   if( !( it.src instanceof Self ) )
-  return false;
+    return false;
   if( it.strictTyping )
   if( !( it.src2 instanceof Self ) )
-  return false;
+    return false;
 
   if( it.containing )
   {
@@ -963,7 +971,7 @@ function _equalAre( it )
     {
       if( !it.src[ n ] || !it.src[ n ].length )
       if( !it.src2[ n ] || !it.src2[ n ].length )
-      continue;
+        continue;
       if( !it.equal( it.src[ n ], it.src2[ n ] ) )
       return false;
     }
@@ -984,24 +992,24 @@ function _equalAre( it )
 // --
 
 let Names = _.namesCoded
-({
+( {
   includeAny : 'includeAny',
   includeAll : 'includeAll',
   excludeAny : 'excludeAny',
   excludeAll : 'excludeAll',
-});
+} );
 
 let RegexpModeNamesToExtendMap = _.namesCoded
-({
+( {
   includeAll : 'includeAll',
   excludeAny : 'excludeAny',
-});
+} );
 
 let RegexpModeNamesToReplaceMap = _.namesCoded
-({
+( {
   includeAny : 'includeAny',
   excludeAll : 'excludeAll',
-});
+} );
 
 // --
 // relations
@@ -1009,10 +1017,10 @@ let RegexpModeNamesToReplaceMap = _.namesCoded
 
 let Composes =
 {
-  includeAny : _.define.own([]),
-  includeAll : _.define.own([]),
-  excludeAny : _.define.own([]),
-  excludeAll : _.define.own([]),
+  includeAny : _.define.own( [] ),
+  includeAll : _.define.own( [] ),
+  excludeAny : _.define.own( [] ),
+  excludeAll : _.define.own( [] ),
 }
 
 let Aggregates =
@@ -1097,12 +1105,12 @@ let SupplementRoutines =
 //
 
 _.classDeclare
-({
+( {
   cls : Self,
   parent : Parent,
   extend : ExtendRoutines,
   supplement : SupplementRoutines,
-});
+} );
 
 _.Copyable.mixin( Self );
 
@@ -1117,4 +1125,4 @@ _global_[ Self.name ] = _[ Self.shortName ] = Self;
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;
 
-})();
+} )();
