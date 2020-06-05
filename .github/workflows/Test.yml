@@ -8,14 +8,12 @@ on :
   pull_request_review :
     branches : [ master ]
 
-
-
 jobs :
 
   Cancel:
     name : 'Cancel Previous Runs'
     runs-on : ubuntu-latest
-    timeout-minutes : 3
+    timeout-minutes : 1
     steps :
       - uses : styfle/cancel-workflow-action@0.3.1
         with :
