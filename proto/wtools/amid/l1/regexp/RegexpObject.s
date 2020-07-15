@@ -44,10 +44,11 @@ function wRegexpObject( src, defaultMode )
 {
   if( !( this instanceof Self ) )
   if( src instanceof Self )
-    return src;
+  return src;
   else
-    return new( _.constructorJoin( Self, arguments ) );
+  return new( _.constructorJoin( Self, arguments ) );
   return Self.prototype.init.apply( this, arguments );
+  // return _.workpiece.construct( Self, this, arguments );
 }
 
 Self.shortName = 'RegexpObject';

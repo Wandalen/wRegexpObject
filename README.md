@@ -5,5 +5,5 @@ Class which encapsulates a trivial logical combination( expression ) and regular
 ### Try out
 ```
 npm install
-node sample/Sample.js
+node sample/Sample.s
 ```
