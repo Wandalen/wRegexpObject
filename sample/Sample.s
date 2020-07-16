@@ -1,7 +1,7 @@
 
 if( typeof module !== 'undefined' )
 require( 'wRegexpObject' );
-var _ = wTools;
+let _ = wTools;
 
 var regexpObject = _.RegexpObject( 'abc', 'includeAny' );
 
