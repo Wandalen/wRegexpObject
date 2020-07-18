@@ -495,7 +495,7 @@ _Extend.defaults =
 
 //
 
-function Extend( dst )
+function Extension( dst )
 {
 
   let result = this._Extend
@@ -1039,7 +1039,7 @@ let Statics =
   Test,
 
   _Extend,
-  Extend,
+  Extension,
   And,
   Or,
 
@@ -1068,7 +1068,7 @@ let ExtendRoutines =
   test,
 
   _Extend,
-  Extend,
+  Extension,
   And,
   Or,
 
