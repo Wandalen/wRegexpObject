@@ -9,8 +9,7 @@
  */
 
 /**
- * @file RegexpObject.s.
- */
+ *  */
 
 if( typeof module !== 'undefined' )
 {
