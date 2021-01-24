@@ -7,7 +7,7 @@ Class which encapsulates a trivial logical combination( expression ) and regular
 git clone https://github.com/Wandalen/wRegexpObject
 cd wRegexpObject
 npm install
-node sample/Sample.s
+node sample/trivial/Sample.s
 ```
 
 ## To add to your project
