@@ -37,8 +37,7 @@
     "url": "https://github.com/Wandalen/wRegexpObject/issues"
   },
   "dependencies": {
-    "wTools": "alpha",
-    "wCopyable": "alpha"
+    "wTools": "alpha"
   },
   "devDependencies": {
     "eslint": "7.1.0",
