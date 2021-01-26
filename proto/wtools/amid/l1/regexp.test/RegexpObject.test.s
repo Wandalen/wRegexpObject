@@ -5,12 +5,12 @@
 
 if( typeof module !== 'undefined' )
 {
-  let _ = require( '../../../../dwtools/Tools.s' );
+  let _ = require( '../../../../wtools/Tools.s' );
   _.include( 'wTesting' );
   require( '../regexp/RegexpObject.s' );
 }
 
-var _ = _global_.wTools;
+let _ = _global_.wTools;
 
 // shared variables
 var ArrOfRegx1 = [ /0/, /1/, /2/ ];
@@ -791,7 +791,7 @@ function compare( test )
 // declare
 // --
 
-var Self =
+let Self =
 {
 
   name : 'Tools.mid.RegExp',

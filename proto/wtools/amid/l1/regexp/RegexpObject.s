@@ -9,12 +9,11 @@
  */
 
 /**
- * @file RegexpObject.s.
- */
+ *  */
 
 if( typeof module !== 'undefined' )
 {
-  let _ = require( '../../../../dwtools/Tools.s' );
+  let _ = require( '../../../../wtools/Tools.s' );
   _.include( 'wCopyable' );
 }
 
@@ -44,10 +43,11 @@ function wRegexpObject( src, defaultMode )
 {
   if( !( this instanceof Self ) )
   if( src instanceof Self )
-    return src;
+  return src;
   else
-    return new( _.constructorJoin( Self, arguments ) );
+  return new( _.constructorJoin( Self, arguments ) );
   return Self.prototype.init.apply( this, arguments );
+  // return _.workpiece.construct( Self, this, arguments );
 }
 
 Self.shortName = 'RegexpObject';
@@ -494,7 +494,7 @@ _Extend.defaults =
 
 //
 
-function Extend( dst )
+function Extension( dst )
 {
 
   let result = this._Extend
@@ -1038,7 +1038,7 @@ let Statics =
   Test,
 
   _Extend,
-  Extend,
+  Extension,
   And,
   Or,
 
@@ -1067,7 +1067,7 @@ let ExtendRoutines =
   test,
 
   _Extend,
-  Extend,
+  Extension,
   And,
   Or,
 
