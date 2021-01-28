@@ -947,7 +947,7 @@ function _equalAre( it )
 
   _.assert( arguments.length === 1 );
 
-  it.continue = false; debugger;
+  it.continue = false;
 
   if( !it.src )
   return false;
@@ -956,10 +956,10 @@ function _equalAre( it )
 
   if( it.strictTyping )
   if( !( it.src instanceof Self ) )
-    return false;
+  return false;
   if( it.strictTyping )
   if( !( it.src2 instanceof Self ) )
-    return false;
+  return false;
 
   if( it.containing )
   {
@@ -968,7 +968,7 @@ function _equalAre( it )
     {
       if( !it.src[ n ] || !it.src[ n ].length )
       if( !it.src2[ n ] || !it.src2[ n ].length )
-        continue;
+      continue;
       if( !it.equal( it.src[ n ], it.src2[ n ] ) )
       return false;
     }
