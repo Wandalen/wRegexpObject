@@ -834,8 +834,8 @@ function Order( ordering )
   return res[ 0 ];
 
   let result = [];
-  _.eachSample
-  ( {
+  _.eachSample_
+  ({
     leftToRight : 0,
     sets : res,
     onEach : function( sample, index )
@@ -845,7 +845,7 @@ function Order( ordering )
       Self.And( mask, sample[ s ] );
       result.push( mask );
     }
-  } );
+  });
 
   return result;
 }
