@@ -179,7 +179,6 @@ function init( src, defaultMode )
     // {
     //   if( e === null )
     //   {
-    //     debugger;
     //     throw _.err( 'not tested' );
     //     delete self[ k ];
     //     return;
@@ -672,7 +671,6 @@ function or()
     // anding : 0,
   } );
 
-  // debugger;
   // throw _.err( 'not tested' );
 
   return self;
