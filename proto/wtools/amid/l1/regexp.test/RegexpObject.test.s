@@ -530,20 +530,6 @@ function _Extend( test )
   if( !Config.debug )
   return;
 
-
-  // test.case = 'missing parameters in options argument';
-  // test.shouldThrowErrorSync( function()
-  // {
-  //   debugger;
-  //   wRegexpObject._Extend( wrongOpt1 );
-  // });
-
-  // test.case = 'options.dst is not object';
-  // test.shouldThrowErrorSync( function()
-  // {
-  //   wRegexpObject._Extend( wrongOpt2 );
-  // });
-
   test.case = 'options.srcs not wrapped into array';
   test.shouldThrowErrorSync( function()
   {
@@ -553,7 +539,6 @@ function _Extend( test )
   test.case = 'element of options.srcs is not object';
   test.shouldThrowErrorSync( function()
   {
-    debugger
     wRegexpObject._Extend( wrongOpt4 );
   } );
 
@@ -694,7 +679,6 @@ function And( test )
 
   test.case = 'String or by by single object';
   var got = _.RegexpObject.And( 'hello', src1 );
-  debugger
   test.contains( got, expected3 );
 
   if( !Config.debug )

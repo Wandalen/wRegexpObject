@@ -951,19 +951,15 @@ function _equalAre( it )
 
   if( !it.src )
   return end( false );
-  // return false;
   if( !it.src2 )
   return end( false );
-  // return false;
 
   if( it.strictTyping )
   if( !( it.src instanceof Self ) )
   return end( false );
-  // return false;
   if( it.strictTyping )
   if( !( it.src2 instanceof Self ) )
   return end( false );
-  // return false;
 
   if( it.containing )
   {
@@ -973,22 +969,21 @@ function _equalAre( it )
       if( !it.src[ n ] || !it.src[ n ].length )
       if( !it.src2[ n ] || !it.src2[ n ].length )
       continue;
-      if( !it.equal( it.src[ n ], it.src2[ n ] ) )
+      // if( !it.equal( it.src[ n ], it.src2[ n ] ) )
+      if( !it.reperform( it.src[ n ], it.src2[ n ] ) )
       return end( false );
-      // return false;
     }
 
   }
   else
   {
     for( let n in self.Names )
-    if( !it.equal( it.src[ n ], it.src2[ n ] ) )
+    if( !it.reperform( it.src[ n ], it.src2[ n ] ) )
+    // if( !_.entity.identicalShallow( it.src[ n ], it.src2[ n ] ) )
     return end( false );
-    // return false;
   }
 
   return end( true );
-  // return true;
 
   function end( result )
   {
