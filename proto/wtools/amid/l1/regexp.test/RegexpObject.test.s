@@ -10,7 +10,7 @@ if( typeof module !== 'undefined' )
   require( '../regexp/RegexpObject.s' );
 }
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 
 // shared variables
 var ArrOfRegx1 = [ /0/, /1/, /2/ ];
@@ -775,7 +775,7 @@ function compare( test )
 // declare
 // --
 
-let Self =
+const Proto =
 {
 
   name : 'Tools.mid.RegExp',
@@ -802,7 +802,7 @@ let Self =
 
 //
 
-Self = wTestSuite( Self );
+const Self = wTestSuite( Proto );
 if( typeof module !== 'undefined' && !module.parent )
 wTester.test( Self.name );
 

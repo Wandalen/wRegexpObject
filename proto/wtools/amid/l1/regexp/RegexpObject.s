@@ -36,9 +36,9 @@ if( typeof module !== 'undefined' )
  * @module Tools/mid/RegexpObject
  */
 
-let _ = _global_.wTools;
-let Parent = null;
-let Self = wRegexpObject;
+const _ = _global_.wTools;
+const Parent = null;
+const Self = wRegexpObject;
 function wRegexpObject( src, defaultMode )
 {
   if( !( this instanceof Self ) )
@@ -190,7 +190,7 @@ function init( src, defaultMode )
   }
   else _.assert( 0, 'wRegexpObject :', 'unknown src', src );
 
-  _.assertMapOwnOnly( self, self.Names, 'Unknown regexp fields' );
+  _.map.assertOwnOnly( self, self.Names, 'Unknown regexp fields' );
 
   if( Config.debug )
   self.validate();
@@ -440,7 +440,7 @@ function _Extend( o )
       src = Self( src, o.mode === 'and' ? 'includeAll' : 'includeAny' );
     }
 
-    _.assertMapOwnOnly( src, Names );
+    _.map.assertOwnOnly( src, Names );
 
     // let toExtend = o.anding ? RegexpModeNamesToExtendMap : Names;
     let toExtend = o.mode === 'and' ? RegexpModeNamesToExtendMap : Names;
