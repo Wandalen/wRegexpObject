@@ -80,8 +80,8 @@ path:
       raw: compiled
       content: prime
   npm.proto.entry:
-    - /pro/module/wRegexpObject/proto/wtools/amid/l1/regexp/RegexpObject.s
-    - /pro/module/wRegexpObject/proto/node_modules/wRegexpObject
+    - proto/wtools/amid/l1/regexp/RegexpObject.s
+    - proto/node_modules/wRegexpObject
 reflector:
   reflect.proto:
     inherit: predefined.*
