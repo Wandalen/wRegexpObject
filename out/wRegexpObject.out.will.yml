@@ -1547,6 +1547,4 @@ module:
       ../.im.will.yml:
         hash: 3c4db301bc5f225240eb30e76e2197ab
         size: 5065
-      wRegexpObject.out.will.yml:
-        hash: c13a2baee60eecf4f0a3c0117a0c2b02
-        size: 39861
+      wRegexpObject.out.will.yml: *ref_0
