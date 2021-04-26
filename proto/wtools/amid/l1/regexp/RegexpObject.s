@@ -413,7 +413,7 @@ function _Extend( o )
   if( o.dst === null )
   o.dst = new Self( [] );
 
-  _.routineOptions( _Extend, o );
+  _.routine.options_( _Extend, o );
   _.assert( _.objectIs( o.dst ) );
   _.assert( _.longIs( o.srcs ) );
   _.assert( _.longHas( [ 'extend', 'or', 'and' ], o.mode ) );
@@ -995,25 +995,28 @@ function _equalAre( it )
 // class let
 // --
 
-let Names = _.namesCoded
-( {
+// let Names = _.namesCoded
+let Names =
+{
   includeAny : 'includeAny',
   includeAll : 'includeAll',
   excludeAny : 'excludeAny',
   excludeAll : 'excludeAll',
-} );
+}
 
-let RegexpModeNamesToExtendMap = _.namesCoded
-( {
+// let RegexpModeNamesToExtendMap = _.namesCoded
+let RegexpModeNamesToExtendMap =
+{
   includeAll : 'includeAll',
   excludeAny : 'excludeAny',
-} );
+}
 
-let RegexpModeNamesToReplaceMap = _.namesCoded
-( {
+// let RegexpModeNamesToReplaceMap = _.namesCoded
+let RegexpModeNamesToReplaceMap =
+{
   includeAny : 'includeAny',
   excludeAll : 'excludeAll',
-} );
+}
 
 // --
 // relations
