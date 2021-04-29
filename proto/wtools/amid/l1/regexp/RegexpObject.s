@@ -113,7 +113,7 @@ function init( src, defaultMode )
   /**/
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.objectIs( src ) || _.arrayIs( src ) || _.regexpIs( src ) || _.strIs( src ) || src === null, () => 'Unknown type of arguments ' + _.entity.strType( src ) );
+  _.assert( _.object.isBasic( src ) || _.arrayIs( src ) || _.regexpIs( src ) || _.strIs( src ) || src === null, () => 'Unknown type of arguments ' + _.entity.strType( src ) );
 
   /**/
 
@@ -138,7 +138,7 @@ function init( src, defaultMode )
     {
       if( _.regexpIs( src[ s ] ) || _.strIs( src[ s ] ) )
       ar.push( _.regexpFrom( src[ s ] ) );
-      else if( _.objectIs( src[ s ] ) )
+      else if( _.object.isBasic( src[ s ] ) )
         self = Self.Or( self, Self( src[ s ] ) );
       else _.assert( 0, 'Unexpected' );
     }
@@ -164,7 +164,7 @@ function init( src, defaultMode )
     }
 
   }
-  else if( _.objectIs( src ) )
+  else if( _.object.isBasic( src ) )
   {
 
     for( let k in src )
@@ -414,7 +414,7 @@ function _Extend( o )
   o.dst = new Self( [] );
 
   _.routine.options_( _Extend, o );
-  _.assert( _.objectIs( o.dst ) );
+  _.assert( _.object.isBasic( o.dst ) );
   _.assert( _.longIs( o.srcs ) );
   _.assert( _.longHas( [ 'extend', 'or', 'and' ], o.mode ) );
 
@@ -434,7 +434,7 @@ function _Extend( o )
     {
       continue;
     }
-    else if( !_.objectIs( src ) )
+    else if( !_.object.isBasic( src ) )
     {
       // src = Self( src, o.anding ? 'includeAll' : 'includeAny' );
       src = Self( src, o.mode === 'and' ? 'includeAll' : 'includeAny' );
