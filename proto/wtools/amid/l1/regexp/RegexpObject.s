@@ -834,7 +834,7 @@ function Order( ordering )
   return res[ 0 ];
 
   let result = [];
-  _.eachSample_
+  _.permutation.eachSample
   ({
     leftToRight : 0,
     sets : res,
