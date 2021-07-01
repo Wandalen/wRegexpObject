@@ -1,32 +1,52 @@
 {
-  "name" : "wRegexpObject",
-  "version" : "0.4.279",
-  "engine" : "node >= 10.0.0",
-  "license" : "MIT",
-  "description" : "Class which encapsulates a trivial logical combination( expression ) and regular expressions which may be applied to a string to tell does that string satisfies regular expressions as well as the logic. RegexpObject provides functionality to compose, combine several instances of the class, extend it, apply to a string and other. Use it to treat multiple conditions as a single object. Refactoring required.",
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
-  "contributors" :
-  [
-    { "name" : "Kostiantyn Wandalen", "email" : "wanalen@01.school" },
-    { "name" : "Volodymyr M.", "email" : "volodymyr.migdal@gmail.com" },
-    { "name" : "Ihor O.", "email" : "iostashvxi@gmail.com" }
+  "name": "wRegexpObject",
+  "version": "0.4.280",
+  "engine": "node >= 10.0.0",
+  "license": "MIT",
+  "description": "Class which encapsulates a trivial logical combination( expression ) and regular expressions which may be applied to a string to tell does that string satisfies regular expressions as well as the logic. RegexpObject provides functionality to compose, combine several instances of the class, extend it, apply to a string and other. Use it to treat multiple conditions as a single object. Refactoring required.",
+  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "contributors": [
+    {
+      "name": "Kostiantyn Wandalen",
+      "email": "wanalen@01.school"
+    },
+    {
+      "name": "Volodymyr M.",
+      "email": "volodymyr.migdal@gmail.com"
+    },
+    {
+      "name": "Ihor O.",
+      "email": "iostashvxi@gmail.com"
+    }
   ],
-  "main" : "proto/node_modules/wRegexpObject",
-  "files" : [ "proto/wtools/amid/l1/regexp", "out", "proto/node_modules", "proto/node_modules/Tools", "proto/node_modules/wRegexpObject" ],
-  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
-  "repository" :
-  {
-    "type" : "git",
-    "url" : "https://github.com/Wandalen/wRegexpObject.git"
+  "main": "proto/node_modules/wRegexpObject",
+  "files": [
+    "proto/wtools/amid/l1/regexp",
+    "out",
+    "proto/node_modules",
+    "proto/node_modules/Tools",
+    "proto/node_modules/wRegexpObject"
+  ],
+  "scripts": {
+    "test": "wtest .run 'proto/**' rapidity:-3",
+    "docgen": "wdocgen proto"
   },
-  "bugs" :
-  {
-    "url" : "https://github.com/Wandalen/wRegexpObject/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wRegexpObject.git"
   },
-  "dependencies" : { "wTools" : "gamma", "wCopyable" : "gamma" },
-  "devDependencies" : { "eslint" : "=7.1.0", "wTesting" : "gamma" },
-  "keywords" :
-  [
+  "bugs": {
+    "url": "https://github.com/Wandalen/wRegexpObject/issues"
+  },
+  "dependencies": {
+    "wTools": "gamma",
+    "wCopyable": "gamma"
+  },
+  "devDependencies": {
+    "wTesting": "gamma",
+    "eslint": "=7.1.0"
+  },
+  "keywords": [
     "base",
     "basic",
     "core",
