@@ -3,8 +3,8 @@ root:
   - wRegexpObject.out
 consistency:
   ../will.yml: &ref_0
-    hash: 9707816f61463baa357b15d9a18363e7
-    size: 7138
+    hash: 555e5fd6fdaf2739355b23657b92d1fa
+    size: 6997
 module:
   wRegexpObject.out:
     about:
@@ -387,9 +387,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -725,12 +722,6 @@ module:
           - 'step::doc.export'
         criterion:
           content: doc
-          export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
           export: 1
       export:
         steps:
@@ -1088,9 +1079,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -1427,12 +1415,6 @@ module:
         criterion:
           content: doc
           export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
-          export: 1
       export:
         steps:
           - 'build::proto.export'
@@ -1490,5 +1472,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 9707816f61463baa357b15d9a18363e7
-        size: 7138
+        hash: 555e5fd6fdaf2739355b23657b92d1fa
+        size: 6997
