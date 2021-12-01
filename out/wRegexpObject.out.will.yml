@@ -3,8 +3,8 @@ root:
   - wRegexpObject.out
 consistency:
   ../will.yml: &ref_0
-    hash: 555e5fd6fdaf2739355b23657b92d1fa
-    size: 6997
+    hash: 7911a2f379f60fbb6fb5293ff991c19d
+    size: 7005
 module:
   wRegexpObject.out:
     about:
@@ -1472,5 +1472,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 555e5fd6fdaf2739355b23657b92d1fa
-        size: 6997
+        hash: 7911a2f379f60fbb6fb5293ff991c19d
+        size: 7005
